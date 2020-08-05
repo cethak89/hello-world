@@ -804,7 +804,17 @@ class LoginMethodsController extends Controller
                     'customer_list' => false
                 ])->id;
             }
-            $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
+
+            if( $productInfo[0]->product_type == 2 ){
+                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 101 / 100);
+            }
+            else if( $productInfo[0]->product_type == 3){
+                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
+            }
+            else{
+                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
+            }
+
             $priceWithDiscount = number_format($priceWithDiscount, 2);
             parse_str($priceWithDiscount);
             $priceWithDiscount = str_replace('.', ',', $priceWithDiscount);
@@ -827,6 +837,7 @@ class LoginMethodsController extends Controller
                 'receiver_address' => Request::get('contact_address'),
                 'sender_name' => $tempCustomer->name,
                 'sender_surname' => $tempCustomer->surname,
+                'taxType' => 2,
                 'sender_mobile' => Customer::where('user_id', $userId)->get()[0]->mobile,
                 'sender_email' => Request::get('mail'),
                 'sum_total' => $priceWithDiscount,
@@ -906,7 +917,17 @@ class LoginMethodsController extends Controller
             $now = Carbon::now();
             $productInfo = Product::where('id', Request::input('product_id'))->get();
             $priceWithDiscount = $productInfo[0]->price;
-            $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
+
+            if( $productInfo[0]->product_type == 2 ){
+                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 101 / 100);
+            }
+            else if( $productInfo[0]->product_type == 3 ){
+                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
+            }
+            else{
+                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
+            }
+
             $priceWithDiscount = number_format($priceWithDiscount, 2);
             parse_str($priceWithDiscount);
             $priceWithDiscount = str_replace('.', ',', $priceWithDiscount);
@@ -1130,10 +1151,13 @@ class LoginMethodsController extends Controller
             $priceWithDiscount = str_replace(',', '.', $priceWithDiscount);
 
             if( $productInfo[0]->product_type == 2 ){
-                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
+                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 101 / 100);
+            }
+            else if( $productInfo[0]->product_type == 3 ){
+                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
             }
             else{
-                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
+                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
             }
 
             //$priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);

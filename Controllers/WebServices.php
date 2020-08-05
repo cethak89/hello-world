@@ -206,9 +206,7 @@ class WebServices extends Controller
 
     public function getUPSCities (){
         try {
-
             $tempVar = DB::table('ups_cities')->where('active', 1)->select('value', 'name', 'delivery_days')->orderBy('landing_order')->get();
-
             return response()->json($tempVar);
         } catch (\Exception $e) {
             logEventController::logErrorToDB('getCityList', $e->getCode(), $e->getMessage(), 'WS', '');
@@ -957,17 +955,20 @@ class WebServices extends Controller
             $tomorrow = Carbon::now();
             $theDayAfter = Carbon::now();
             $nowAnk = Carbon::now();
-            $tomorrowAnk = Carbon::now();
-            $theDayAfterAnk = Carbon::now();
+
             $nowAsya = Carbon::now();
             $tomorrowAsya = Carbon::now();
             $theDayAfterAsya = Carbon::now();
+
+            $tomorrowAnk = Carbon::now();
+            $theDayAfterAnk = Carbon::now();
             $TomorrowTag = false;
             $theDayAfterTag = false;
             $tomorrowDay = ($tomorrow->dayOfWeek + 1) % 8;
             $TomorrowTagAnk = false;
             $theDayAfterTagAnk = false;
             $tomorrowDayAnk = ($tomorrow->dayOfWeek + 1) % 8;
+
             $TomorrowTagAsya = false;
             $theDayAfterTagAsya = false;
             $tomorrowDayAsya = ($tomorrow->dayOfWeek + 1) % 8;
@@ -1103,7 +1104,6 @@ class WebServices extends Controller
                 ->select('dayHours.start_hour')
                 ->orderBy('dayHours.start_hour', 'DESC')
                 ->get();
-
 
             //Ankara
 
@@ -3541,7 +3541,7 @@ class WebServices extends Controller
 
 
     public function getHourListWithProductIdCityIdWithNow($productId, $cityId){
-        try {
+        //try {
             $dayList = DB::table('delivery_hours')->orderBy('continent_id')->get();
             $i = -1;
 
@@ -3555,7 +3555,7 @@ class WebServices extends Controller
                 $tempProductDateEnd = $tempProductDate2->avalibility_time_end;
                 $productDate = new Carbon($tempProductDate);
                 $productDateEnd = new Carbon($tempProductDateEnd);
-                $hoursList = DB::table('dayHours')->where('day_number', $day->id)->where('active', true)->orderBy('start_hour')->get();
+                $hoursList = DB::table('dayHours')->join('delivery_hours', 'dayHours.day_number', '=', 'delivery_hours.id')->where('dayHours.day_number', $day->id)->where('dayHours.active', true)->select('dayHours.*', 'delivery_hours.continent_id')->orderBy('start_hour')->get();
                 $myArray = [];
 
                 if ($now->dayOfWeek > $day->day_number) {
@@ -3571,6 +3571,12 @@ class WebServices extends Controller
                     if ($tempHour == '18') {
                         $hourTemp = -1;
                     }
+
+                    if( ( $hour->continent_id == 'Asya' || $hour->continent_id == 'Asya-2' ) && $tempHour == '15' ){
+                        $hourTemp = 3;
+                        //dd('Enter here');
+                    }
+
                     $tempNow = Carbon::now();
                     $tempNow->addDay($tempDayNumber);
 
@@ -3679,10 +3685,10 @@ class WebServices extends Controller
             ];
 
             return response()->json(["status" => 1, "data" => $dayList, 'now' => $tempNow], 200);
-        } catch (\Exception $e) {
+        /*} catch (\Exception $e) {
             logEventController::logErrorToDB('getHourList', $e->getCode(), $e->getMessage(), 'WS', '');
             return response()->json(["status" => -1, "description" => 400], 400);
-        }
+        }*/
     }
 
     public function testProduct($prod)

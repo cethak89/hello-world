@@ -345,7 +345,7 @@ class IsBankSalesController extends Controller
                         }
                     }
 
-                    generateDataController::callSetProductFromSaleId($sales_id);
+                    //generateDataController::callSetProductFromSaleId($sales_id);
 
                     DB::commit();
                     $tempLangId = Sale::where('id', $sales_id)->select('lang_id')->get()[0]->lang_id;
@@ -752,7 +752,7 @@ class IsBankSalesController extends Controller
                     }
                 }
 
-                generateDataController::callSetProductFromSaleId($sales_id);
+                //generateDataController::callSetProductFromSaleId($sales_id);
 
                 DB::commit();
                 $tempLangId = Sale::where('id', $sales_id)->select('lang_id')->get()[0]->lang_id;

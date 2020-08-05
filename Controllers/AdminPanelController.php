@@ -5421,7 +5421,7 @@ class AdminPanelController extends Controller
             })
             ->select('sales.id', 'sales.sender_name as customer_name', 'sales.sender_surname as customer_surname', 'customer_contacts.name as contact_name', 'customer_contacts.surname as contact_surname',
                 'sales.created_at as date', 'customers.user_id', 'sales.sender_mobile', 'sales.sender_email', 'sales.payment_methods', 'deliveries.products', 'sales.sales_ip', 'products.product_type'
-                , 'sales.admin_not', 'sales.sale_fail_visibility', 'sales.sum_total', 'customers.id as customer_id', 'sales.product_price',
+                , 'sales.admin_not', 'sales.sale_fail_visibility', 'sales.sum_total', 'customers.id as customer_id', 'sales.product_price', 'sales.taxType',
                 DB::raw('(select sales.id from sales sl2 where sl2.sender_name = sales.sender_name and sl2.sender_surname = sales.sender_surname and sl2.payment_methods = "OK" and sl2.created_at >  sales.created_at and DAYOFMONTH( sl2.created_at) = DAYOFMONTH( sales.created_at)  LIMIT 1 ) as complete')
             )
             ->orderBy('sales.created_at', 'DESC')
@@ -5435,6 +5435,16 @@ class AdminPanelController extends Controller
 
             if ($delivery->product_type == 2) {
                 $tempKDVMultiplier = 108;
+            }
+
+            if( $delivery->taxType == 2 ){
+                $tempKDVMultiplier = 108;
+                if ($delivery->product_type == 2) {
+                    $tempKDVMultiplier = 101;
+                }
+                else if($delivery->product_type == 3){
+                    $tempKDVMultiplier = 118;
+                }
             }
 
             $tempCoupon = DB::table('marketing_acts')
@@ -9052,7 +9062,7 @@ class AdminPanelController extends Controller
                 //->where('sales.payment_type' , '!=', 'FİYONGO')
                 ->where('deliveries.status', '<>', '4')
                 ->orderBy('sales.created_at', 'DESC')
-                ->select('customers.user_id', 'sales.sender_email', 'sales.payment_type', 'sales.device', 'sales.delivery_locations_id', 'deliveries.wanted_delivery_date', 'billings.small_city', 'billings.city', 'billings.tc', 'billings.userBilling',
+                ->select('customers.user_id', 'sales.sender_email', 'sales.taxType' , 'sales.payment_type', 'sales.device', 'sales.delivery_locations_id', 'deliveries.wanted_delivery_date', 'billings.small_city', 'billings.city', 'billings.tc', 'billings.userBilling',
                     'billings.billing_type', 'billings.company', 'billings.billing_address', 'billings.tax_office', 'billings.tax_no', 'billings.billing_send', 'billings.billing_name', 'billings.billing_surname',
                     'billings.id as billing_id', 'sales.id as sales_id', 'sales.created_at', 'delivery_locations.city as real_city', 'sales.sender_mobile', 'products.name as products', 'sales.sender_name', 'sales.sender_surname', 'products.product_type_sub',
                     'sales.product_price as price', 'products.id', 'products.product_type', 'delivery_locations.city_id', 'sales.IsTroyCard', 'sales.paymentAmount')
@@ -9070,7 +9080,7 @@ class AdminPanelController extends Controller
                 //->where('sales.payment_type' , '!=', 'FİYONGO')
                 ->where('deliveries.status', '<>', '4')
                 ->orderBy('sales.created_at', 'DESC')
-                ->select('customers.user_id', 'sales.sender_email', 'sales.payment_type', 'sales.device', 'sales.delivery_locations_id', 'deliveries.wanted_delivery_date', 'billings.city', 'delivery_locations.city as real_city', 'billings.small_city', 'billings.tc',
+                ->select('customers.user_id', 'sales.sender_email', 'sales.payment_type', 'sales.taxType', 'sales.device', 'sales.delivery_locations_id', 'deliveries.wanted_delivery_date', 'billings.city', 'delivery_locations.city as real_city', 'billings.small_city', 'billings.tc',
                     'billings.userBilling', 'billings.billing_type', 'billings.company', 'billings.billing_address', 'billings.tax_office', 'billings.tax_no', 'delivery_locations.city_id',
                     'billings.billing_send', 'billings.billing_surname', 'billings.billing_name', 'billings.id as billing_id', 'sales.id as sales_id', 'sales.created_at', 'products.name as products', 'products.product_type_sub',
                     'sales.sender_name', 'sales.sender_surname', 'sales.product_price as price', 'sales.sender_mobile', 'products.id', 'products.product_type', 'sales.IsTroyCard', 'sales.paymentAmount')
@@ -9091,6 +9101,17 @@ class AdminPanelController extends Controller
         $cikilotBigGeneral = 0;
 
         foreach ($list as $row) {
+
+            $flowerTax = 108;
+            $chocolate = 101;
+            $giftBox = 118;
+
+            if( $row->taxType == 1 ){
+                $flowerTax = 118;
+                $chocolate = 108;
+                $giftBox = 118;
+            }
+
             $count++;
             $tempTotal = 0;
             $tempVal = str_replace(',', '.', $row->price);
@@ -9142,9 +9163,13 @@ class AdminPanelController extends Controller
                 $totalPartial = $totalPartial + $priceWithDiscount;
 
                 if ($row->product_type == 2) {
-                    $row->discountValue = floatval(floatval($priceWithDiscount) * 8 / 100);
-                } else {
-                    $row->discountValue = floatval(floatval($priceWithDiscount) * 18 / 100);
+                    $row->discountValue = floatval(floatval($priceWithDiscount) * ( $chocolate - 100 ) / 100);
+                }
+                else if ($row->product_type == 3) {
+                    $row->discountValue = floatval(floatval($priceWithDiscount) * ( $giftBox - 100 ) / 100);
+                }
+                else {
+                    $row->discountValue = floatval(floatval($priceWithDiscount) * ( $flowerTax - 100 ) / 100);
                 }
 
                 $totalKDV = $totalKDV + $row->discountValue;
@@ -9154,9 +9179,13 @@ class AdminPanelController extends Controller
                 $row->discountValue = str_replace('.', ',', $row->discountValue);
 
                 if ($row->product_type == 2) {
-                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
-                } else {
-                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * $chocolate / 100);
+                }
+                else if ($row->product_type == 3) {
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * $giftBox / 100);
+                }
+                else {
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * $flowerTax / 100);
                 }
                 $priceWithDiscount = number_format($priceWithDiscount, 2);
 
@@ -9184,16 +9213,17 @@ class AdminPanelController extends Controller
                 } else {
 
                     if ($row->product_type == 2) {
-                        //$row->discountValue = floatval(floatval($tempPriceWithDiscount) * 8 / 100);
-                        $row->discountValue = floatval(floatval($priceWithDiscount) * 8 / 100);
-                        $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100) - floatval($discount[0]->value);
-                    } else {
-                        //$row->discountValue = floatval(floatval($tempPriceWithDiscount) * 18 / 100);
-                        $row->discountValue = floatval(floatval($priceWithDiscount) * 18 / 100);
-                        $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100) - floatval($discount[0]->value);
+                        $row->discountValue = floatval(floatval($priceWithDiscount) * ( $chocolate - 100 ) / 100);
+                        $priceWithDiscount = floatval(floatval($priceWithDiscount) * $chocolate / 100) - floatval($discount[0]->value);
                     }
-
-                    //$priceWithDiscount = floatval($priceWithDiscount) - floatval($discount[0]->value);
+                    else if ($row->product_type == 3) {
+                        $row->discountValue = floatval(floatval($priceWithDiscount) * ( $giftBox - 100 ) / 100);
+                        $priceWithDiscount = floatval(floatval($priceWithDiscount) * $giftBox / 100) - floatval($discount[0]->value);
+                    }
+                    else {
+                        $row->discountValue = floatval(floatval($priceWithDiscount) * ( $flowerTax - 100 ) / 100);
+                        $priceWithDiscount = floatval(floatval($priceWithDiscount) * $flowerTax / 100) - floatval($discount[0]->value);
+                    }
 
                     if ($priceWithDiscount < 0) {
                         $priceWithDiscount = 0.0;
@@ -9217,9 +9247,13 @@ class AdminPanelController extends Controller
 
                 if ($discount[0]->type == 2) {
                     if ($row->product_type == 2) {
-                        $row->discountValue = floatval(floatval($tempPriceWithDiscount) * 8 / 100);
-                    } else {
-                        $row->discountValue = floatval(floatval($tempPriceWithDiscount) * 18 / 100);
+                        $row->discountValue = floatval(floatval($tempPriceWithDiscount) * ( $chocolate - 100 ) / 100);
+                    }
+                    else if ($row->product_type == 3) {
+                        $row->discountValue = floatval(floatval($tempPriceWithDiscount) * ( $giftBox - 100 ) / 100);
+                    }
+                    else {
+                        $row->discountValue = floatval(floatval($tempPriceWithDiscount) * ( $flowerTax - 100 ) / 100);
                     }
                 }
 
@@ -9230,9 +9264,13 @@ class AdminPanelController extends Controller
 
                 if ($discount[0]->type == 2) {
                     if ($row->product_type == 2) {
-                        $priceWithDiscount = floatval(floatval($tempPriceWithDiscount) * 108 / 100);
-                    } else {
-                        $priceWithDiscount = floatval(floatval($tempPriceWithDiscount) * 118 / 100);
+                        $priceWithDiscount = floatval(floatval($tempPriceWithDiscount) * $chocolate / 100);
+                    }
+                    else if ($row->product_type == 3) {
+                        $priceWithDiscount = floatval(floatval($tempPriceWithDiscount) * $giftBox / 100);
+                    }
+                    else {
+                        $priceWithDiscount = floatval(floatval($tempPriceWithDiscount) * $flowerTax / 100);
                     }
                 }
 

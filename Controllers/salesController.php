@@ -143,10 +143,13 @@ class salesController extends Controller
                 //$priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
 
                 if( $productInfo[0]->product_type == 2 ){
-                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 101 / 100);
+                }
+                else if( $productInfo[0]->product_type == 3 ){
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
                 }
                 else{
-                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
                 }
 
                 $tempPrice = $priceWithDiscount;
@@ -210,10 +213,13 @@ class salesController extends Controller
                             $priceWithDiscount = str_replace(',', '.', $priceWithDiscount);
 
                             if( $productInfo[0]->product_type == 2 ){
-                                $priceWithDiscount = floatval( ( floatval($priceWithDiscount) - floatval($couponList[0]->value) )* 108 / 100);
+                                $priceWithDiscount = floatval( ( floatval($priceWithDiscount) - floatval($couponList[0]->value) )* 101 / 100);
+                            }
+                            else if( $productInfo[0]->product_type == 3 ){
+                                $priceWithDiscount = floatval( ( floatval($priceWithDiscount) - floatval($couponList[0]->value) )* 118 / 100);
                             }
                             else{
-                                $priceWithDiscount = floatval(  ( floatval($priceWithDiscount)  - floatval($couponList[0]->value) )* 118 / 100);
+                                $priceWithDiscount = floatval(  ( floatval($priceWithDiscount)  - floatval($couponList[0]->value) )* 108 / 100);
                             }
 
                             if($priceWithDiscount <= 0){
@@ -274,10 +280,13 @@ class salesController extends Controller
                 $priceWithDiscount = str_replace(',', '.', $priceWithDiscount);
 
                 if( $productInfo[0]->product_type == 2 ){
-                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 101 / 100);
+                }
+                else if( $productInfo[0]->product_type == 3 ){
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
                 }
                 else{
-                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
                 }
                 
                 //$priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
@@ -290,12 +299,12 @@ class salesController extends Controller
                 $tempCrossProduct = DB::table('cross_sell_products')->where('id', Request::input('cross_sell'))->get()[0];
                 $tempCrossSellPrice = floatval(str_replace(',', '.', $tempCrossProduct->price));
                 $tempCrossSellDiscount = 0;
-                $tempCrossSellTax = number_format(floatval($tempCrossSellPrice / 100.0 * 8.0), 2);
+                $tempCrossSellTax = number_format(floatval($tempCrossSellPrice / 100.0 * 1.0), 2);
                 if( $tempLeftMoneyFromCoupon > 0 ){
-                    $tempCrossSellPrice = number_format($tempCrossSellPrice * 108 / 100 - $tempLeftMoneyFromCoupon, 2);
+                    $tempCrossSellPrice = number_format($tempCrossSellPrice * 101 / 100 - $tempLeftMoneyFromCoupon, 2);
                 }
                 else{
-                    $tempCrossSellPrice = number_format(floatval($tempCrossSellPrice * 108 / 100), 2);
+                    $tempCrossSellPrice = number_format(floatval($tempCrossSellPrice * 101 / 100), 2);
                 }
 
                 if( $tempCrossSellPrice < 0 ){
@@ -1479,10 +1488,13 @@ class salesController extends Controller
             //$priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
 
             if( $productInfo[0]->product_type == 2 ){
-                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
+                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 101 / 100);
+            }
+            else if( $productInfo[0]->product_type == 3){
+                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
             }
             else{
-                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
+                $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
             }
 
             $priceWithDiscount = number_format($priceWithDiscount, 2);
@@ -1525,6 +1537,7 @@ class salesController extends Controller
                 'receiver_address' => Request::get('contact_address'),
                 'sender_name' => $tempNameSurname[0],
                 'sender_surname' => $tempNameSurname[1],
+                'taxType' => 2,
                 //'sender_mobile' => Request::get('mobile'),
                 'sender_email' => Request::get('mail'),
                 'id' => Request::get('sale_number'),
@@ -1644,10 +1657,13 @@ class salesController extends Controller
                 $priceWithDiscount = str_replace(',', '.', $priceWithDiscount);
 
                 if( $productInfo[0]->product_type == 2 ){
-                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 101 / 100);
+                }
+                else if( $productInfo[0]->product_type == 3 ){
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
                 }
                 else{
-                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
                 }
 
                 //$priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
@@ -1713,10 +1729,13 @@ class salesController extends Controller
                             $priceWithDiscount = str_replace(',', '.', $priceWithDiscount);
 
                             if( $productInfo[0]->product_type == 2 ){
-                                $priceWithDiscount = floatval(( floatval($priceWithDiscount) - floatval($couponList[0]->value) )* 108 / 100);
+                                $priceWithDiscount = floatval(( floatval($priceWithDiscount) - floatval($couponList[0]->value) )* 101 / 100);
+                            }
+                            else if( $productInfo[0]->product_type == 3 ){
+                                $priceWithDiscount = floatval(( floatval($priceWithDiscount) - floatval($couponList[0]->value) )* 118 / 100);
                             }
                             else{
-                                $priceWithDiscount = floatval(( floatval($priceWithDiscount)  - floatval($couponList[0]->value))* 118 / 100);
+                                $priceWithDiscount = floatval(( floatval($priceWithDiscount)  - floatval($couponList[0]->value))* 108 / 100);
                             }
 
                             if($priceWithDiscount <= 0){
@@ -1770,10 +1789,13 @@ class salesController extends Controller
                 $priceWithDiscount = str_replace(',', '.', $priceWithDiscount);
 
                 if( $productInfo[0]->product_type == 2 ){
-                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 101 / 100);
+                }
+                else if( $productInfo[0]->product_type == 3 ){
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
                 }
                 else{
-                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
                 }
 
                 //$priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
@@ -1786,12 +1808,12 @@ class salesController extends Controller
                 $tempCrossProduct = DB::table('cross_sell_products')->where('id', Request::input('cross_sell'))->get()[0];
                 $tempCrossSellPrice = floatval(str_replace(',', '.', $tempCrossProduct->price));
                 $tempCrossSellDiscount = 0;
-                $tempCrossSellTax = number_format(floatval($tempCrossSellPrice / 100.0 * 8.0), 2);
+                $tempCrossSellTax = number_format(floatval($tempCrossSellPrice / 100.0 * 1.0), 2);
                 if( $tempLeftMoneyFromCoupon > 0 ){
-                    $tempCrossSellPrice = number_format($tempCrossSellPrice * 108 / 100 - $tempLeftMoneyFromCoupon, 2);
+                    $tempCrossSellPrice = number_format($tempCrossSellPrice * 101 / 100 - $tempLeftMoneyFromCoupon, 2);
                 }
                 else{
-                    $tempCrossSellPrice = number_format(floatval($tempCrossSellPrice * 108 / 100), 2);
+                    $tempCrossSellPrice = number_format(floatval($tempCrossSellPrice * 101 / 100), 2);
                 }
 
                 if( $tempCrossSellPrice < 0 ){

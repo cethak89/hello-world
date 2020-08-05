@@ -268,7 +268,7 @@ class testMethodsController extends Controller
                 ->skip($tempSkip)
                 ->take($tempPageCount)
                 ->orderBy('deliveries.delivery_date')
-                ->select('sales.payment_type', 'sales.device', 'sales.delivery_locations_id', 'deliveries.wanted_delivery_date', 'billings.small_city', 'billings.city', 'billings.tc', 'billings.userBilling', 'sales.IsTroyCard',
+                ->select('sales.payment_type', 'sales.device', 'sales.taxType', 'sales.delivery_locations_id', 'deliveries.wanted_delivery_date', 'billings.small_city', 'billings.city', 'billings.tc', 'billings.userBilling', 'sales.IsTroyCard',
                     'billings.billing_type', 'billings.company', 'billings.billing_address', 'billings.tax_office', 'billings.tax_no', 'billings.billing_send', 'billings.billing_name', 'billings.billing_surname',
                     'billings.id as billing_id', 'sales.id as sales_id', 'sales.created_at', 'sales.sender_mobile', 'products.name as products', 'products.city_id', 'sales.sender_name', 'sales.sender_surname',
                     'sales.product_price as price', 'products.id', 'products.product_type', 'sales.customer_contact_id', 'sales.send_billing', 'deliveries.delivery_date', 'sales.payment_type', 'sales.sender_email', 'deliveries.status')
@@ -311,6 +311,25 @@ class testMethodsController extends Controller
                     $row->kdv_percentage = '8.0';
                 } else {
                     $row->kdv_percentage = '18.0';
+                }
+
+                $flower = 118;
+                $chocolate = 108;
+                $giftBox = 118;
+
+                if( $row->taxType == 2 ){
+                    if ($row->product_type == 2) {
+                        $row->kdv_percentage = '1.0';
+                    }
+                    else if ($row->product_type == 3) {
+                        $row->kdv_percentage = '18.0';
+                    }
+                    else {
+                        $row->kdv_percentage = '8.0';
+                    }
+
+                    $flower = 108;
+                    $chocolate = 101;
                 }
 
                 $tempTotal = 0;
@@ -365,9 +384,13 @@ class testMethodsController extends Controller
                     $totalPartial = $totalPartial + $priceWithDiscount;
 
                     if ($row->product_type == 2) {
-                        $row->discountValue = floatval(floatval($priceWithDiscount) * 8 / 100);
-                    } else {
-                        $row->discountValue = floatval(floatval($priceWithDiscount) * 18 / 100);
+                        $row->discountValue = floatval(floatval($priceWithDiscount) * ( $chocolate - 100 ) / 100);
+                    }
+                    else if ($row->product_type == 3) {
+                        $row->discountValue = floatval(floatval($priceWithDiscount) * ( $giftBox - 100 ) / 100);
+                    }
+                    else {
+                        $row->discountValue = floatval(floatval($priceWithDiscount) * ( $flower - 100 ) / 100);
                     }
 
                     $row->discountValue = number_format($row->discountValue, 2);
@@ -375,9 +398,13 @@ class testMethodsController extends Controller
                     $row->discountValue = str_replace('.', ',', $row->discountValue);
 
                     if ($row->product_type == 2) {
-                        $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100);
-                    } else {
-                        $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
+                        $priceWithDiscount = floatval(floatval($priceWithDiscount) * $chocolate / 100);
+                    }
+                    else if ($row->product_type == 3) {
+                        $priceWithDiscount = floatval(floatval($priceWithDiscount) * $giftBox / 100);
+                    }
+                    else {
+                        $priceWithDiscount = floatval(floatval($priceWithDiscount) * $flower / 100);
                     }
 
                     $priceWithDiscount = number_format($priceWithDiscount, 2);
@@ -418,11 +445,16 @@ class testMethodsController extends Controller
                         $row->discountVal = $priceWithDiscount;
 
                         if ($row->product_type == 2) {
-                            $row->discountValue = floatval(floatval($priceWithDiscount) * 8 / 100);
-                            $priceWithDiscount = floatval(floatval($priceWithDiscount) * 108 / 100) - floatval($discount[0]->value);
-                        } else {
-                            $row->discountValue = floatval(floatval($priceWithDiscount) * 18 / 100);
-                            $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100) - floatval($discount[0]->value);
+                            $row->discountValue = floatval(floatval($priceWithDiscount) * ( $chocolate - 100 ) / 100);
+                            $priceWithDiscount = floatval(floatval($priceWithDiscount) * $chocolate / 100) - floatval($discount[0]->value);
+                        }
+                        else if ($row->product_type == 3) {
+                            $row->discountValue = floatval(floatval($priceWithDiscount) * ( $giftBox - 100 ) / 100);
+                            $priceWithDiscount = floatval(floatval($priceWithDiscount) * $giftBox / 100) - floatval($discount[0]->value);
+                        }
+                        else {
+                            $row->discountValue = floatval(floatval($priceWithDiscount) * ( $flower - 100 ) / 100);
+                            $priceWithDiscount = floatval(floatval($priceWithDiscount) * $flower / 100) - floatval($discount[0]->value);
                         }
 
                         //$priceWithDiscount = floatval($priceWithDiscount) - floatval($discount[0]->value);
@@ -435,12 +467,18 @@ class testMethodsController extends Controller
 
                             if ($row->product_type == 2) {
                                 $row->products = 'Çikolata Bedeli (Hediye Çeki kullanılmıştır)';
-                                $row->price = number_format(floatval(str_replace(',', '.', $priceWithDiscount)) / 108 * 100, 2);
-                                $row->discountValue = number_format(floatval(str_replace(',', '.', $priceWithDiscount)) / 108 * 8, 2);
-                            } else {
+                                $row->price = number_format(floatval(str_replace(',', '.', $priceWithDiscount)) / $chocolate * 100, 2);
+                                $row->discountValue = number_format(floatval(str_replace(',', '.', $priceWithDiscount)) / $chocolate * ( $chocolate - 100 ), 2);
+                            }
+                            else if ($row->product_type == 3) {
+                                $row->products = 'Çikolata Bedeli (Hediye Çeki kullanılmıştır)';
+                                $row->price = number_format(floatval(str_replace(',', '.', $priceWithDiscount)) / $giftBox * 100, 2);
+                                $row->discountValue = number_format(floatval(str_replace(',', '.', $priceWithDiscount)) / $giftBox * ( $giftBox - 100 ), 2);
+                            }
+                            else {
                                 $row->products = 'Çiçek Bedeli (Hediye Çeki kullanılmıştır)';
-                                $row->price = number_format(floatval(str_replace(',', '.', $priceWithDiscount)) / 118 * 100, 2);
-                                $row->discountValue = number_format(floatval(str_replace(',', '.', $priceWithDiscount)) / 118 * 18, 2);
+                                $row->price = number_format(floatval(str_replace(',', '.', $priceWithDiscount)) / $flower * 100, 2);
+                                $row->discountValue = number_format(floatval(str_replace(',', '.', $priceWithDiscount)) / $flower * ( $flower - 100 ), 2);
                             }
                             $flower_discount = 0;
                             $total_discount = 0;
@@ -469,14 +507,23 @@ class testMethodsController extends Controller
 
                     if ($discount[0]->type == 2) {
                         if ($row->product_type == 2) {
-                            $row->discountValue = floatval(floatval($tempPriceWithDiscount) * 8 / 100);
-                        } else {
-                            $row->discountValue = floatval(floatval($tempPriceWithDiscount) * 18 / 100);
+                            $row->discountValue = floatval(floatval($tempPriceWithDiscount) * ( $chocolate - 100 ) / 100);
                         }
+                        else if ($row->product_type == 3) {
+                            $row->discountValue = floatval(floatval($tempPriceWithDiscount) * ( $giftBox - 100 ) / 100);
+                        }
+                        else {
+                            $row->discountValue = floatval(floatval($tempPriceWithDiscount) * ( $flower - 100 ) / 100);
+                        }
+
                         if ($row->product_type == 2) {
-                            $priceWithDiscount = floatval(floatval($tempPriceWithDiscount) * 108 / 100);
-                        } else {
-                            $priceWithDiscount = floatval(floatval($tempPriceWithDiscount) * 118 / 100);
+                            $priceWithDiscount = floatval(floatval($tempPriceWithDiscount) * $chocolate / 100);
+                        }
+                        else if ($row->product_type == 3) {
+                            $priceWithDiscount = floatval(floatval($tempPriceWithDiscount) * $giftBox / 100);
+                        }
+                        else {
+                            $priceWithDiscount = floatval(floatval($tempPriceWithDiscount) * $flower / 100);
                         }
                     }
 
@@ -527,8 +574,8 @@ class testMethodsController extends Controller
                         $tempDiscountTextCrossSell = '';
                         $tempCikolat->name = 'Çikolata bedeli (Hediye çeki kullanılmıştır)';
                         $tempCikolatNumber = '1';
-                        $tempCikolat->tax = number_format(floatval(str_replace(',', '.', $tempCikolat->total_price)) / 108 * 8, 2);
-                        $tempCikolat->product_price = number_format(floatval(str_replace(',', '.', $tempCikolat->total_price)) / 108 * 100, 2);
+                        $tempCikolat->tax = number_format(floatval(str_replace(',', '.', $tempCikolat->total_price)) / $chocolate * ( $chocolate - 100 ), 2);
+                        $tempCikolat->product_price = number_format(floatval(str_replace(',', '.', $tempCikolat->total_price)) / $chocolate * 100, 2);
                         $cikolatProductPrice = $tempCikolat->product_price;
                         $tempDiscountTextCrossSell = '';
 
@@ -548,7 +595,7 @@ class testMethodsController extends Controller
                         'name' => $tempCikolat->name,
                         'item_identification' => $tempCikolat->id,
                         'tax' => str_replace(',', '.', $tempCikolat->tax),
-                        'kdv_percentage' => 8.0
+                        'kdv_percentage' => number_format(floatval($chocolate - 100), 1)
                     ];
 
                 } else {
@@ -652,6 +699,7 @@ class testMethodsController extends Controller
                 unset($row->userBilling);
                 unset($row->smallCity);
                 unset($row->bigCity);
+                unset($row->taxType);
 
                 $tempCreatedAt = $row->created_at;
                 $tempCreatedAtDate = explode(" ", $tempCreatedAt)[0];
@@ -687,9 +735,13 @@ class testMethodsController extends Controller
                     $row->sumPartial = $row->sumTotal;
 
                     if ($row->product_type == 2) {
-                        $row->price = number_format(floatval(floatval($row->sumTotal) * 100 / 108), 2);
-                    } else {
-                        $row->price = number_format(floatval(floatval($row->sumTotal) * 100 / 118), 2);
+                        $row->price = number_format(floatval(floatval($row->sumTotal) * 100 / $chocolate), 2);
+                    }
+                    else if ($row->product_type == 3) {
+                        $row->price = number_format(floatval(floatval($row->sumTotal) * 100 / $giftBox), 2);
+                    }
+                    else {
+                        $row->price = number_format(floatval(floatval($row->sumTotal) * 100 / $flower), 2);
                     }
 
                     $row->tax = $row->sumPartial - $row->price;
@@ -748,7 +800,16 @@ class testMethodsController extends Controller
                     $flower_discount = 0;
 
                     $row->product_type = 1;
-                    $row->kdv_percentage = '18.0';
+
+                    $flowerTaxStudio = 118;
+                    if( $row->taxType == 1 ){
+                        $row->kdv_percentage = '18.0';
+                    }
+                    else {
+                        $row->kdv_percentage = '8.0';
+                        $flowerTaxStudio = 108;
+                    }
+
                     $row->wanted_delivery_date = $row->wanted_date;
 
                     $tempTotal = 0;
@@ -795,13 +856,13 @@ class testMethodsController extends Controller
                     $priceWithDiscount = str_replace(',', '.', $priceWithDiscount);
                     $totalPartial = $totalPartial + $priceWithDiscount;
 
-                    $row->discountValue = floatval(floatval($priceWithDiscount) * 18 / 100);
+                    $row->discountValue = floatval(floatval($priceWithDiscount) * ( $flowerTaxStudio - 100 ) / 100);
 
                     $row->discountValue = number_format($row->discountValue, 2);
                     parse_str($row->discountValue);
                     $row->discountValue = str_replace('.', ',', $row->discountValue);
 
-                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * 118 / 100);
+                    $priceWithDiscount = floatval(floatval($priceWithDiscount) * $flowerTaxStudio / 100);
                     $priceWithDiscount = number_format($priceWithDiscount, 2, '.', '');
 
                     $tempTotal = $priceWithDiscount;
@@ -889,6 +950,7 @@ class testMethodsController extends Controller
                     unset($row->customer_surname);
                     unset($row->district);
                     unset($row->customer_surname);
+                    unset($row->taxType);
                     $row->status = $row->delivery_status;
                     $row->sender_email = $row->email;
                     unset($row->delivery_status);
