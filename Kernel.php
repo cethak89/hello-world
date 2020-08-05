@@ -188,7 +188,7 @@ class Kernel extends ConsoleKernel
                 ->where('dayHours.active', 1)
                 ->where('delivery_hours.city_id', 1)
                 ->where('delivery_hours.continent_id', '!=' , 'Ups')
-                ->select('dayHours.start_hour')
+                ->select('dayHours.start_hour', 'delivery_hours.continent_id')
                 ->orderBy('dayHours.start_hour', 'DESC')
                 ->get();
             $tempTomorrowTag = DB::table('delivery_hours')
@@ -362,7 +362,11 @@ class Kernel extends ConsoleKernel
                 $now->hour(explode(":", $tempNowTag[0]->start_hour)[0]);
                 if (explode(":", $tempNowTag[0]->start_hour)[0] != "18") {
                     $now->addHours(1);
-                } else {
+                }
+                else if (explode(":", $tempNowTag[0]->start_hour)[0] != "11" && ( $tempNowTag[0]->continent_id == 'Asya' || $tempNowTag[0]->continent_id == 'Asya-2' ) ) {
+                    $now->addHours(-3);
+                }
+                else {
                     $now->addHours(-1);
                 }
                 $now->minute(0);
