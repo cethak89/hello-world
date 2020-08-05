@@ -1,0 +1,51 @@
+<section id="megaOverlay" style="background: none;margin-top: 108px;height: 420px;" class="overlay hidden-sm hidden-xs" ng-class="{open: isDropDownOpen()}"
+         xmlns="http://www.w3.org/1999/html">
+    <nav style="height: 420px;border: none;border-style: solid;border-bottom-width: 1px;border-color: rgb(234, 226, 218);border-top-width: 1px;border-left-width: 0px;border-right-width: 0px;"
+         class="overlayMenu panel col-lg-12 col-md-12">
+        <div style="max-width: 1400px;min-width:1000px;margin-left: auto !important;margin-right: auto !important;display: block;height: inherit;">
+            <div style="height: inherit;" class="col-lg-8 col-md-8">
+                <div style="height: inherit;padding-top: 17px;line-height: 19px;padding-right: 50px;" class="col-lg-4 col-md-4">
+                    <div ng-repeat="column in column1">
+                        <p ng-if="column.header == 1"  style="color: #8D7758;font-family: 'Gotham Light';font-size: 16px;display: block;font-weight: bolder;margin-top: 15px;">
+                            {{column.name}}</p>
+                        <a ng-if="column.header == 0 && column.new_tab == 0 " href="{{column.link}}" style="color: #8D7758;font-family: 'Gotham Light';font-size: 15px;display: block;font-weight: 300;margin-bottom: 7px;">{{column.name}}</a>
+                        <a ng-if="column.header == 0 && column.new_tab == 1 " target="_blank" href="{{column.link}}" style="color: #8D7758;font-family: 'Gotham Light';font-size: 15px;display: block;font-weight: 300;margin-bottom: 7px;">{{column.name}}</a>
+                    </div>
+                </div>
+                <div style="height: inherit;padding-top: 17px;line-height: 19px;" class="col-lg-4 col-md-4">
+                    <div ng-repeat="column in column2">
+                        <p ng-if="column.header == 1"  style="color: #8D7758;font-family: 'Gotham Light';font-size: 16px;display: block;font-weight: bolder;margin-top: 15px;">
+                            {{column.name}}</p>
+                        <a ng-if="column.header == 0 && column.new_tab == 0 " href="{{column.link}}" style="color: #8D7758;font-family: 'Gotham Light';font-size: 15px;display: block;font-weight: 300;margin-bottom: 7px;">{{column.name}}</a>
+                        <a ng-if="column.header == 0 && column.new_tab == 1 " target="_blank" href="{{column.link}}" style="color: #8D7758;font-family: 'Gotham Light';font-size: 15px;display: block;font-weight: 300;margin-bottom: 7px;">{{column.name}}</a>
+                    </div>
+                </div>
+                <div style="height: inherit;padding-top: 17px;line-height: 19px;" class="col-lg-4 col-md-4">
+                    <div ng-repeat="column in column3">
+                        <p ng-if="column.header == 1"  style="color: #8D7758;font-family: 'Gotham Light';font-size: 16px;display: block;font-weight: bolder;margin-top: 15px;">
+                            {{column.name}}</p>
+                        <a ng-if="column.header == 0 && column.new_tab == 0 " href="{{column.link}}" style="color: #8D7758;font-family: 'Gotham Light';font-size: 15px;display: block;font-weight: 300;margin-bottom: 7px;">{{column.name}}</a>
+                        <a ng-if="column.header == 0 && column.new_tab == 1 " target="_blank" href="{{column.link}}" style="color: #8D7758;font-family: 'Gotham Light';font-size: 15px;display: block;font-weight: 300;margin-bottom: 7px;">{{column.name}}</a>
+                    </div>
+                </div>
+            </div>
+            <div style="height: inherit;padding-bottom: 2px;border-left-width: 1px;border-color: rgb(234, 226, 218);border-style: solid;"
+                 class="col-lg-4 col-md-4">
+                <img style="height: 100%;margin-left: auto;margin-right: auto;display: block;" id="menuBannerImage"
+                     name="{{menuBanner.image}}"
+                     src="">
+
+                <p style="color: #8D7758;top: 30px;position: absolute;font-family: 'Gotham Light';font-size: 16px;
+    transform: translate(-50%, 0);display: table;left: 50%;font-weight: bolder;">{{menuBanner.first_header}}</p>
+
+                <p style="position: absolute;font-family: 'Bodoni Italic';font-size: 24px;display: table;top: 50px;left: 50%;transform: translate(-50%, 0);">
+                    {{menuBanner.second_header}}</p>
+                <a href="{{menuBanner.link_url}}" style="font-family: 'Gotham Medium';font-size: 14px;height: 18px;display: block;letter-spacing: 0.8px;position: absolute;left: 50%;transform: translate(-50%, 0);border-radius: 20px;float: none;background-color: #8D7758;color: white;text-shadow: none;
+    text-decoration: none;z-index: 12231;display: block;height: 30px;bottom: 30px;width: 180px;border-color: #8D7758;padding-top: 4px;"
+                        class="whiteText btn btn-default col-lg-6 col-md-6 col-sm-6 col-xs-6 center-block sendFlowerButton">
+                    {{menuBanner.button_name}}
+                </a>
+            </div>
+        </div>
+    </nav>
+</section>

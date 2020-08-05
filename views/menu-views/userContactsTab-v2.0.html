@@ -1,0 +1,36 @@
+<section class="card" ng-repeat="contact in contacts" ng-class="{lastCard: checkCard($index)}">
+	<figure class="col-lg-12 col-md-12 col-sm-12 col-xs-12 contactContainer" ng-click="callEditContact(contact)" ng-mouseover="contact.editable = true" ng-mouseleave="contact.editable = false">
+		<span class="edit-icon ion-edit" ng-if="contact.editable"></span>
+
+		<img class="center-block contactIcon" ng-src="images/icons/contact-icons/bloomandfresh-contact-icon-{{contact.icon_id}}.svg">
+
+		<strong class="contactName text-capitalize darkBlueText">
+			{{contact.name}}
+		</strong>
+
+		<p class="flowerSendingInfo" ng-if="contact.count <= 0">
+			{{::'NOT_SENT_FLOWER' | translate}}
+		</p>
+
+		<p class="flowerSendingInfo" ng-if="contact.count > 0">
+			{{::'SENT_FLOWER_NUMBER_1' | translate}} <b>{{contact.count}} {{::'SENT_FLOWER_NUMBER_2' | translate}}</b> {{::'SENT_FLOWER_NUMBER_3' | translate}}
+		</p>
+	</figure>
+	<a role="button" ui-sref="flowers({baseUrl:'{{'FLOWERS_URL' | translate }}',tagUrl:'{{::'FLOWERS_URL_TAG' | translate}}'})" ng-click="sendFlowerToContact(contact)" class="sendFlowerToContact text-uppercase col-lg-12 col-md-12 col-sm-12 col-xs-12 text-uppercase">
+		<span>{{::'SEND_FLOWER_BUTTON' | translate}}</span>
+	</a>
+</section>
+<section class="card addCard">
+	<section class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<button style="padding: 2px;" type="button" class="btn-add btn btn-default btn-lg" ng-click="setSignSection('kisiEkle')" aria-label="Left Align">
+			<span style="font-size: 44px;" class="middleBrownText glyphicon glyphicon-plus" aria-hidden="true"></span>
+		</button>
+	</section>
+	<span class="addCardText center-block lightBrownText col-lg-8">
+		{{::'ADD_CONTACT' | translate}}
+	</span>
+</section>
+
+<section ng-if="!isContactExist()">
+	<img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/logos/bloomandfresh-logo-4-v2.png">
+</section>

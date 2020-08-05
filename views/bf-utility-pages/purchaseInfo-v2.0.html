@@ -1,0 +1,117 @@
+<aside class="rightPurchaseInfo col-lg-3 col-md-3 col-sm-3 hidden-xs">
+    <a onclick="$('#goShop').click()" ng-show="showSkipButton()" id="passCrossSellId" style="border-radius: 50px;padding-top: 4px;width: 140px;height: 30px;position: absolute;top: 8%;right: 5%;;background-color: white" role="button" class="purchaseProgressButton center-block btn btn-default">
+        <b style="top: 0%;color: #242b31" class="ng-binding">Bu adımı atla</b>
+        <img style="width: 9px;padding-left: 2px;margin-bottom: 2px;"
+             src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/arrow_sharp_right.svg">
+    </a>
+    <section class="flowerInfoContainer notUserContacts">
+        <figure class="col-lg-5 col-md-7 col-sm-12 center-block">
+            <img class="flower-image" ng-src="{{flower.MainImage}}"/>
+        </figure>
+        <article class="flowerNameAndDescription col-lg-7 col-md-12 col-sm-12">
+            <header class="col-lg-12 col-md-12 col-sm-12">
+                <h3>{{flower.name}}</h3>
+            </header>
+
+            <p class="col-lg-12 col-md-12 hidden-sm middleBrownText">
+                {{flower.landing_page_desc}}
+            </p>
+        </article>
+    </section>
+
+    <section class="priceInfo infoSection">
+        <table class="table">
+            <tr>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">{{::'PRICE_HEADER' | translate}}</strong></td>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{flower.price | number :2}} TL + {{::'TAX' | translate}}</td>
+            </tr>
+            <tr ng-if="campaign && (flower.company_product == 0 && flower.product_type != 2  && flower.product_type != 3 ) && campaign.special_type == 0 ">
+                <td ng-if="campaign.type == 1" class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">{{::'DISCOUNTED_PRICE_HEADER' | translate}}({{campaign.value}} TL)</strong></td>
+                <td ng-if="campaign.type == 2" class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">{{::'DISCOUNTED_PRICE_HEADER' | translate}}(%{{campaign.value}})</strong></td>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{flower.priceWithDiscount | number :2}} TL + {{::'TAX' | translate}}</td>
+            </tr>
+            <tr ng-if="campaign.special_type == 1">
+                <td ng-if="campaign.type == 1" class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">{{::'DISCOUNTED_PRICE_HEADER' | translate}}(-{{campaign.value}} TL)</strong></td>
+                <td ng-if="campaign.type == 2" class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">{{::'DISCOUNTED_PRICE_HEADER' | translate}}(%{{campaign.value}})</strong></td>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{flower.priceWithDiscount | number :2}} TL ({{::'TAX_INCLUDED' | translate}})</td>
+            </tr>
+            <tr ng-if="campaign.special_type == 0 || campaign == null || campaign.length == 0">
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">{{::'TOTAL_PRICE_HEADER_2' | translate}}</strong></td>
+                <td id="flowerPriceJs" class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{flower.newPrice | number :2}} TL ({{::'TAX_INCLUDED' | translate}})</td>
+            </tr>
+            <tr ng-if="campaign.special_type == 1">
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">{{::'TOTAL_PRICE_HEADER_2' | translate}}</strong></td>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{flower.priceWithDiscount | number :2}} TL ({{::'TAX_INCLUDED' | translate}})</td>
+            </tr>
+            <tr ng-if="$root.tempStringTroyRoot">
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">TROY İle Ödenecek Tutar</strong></td>
+                <td ng-if="campaign && (flower.company_product == 0 && flower.product_type != 2  && flower.product_type != 3 ) && campaign.special_type == 0 " class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{showWithDiscount()}} TL ({{::'TAX_INCLUDED' | translate}})</td>
+                <td ng-if="!(campaign && (flower.company_product == 0 && flower.product_type != 2  && flower.product_type != 3 ) && campaign.special_type == 0 )" class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{showWithOutDiscount()}} TL ({{::'TAX_INCLUDED' | translate}})</td>
+            </tr>
+        </table>
+    </section>
+
+    <section style="margin-top: 0px;" ng-if="showCrossSellProduct()" class="flowerInfoContainer notUserContacts">
+        <figure class="col-lg-5 col-md-7 col-sm-12 center-block">
+            <img class="flower-image" ng-src="{{selectedCrossSell.image}}"/>
+        </figure>
+        <article class="flowerNameAndDescription col-lg-7 col-md-12 col-sm-12">
+            <image src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/removeButton.jpg" ng-show="showRemoveButton()" ng-click="removeCrossSell();" style="float: right;padding-right: 10px;padding-top: 10px;cursor: pointer;" />
+            <header class="col-lg-12 col-md-12 col-sm-12">
+                <h3 style="margin-top: 10px;">{{selectedCrossSell.name}}</h3>
+            </header>
+
+            <p class="col-lg-12 col-md-12 hidden-sm middleBrownText">
+                {{selectedCrossSell.desc}}
+            </p>
+        </article>
+    </section>
+
+    <section ng-if="showCrossSellProduct()" class="priceInfo infoSection">
+        <table class="table">
+            <tr>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">{{::'PRICE_HEADER' | translate}}</strong></td>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{selectedCrossSell.price | number :2}} TL + {{::'TAX' | translate}}</td>
+            </tr>
+            <tr ng-if="selectedCrossSell.couponForCrossSell != 0 && campaign.special_type == 1 ">
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">{{::'DISCOUNTED_PRICE_HEADER' | translate}}(-{{campaign.value}} TL)</strong></td>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{selectedCrossSell.crossSellPriceWithCoupon | number :2}} TL ({{::'TAX_INCLUDED' | translate}})</td>
+            </tr>
+            <tr ng-if=" selectedCrossSell.couponForCrossSell != 0 && (campaign.special_type == 0 || campaign == null) ">
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">{{::'DISCOUNTED_PRICE_HEADER' | translate}}({{campaign.value}} TL)</strong></td>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{selectedCrossSell.crossSellPriceWithCoupon | number :2}} TL + {{::'TAX' | translate}}</td>
+            </tr>
+            <tr>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">{{::'TOTAL_PRICE_HEADER_2' | translate}}</strong></td>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{selectedCrossSell.newPrice | number :2}} TL ({{::'TAX_INCLUDED' | translate}})</td>
+            </tr>
+        </table>
+    </section>
+
+    <section class="receiverInfo infoSection" ng-show="isInfoShowable(2)">
+        <table class="table">
+            <tr>
+                <td class="col-lg-5 col-md-5 col-sm-5 text-center"><strong class="header">{{::'LUCY_PERSON' | translate}}</strong></td>
+                <td class="col-lg-7 col-md-7 col-sm-7 text-center middleBrownText infoText">{{receiver.name}}</td>
+            </tr>
+            <tr>
+                <td class="col-lg-5 col-md-5 col-sm-5 text-center"><strong class="header">{{takeReceiverText()}}</strong></td>
+                <td class="col-lg-7 col-md-7 col-sm-7 text-center middleBrownText infoText">{{getReceiverDate()}} {{getReceiverTime()}}</td>
+            </tr>
+            <tr>
+                <td class="col-lg-5 col-md-5 col-sm-5 text-center"><strong class="header">{{::'DELIVERY_ADDRESS' | translate}}</strong></td>
+                <td class="col-lg-7 col-md-7 col-sm-7 text-center middleBrownText infoText">{{receiver.address}}</td>
+            </tr>
+        </table>
+    </section>
+
+    <section class="userNote infoSection" ng-show="isInfoShowable(3)">
+        <table class="table">
+            <tr>
+                <td class="col-lg-5 col-md-5 col-sm-5 text-center"><strong class="header">{{::'YOUR_NOTE' | translate}}</strong></td>
+                <td class="col-lg-7 col-md-7 col-sm-7 text-center middleBrownText infoText" ng-if="note.card_message">{{note.card_message}}</td>
+                <td class="col-lg-7 col-md-7 col-sm-7 text-center middleBrownText infoText" ng-if="!note.card_message">{{receiver.card_message}}</td>
+            </tr>
+        </table>
+    </section>
+</aside>

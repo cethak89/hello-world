@@ -1,0 +1,86 @@
+<navbar-menu></navbar-menu>
+<main class="contactUs" ng-app="godiva">
+    <div style="width: 100%;height: 60px;border-bottom: 1px solid #e7e7e7;background-color: white;">
+        <figure style="padding-top: 18px;position: inherit;" class="">
+            <a class="breadPadding" href="/" style="padding-left: 30px;font-family: 'Gotham Light';font-size: 18px;color: rgb(129, 106, 74);" class="ng-binding ng-scope">Anasayfa</a>
+            <img class="breadPadding" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/arrow_breadCrum.jpg" style="padding-left: 15px;padding-bottom: 4px;padding-right: 15px;">
+            <a class="breadPadding" href="/godiva-cikolata-gonder" style="font-weight: 700;font-family: 'Gotham Light';font-size: 18px;color: #3b454d;" class="ng-binding ng-scope">Godiva Çikolata Gönder</a>
+        </figure>
+    </div>
+<header style="height: 370px;background: url('https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/banner_godiva_2.jpg');background-size: cover;" class="pageHeader jumbotron text-center">
+    <h1 style="padding-top: 87px;" class="pageTitle">
+        Online Çikolata Siparişi
+    </h1>
+    <small class="pageInfo center-block lightBrownText"></small>
+
+</header>
+<article class="howWeDoItArticles container-fluid">
+<section style="border: none;background-color: white;height: 100%;border-bottom: 2px solid #816a4a;max-width: 1200px;float: none;display: table;margin-left: auto;margin-right: auto;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+    <div style="margin-top: 0px;padding-left: 0px;padding-right: 0px;" class="col-lg-6 col-md-12 col-sm-12 col-xs-12 text-center">
+        <img style="width: 100%;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/godiva_page_photoIII.jpg">
+    </div>
+    <div style="" class="col-lg-6 col-md-12 col-sm-12 col-xs-12 text-center">
+        <h2 style="text-align: center;font-size: 24px;margin-top: 0px;margin-bottom: 6px;font-family: 'Gotham Bold';" class="infoSectionHeader darkBlueText col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+            Online Çikolata Gönder
+        </h2>
+        <p style="font-family: 'Gotham Light';font-size: 14px;line-height: 22px;">
+            Bloom and Fresh ile çiçek gönderirken çiçeğine biraz tat katmak elinde! Çiçek siparişinin yanına dünyanın en prestijli ve lezzetli çikolatalarını üreten Godiva'nın birbirinden özel çikolatalarından ekleyerek, çiçeğini teslim alacak şanslı kişiyi daha da mutlu edebilirsin!
+            <br>
+            Godiva çikolata koleksiyonundan belirli çikolataları anasayfamızda görüp hemen siparişini verebilirsin. Eğer çikolatanı çiçeğin ile birlikte göndermek istersen de önce çiçeğini seçip ardından "Tat Kat" sayfasında dilediğin Godiva çikolatayı siparişine ekleyebilirsin.
+            <br>
+            Godiva çikolataları şanslı kişilerle buluştururken yine gönderdiğin Bloom and Fresh çiçeklerinde olduğu gibi notunu özel not kartımızda mühürlü olarak teslim ediyoruz.
+            <br>
+            Bloom and Fresh çiçeklerinin yanına en çok yakışan Godiva çikolatalarını aşağıda; hemen sipariş verebilirsin.
+        </p>
+        <!--<a style="float: right !important;" class="text-uppercase text-right lightBrownText pull-right"  href="/kurumsal-siparisler"><b class="ng-binding">İletişime geçmek istiyorum</b><img style="    padding-left: 10px;padding-top: 0px;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/images/landingOk.png"> </a>-->
+    </div>
+</section>
+<section style="padding-left: 0px;padding-right: 0px;border: none;background-color: #f8f8f7;height: 100%;border-bottom: 2px solid #816a4a;max-width: 1200px;margin-left: auto;margin-right: auto;float: none;display: flex;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+<div style="padding-left: 0px;padding-right: 0px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+<h4 style="padding-left: 0px;text-align: center;font-size: 30px;line-height: 30px;padding-bottom: 50px;" class="infoSectionHeader darkBlueText col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+    Godiva Çikolata Siparişi
+</h4>
+<br>
+<div style="padding-left: 0px;padding-right: 0px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+
+    <!--<div style="background-color: white;height: inherit;border: 1px solid #e0dedc;" class="col-lg-6 col-md-6 col-sm-12 col-xs-12"  ng-repeat="cikolat in cikolats">
+        <h3 style="font-family: 'Gotham Bold';position: absolute;z-index: 10;left: 37%;">{{cikolat.name}}</h3>
+        <img style="    float: initial;" class="col-lg-8  col-md-12 col-sm-12 col-xs-12" src="{{cikolat.image}}">
+        <p style="height: 60px; font-family: 'Gotham Light';font-size: 14px;line-height: 25px;" class="ng-binding">
+            {{cikolat.desc}}
+        </p>
+    </div>-->
+    <div ng-repeat="productCrossSell in cikolats" style="padding-right: 8px;padding-left: 8px;padding-bottom: 8px;" class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-6 col-sm-offset-0 col-sm-12 col-xs-12">
+        <div style="background-color: white;height: inherit;border: 1px solid #e0dedc;display: flex;">
+            <div style="max-height: 260px;padding-left: 0px;padding-right: 0px;" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <img id="{{productCrossSell.id}}" onload="setInvisible(this)" style="background: url('https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/200_s.gif') no-repeat;max-width: 155px;padding-left: 0px;padding-right: 0px;width: 100%;"  ng-src="{{productCrossSell.image}}"/>
+            </div>
+            <div style="" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <h2 style="font-size: 16px;font-family:'Gotham Bold';padding-top: 8px;" class="flowerBlogHeader lightBrownText ng-binding">{{productCrossSell.name}}</h2>
+                <p style="padding-top: 3px;font-size: 13px;color: #796c5c" class="middleBrownText">
+                    {{productCrossSell.desc}}
+                </p>
+                <figcaption style="padding-left: 5px;padding-right: 5px;" class="flowerPrice col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center darkBlueText ng-scope" >
+                    <span style="float: initial;font-family: 'Bodoni Italic';font-size: 18px;font-weight: bold;" class="ng-binding"> {{productCrossSell.price | number :2}} TL </span>
+                    <span style="float: initial;font-size: 15px;color: #a59b8f;font-family: 'Gotham Book'font-size: 18px;" class="flowerTax ng-binding"> + KDV</span>
+                </figcaption>
+            </div>
+        </div>
+    </div>
+    <div style="padding-top: 23px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <a style="width: 208px;" class="btn-bloomNfresh btn btn-default text-uppercase" href="/"><b>Siparişe Başlayayım</b></a>
+    </div>
+</div>
+</div>
+</section>
+</article>
+</main>
+<script>
+    function setInvisible(e){
+        $(e).css('background' , 'none');
+        //var testId = $(e).attr('id');
+        //testId = '#r_' + testId;
+        //$(testId).hide();
+    }
+</script>
+<bf-footer></bf-footer>

@@ -1,0 +1,363 @@
+<section class="buttonSection userInfo">
+    <button type="button" class="btn-add btn btn-default btn-lg col-lg-offset-1 col-lg-12 col-md-12 col-sm-12 col-xs-12"
+            ng-click="switchSection(0)" aria-label="Left Align">
+        <span class="middleBrownText userAccount" aria-hidden="true"></span>
+    </button>
+    <span class="lightBrownText" ng-click="switchSection(0)">{{::'UPDATE_PROFILE' | translate}}</span>
+</section>
+<form name="userAccountForm" collapse="isAccountFormOpen" novalidate>
+    <fieldset class="text-center">
+        <div class="inputContainer center-block">
+			<span class="input input--akira" ng-class='{"input--filled" : userInfo.email !== undefined }'>
+				<input class="lightBrownText input__field input__field--akira" type="email" ng-model="userInfo.email"
+                       id="loggedUserMail" name="loggedUserMail"
+                       ng-minlength="3" maxlength="30"
+                       ng-model-options="{ updateOn: 'change' }"
+                       ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/" required/>
+				<label class="input__label input__label--akira" for="signInUserMail">
+					<span class="input__label-content input__label-content--akira" ng-class="">
+						<span class="error"
+                              ng-show="userAccountForm.loggedUserMail.$touched && (userAccountForm.loggedUserMail.$error.email || userAccountForm.loggedUserMail.$error.pattern)">{{::'EMAIL_ERROR' | translate}}</span>
+						<span class="error"
+                              ng-show="userAccountForm.loggedUserMail.$touched && (userAccountForm.loggedUserMail.$error.required || userAccountForm.loggedUserMail.$untouched && isChecked)">{{::'EMAIL_EMPTY_ERROR' | translate}}</span>
+						<span class="lightBrownText not-error"
+                              ng-show="userAccountForm.loggedUserMail.$valid || (userAccountForm.userMail.$untouched && !isChecked)">{{::'EMAIL_TEXT' | translate}}</span>
+					</span>
+                </label>
+			</span>
+        </div>
+
+        <div class="inputContainer center-block">
+            <span class="input input--akira" ng-class='{"input--filled" : (userInfo.mobile)}'>
+								<input class="lightBrownText input__field input__field--akira"
+                                       ng-model="userInfo.mobile"
+                                       ui-mask="(999)-999-99-99" ng-model-options="{ updateOn: 'blur' }"
+                                       id="loggedUserPhone"
+                                       placeholder="." ui-mask-placeholder
+                                       name="loggedUserPhone" tabindex="4" required/>
+								<label class="input__label input__label--akira" for="loggedUserPhone">
+									<span class="input__label-content input__label-content--akira">
+										<span class="error"
+                                              ng-show="userAccountForm.loggedUserPhone.$touched && (userAccountForm.loggedUserPhone.$error.mask)">{{::'PHONE_ERROR' |translate}}</span>
+										<span class="error"
+                                              ng-show="(userAccountForm.loggedUserPhone.$touched && userAccountForm.loggedUserPhone.$error.required) || (userAccountForm.loggedUserPhone.$untouched && isChecked)">{{::'PHONE_EMPTY_ERROR' | translate}}</span>
+										<span class="lightBrownText not-error"
+                                              ng-show="userAccountForm.loggedUserPhone.$valid || (userAccountForm.loggedUserPhone.$untouched && !isChecked)">{{::'PHONE_TEXT' | translate}}</span>
+									</span>
+                                </label>
+						</span>
+        </div>
+
+        <div class="inputContainer center-block">
+		    <span class="input input--akira"
+                  ng-class='{"input--filled" : userInfo.name !== undefined}'>
+		    	<input class="lightBrownText input__field input__field--akira text-capitalize" type="text"
+                       ng-model="userInfo.name" id="loggedUserName" name="loggedUserName"
+                       ng-minlength="2"
+                       maxlength="30" ng-pattern="/^[a-zA-ZŞşÇçığİüÜÖö ]*$/"
+                       ng-model-options="{ updateOn: 'change' }" required/>
+		    	<label class="input__label input__label--akira" for="loggedUserName">
+		    		<span class="input__label-content input__label-content--akira">
+		    			<span class="error"
+                              ng-show="userAccountForm.loggedUserName.$touched && (userAccountForm.loggedUserName.$error.minlength || userAccountForm.loggedUserName.$error.pattern)">{{::'NAME_ERROR' | translate}}</span>
+		    			<span class="error"
+                              ng-show="userAccountForm.loggedUserName.$touched && (userAccountForm.loggedUserName.$error.required || userAccountForm.loggedUserName.$untouched && isChecked)">{{::'NAME_EMPTY_ERROR' | translate}}</span>
+		    			<span class="lightBrownText not-error"
+                              ng-show="userAccountForm.loggedUserName.$valid || (userAccountForm.loggedUserName.$untouched && !isChecked)">{{::'NAME_TEXT' | translate}}</span>
+		    		</span>
+                </label>
+		    </span>
+        </div>
+
+        <section style="margin-bottom: 20px;display: block;margin-top: 0px;margin-right: auto;margin-left: auto;width: 63%;" class="saleDetailPopUp hidden-xs hidden-sm hidden-md checkbox lightBrownText text-left">
+            <label class="saleDetailPopUpLabel" style="font-family: 'Bodoni Italic';font-size: 16px;padding-bottom: 2px;padding-left: 10px;">
+                <input ng-checked="saleInfoStatus == '0'" style="margin-right: 5px;" type="checkbox" class="newsletterCheckbox" >Sipariş durumu anasayfada gösterilmesin!
+            </label>
+        </section>
+
+        <label class="error serverError" style="text-align: center;">{{errorMessage}}</label>
+
+        <section class="button field">
+            <button class="btn-bloomNfresh btn btn-default" ng-click="updateUser()" ng-if="!processSuccess"> {{::'SAVE_BUTTON_TEXT' | translate}}
+            </button>
+            <button class="btn-success btn btn-default" ng-if="processSuccess">
+                <img style="width: 14px;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/checked_white.svg">
+            </button>
+        </section>
+
+        <!--[if !IE]><!-->
+        <loader
+                working="updateUserWorking"
+                disable-background="true"
+                template="2">
+        </loader>
+        <!--<![endif]-->
+
+    </fieldset>
+</form>
+<section ng-if="loggedUser.fb_id == NULL" class="buttonSection">
+    <button type="button" class="btn-add btn btn-default btn-lg col-lg-offset-1 col-lg-12 col-md-12 col-sm-12 col-xs-12"
+            ng-click="switchSection(1)">
+        <span class="middleBrownText ion-ios-unlocked-outline" aria-hidden="true"></span>
+    </button>
+							<span class="lightBrownText" ng-click="switchSection(1)">
+								{{::'CHANGE_PASSWORD' | translate}}
+							</span>
+</section>
+<form name="passwordChangeForm" collapse="isPasswordFormOpen" novalidate>
+    <fieldset class="text-center" ng-controller="PasswordChangeCtrl">
+        <div class="inputContainer center-block">
+			<span class="input input--akira"
+                  ng-class='{"input--filled" : userPasswordModel.currentPassword !== undefined}'>
+				<input class="lightBrownText input__field input__field--akira" type="password"
+                       ng-model="userPasswordModel.currentPassword" id="currentPassword1"
+                       name="currentPassword" ng-minlength="3" max-length="30" required
+                       ng-model-options="{ updateOn: 'change' }"/>
+				<label class="input__label input__label--akira" for="currentPassword">
+                    <span class="input__label-content input__label-content--akira">
+						<span class="error"
+                              ng-show="passwordChangeForm.currentPassword.$touched && (passwordChangeForm.currentPassword.$error.minlength)">{{::'CURRENT_PASSWORD_ERROR' | translate}}</span>
+						<span class="error"
+                              ng-show="(passwordChangeForm.currentPassword.$touched && passwordChangeForm.currentPassword.$error.required) || (passwordChangeForm.currentPassword.$untouched && isChecked)">{{::'CURRENT_PASSWORD_EMPTY_ERROR' | translate}}</span>
+						<span class="lightBrownText not-error"
+                              ng-show="passwordChangeForm.currentPassword.$valid|| (passwordChangeForm.currentPassword.$untouched && !isChecked)">{{::'CURRENT_PASSWORD' | translate}}</span>
+					</span>
+                </label>
+			</span>
+        </div>
+
+        <div class="inputContainer center-block">
+		    <span class="input input--akira" ng-class='{"input--filled" : userPasswordModel.newPassword !== undefined}'>
+		    	<input class="lightBrownText input__field input__field--akira" type="password"
+                       ng-model="userPasswordModel.newPassword" id="newPassword1"
+                       name="newPassword"
+                       ng-minlength="3" max-length="30"
+                       ng-model-options="{ updateOn: 'change' }" required/>
+		    	<label class="input__label input__label--akira" for="newPassword1">
+		    		<span class="input__label-content input__label-content--akira">
+		    			<span class="error"
+                              ng-show="passwordChangeForm.newPassword.$touched && (passwordChangeForm.newPassword.$error.minlength)">{{::'PASSWORD_ERROR' | translate}}</span>
+		    			<span class="error"
+                              ng-show="(passwordChangeForm.newPassword.$touched && passwordChangeForm.newPassword.$error.required) || (passwordChangeForm.newPassword.$untouched && isChecked)">{{::'NEW_PASSWORD_EMPTY_ERROR' | translate}}</span>
+		    			<span class="lightBrownText not-error"
+                              ng-show="passwordChangeForm.newPassword.$valid|| (passwordChangeForm.newPassword.$untouched && !isChecked)">{{::'NEW_PASSWORD' | translate}}</span>
+		    		</span>
+                </label>
+		    </span>
+        </div>
+
+        <div class="inputContainer center-block">
+		    <span class="input input--akira" ng-class='{"input--filled" : userPasswordModel.newPasswordCheck !== undefined}'>
+		    	<input class="lightBrownText input__field input__field--akira" type="password"
+                       ng-model="userPasswordModel.newPasswordCheck" id="newPasswordCheck1"
+                       name="newPasswordCheck" ng-minlength="3" max-length="30" required
+                       ui-validate=" '$value==userPasswordModel.newPassword' "
+                       ui-validate-watch=" 'userPasswordModel.newPassword' "
+                       ng-model-options="{ updateOn: 'change' }"/>
+		    	<label class="input__label input__label--akira" for="newPasswordCheck1">
+		    		<span class="input__label-content input__label-content--akira">
+		    			<span class="error"
+                              ng-show="passwordChangeForm.newPasswordCheck.$touched && (passwordChangeForm.newPasswordCheck.$error.minlength)">{{::'PASSWORD_ERROR'  | translate}}</span>
+		    			<span class="error"
+                              ng-show="(!passwordChangeForm.newPasswordCheck.$error.minlength && !passwordChangeForm.newPasswordCheck.$error.required) && ( passwordChangeForm.newPasswordCheck.$error.validator )">{{::'PASSWORD_RETRY_NOT_EQUAL_ERROR' | translate}}</span>
+		    			<span class="error"
+                              ng-show="(passwordChangeForm.newPasswordCheck.$touched && passwordChangeForm.newPasswordCheck.$error.required) || (passwordChangeForm.newPasswordCheck.$untouched && isChecked)">{{::'NEW_PASSWORD_AGAIN_EMPTY_ERROR' | translate}}</span>
+		    			<span class="lightBrownText not-error"
+                              ng-show="passwordChangeForm.newPasswordCheck.$valid || (passwordChangeForm.newPasswordCheck.$untouched && !isChecked)">{{::'NEW_PASSWORD_AGAIN' | translate}}</span>
+		    		</span>
+                </label>
+		    </span>
+        </div>
+
+        <label class="error serverError" style="text-align: center;">{{errorMessage}}</label>
+
+        <section class="button field">
+            <button class="btn-bloomNfresh btn btn-default" ng-click="passwordChange()" ng-if="!processSuccess">
+                {{::'SAVE_BUTTON_TEXT' | translate}}
+            </button>
+            <button class="btn-success btn btn-default" ng-if="processSuccess">
+                <img style="width: 14px;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/checked_white.svg">
+            </button>
+        </section>
+    </fieldset>
+</form>
+<section class="buttonSection billingSection">
+    <button type="button" class="btn-add btn btn-default btn-lg col-lg-offset-1 col-lg-12 col-md-12 col-sm-12 col-xs-12"
+            ng-click="switchSection(2)">
+        <span class="middleBrownText userBilling" aria-hidden="true"></span>
+    </button>
+		<span class="lightBrownText" ng-click="switchSection(2)">
+			{{::'CHANGE_INVOICE_INFO' | translate}}
+		</span>
+</section>
+<form name="billingForm" collapse="isBillingFormOpen" novalidate>
+    <fieldset class="text-center" ng-controller="BillingCtrl">
+        <div class="radioButtons field">
+            <input type="radio" class="Billing personalBilling" name="iCheck"> <label class="lightBrownText"
+                                                                                      ng-click="radioSelected('personal')">{{::'PERSONAL_INVOICE' | translate}}</label>
+            <input type="radio" class="Billing corporateBilling" name="iCheck"> <label class="lightBrownText"
+                                                                                       ng-click="radioSelected('corporate')">{{::'CORPORATE_INVOICE' | translate}}</label>
+        </div>
+
+        <div ng-show="billingSection === 1" class="personalBillingSection">
+            <div class="inputContainer center-block">
+				<span class="input input--akira" ng-class='{"input--filled" : userBillingInfo.tc !== undefined}'>
+					<input class="lightBrownText input__field input__field--akira" type="text"
+                           ng-model="userBillingInfo.tc" id="personalBillingTC"
+                           name="personalBillingTC" ng-minlength="11" maxlength="11"  onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                           ng-model-options="{ updateOn: 'blur' }" required/>
+					<label class="input__label input__label--akira" for="personalBillingTC">
+						<span class="input__label-content input__label-content--akira">
+							<span class="error"
+                                  ng-show="billingForm.personalBillingTC.$touched && (billingForm.personalBillingTC.$error.minlength)">{{::'INVOICE_TCNO_ERROR' | translate}}</span>
+								<span class="error"
+                                      ng-show="(billingForm.personalBillingTC.$touched && billingForm.personalBillingTC.$error.required) || (billingForm.personalBillingTC.$untouched && !billingForm.personalBillingTC.$valid && isChecked)">{{::'INVOICE_TCNO_EMPTY_ERROR' | translate}}</span>
+								<span class="lightBrownText not-error"
+                                      ng-show="billingForm.personalBillingTC.$valid || (billingForm.personalBillingTC.$untouched && !isChecked)">{{::'INVOICE_TCNO' | translate}}</span>
+                        </span>
+                    </label>
+				</span>
+            </div>
+
+            <div class="inputContainer center-block">
+										<span class="input input--akira"
+                                              ng-class='{"input--filled" : userBillingInfo.small_city !== undefined}'>
+											<input class="lightBrownText input__field input__field--akira" type="text"
+                                                   ng-model="userBillingInfo.small_city" id="personalBillingDistrict"
+                                                   name="personalBillingDistrict" ng-minlength="3"
+                                                   ng-model-options="{ updateOn: 'blur' }" max-length="50" required/>
+											<label class="input__label input__label--akira"
+                                                   for="personalBillingDistrict">
+												<span class="input__label-content input__label-content--akira">
+													<span class="error"
+                                                          ng-show="billingForm.personalBillingDistrict.$touched && (billingForm.personalBillingDistrict.$error.minlength)">{{::'INVOICE_DISTRICT_ERROR' |translate}}</span>
+													<span class="error"
+                                                          ng-show="(billingForm.personalBillingDistrict.$touched && billingForm.personalBillingDistrict.$error.required) || (billingForm.personalBillingDistrict.$untouched && !billingForm.personalBillingDistrict.$valid && isChecked)">{{::'INVOICE_DISTRICT_EMPTY_ERROR' | translate}}</span>
+													<span class="lightBrownText not-error"
+                                                          ng-show="billingForm.personalBillingDistrict.$valid || (billingForm.personalBillingDistrict.$untouched && !isChecked)">{{::'INVOICE_DISTRICT' |translate}}</span>
+												</span>
+                                            </label>
+										</span>
+            </div>
+
+            <div class="inputContainer center-block">
+			    <span class="input input--akira"
+                      ng-class='{"input--filled" : userBillingInfo.city !== undefined}'>
+			    	<input class="lightBrownText input__field input__field--akira" type="text"
+                           ng-model="userBillingInfo.city" id="personalBillingCity"
+                           name="personalBillingCity" ng-minlength="3" max-length="50" required
+                           ng-model-options="{ updateOn: 'blur' }"/>
+			    	<label class="input__label input__label--akira" for="personalBillingCity">
+			    		<span class="input__label-content input__label-content--akira">
+			    			<span class="error"
+                                  ng-show="billingForm.personalBillingCity.$touched && (billingForm.personalBillingCity.$error.minlength)">{{::'INVOICE_CITY_ERROR' |translate}}</span>
+			    			<span class="error"
+                                  ng-show="(billingForm.personalBillingCity.$touched && billingForm.personalBillingCity.$error.required) || (billingForm.personalBillingCity.$untouched && !billingForm.personalBillingCity.$valid && isChecked)">{{::'INVOICE_CITY_EMPTY_ERROR' | translate}}</span>
+			    			<span class="lightBrownText not-error"
+                                  ng-show="billingForm.personalBillingCity.$valid || (billingForm.personalBillingCity.$untouched && !isChecked)">{{::'INVOICE_CITY' | translate}}</span>
+			    		</span>
+                    </label>
+			    </span>
+            </div>
+
+            <address class="field">
+                <label class="lightBrownText error" for="personalBillingAddress"
+                       ng-show="(billingForm.personalBillingAddress.$touched && billingForm.personalBillingAddress.$error.required) || (billingForm.personalBillingAddress.$untouched && !billingForm.personalBillingAddress.$valid && isChecked)">{{::'INVOICE_ADDRESS_EMPTY_ERROR' | translate}}</label>
+                <label class="lightBrownText not-error" for="personalBillingAddress"
+                       ng-show="billingForm.personalBillingAddress.$valid || (billingForm.personalBillingAddress.$untouched && !isChecked)">{{::'INVOICE_ADDRESS' | translate}}</label>
+										<textarea class="textField lightBrownText form-control" rows="3"
+                                                  ng-model="userBillingInfo.personal_address"
+                                                  id="personalBillingAddress1"
+                                                  name="personalBillingAddress" ng-model-options="{ updateOn: 'blur' }"
+                                                  maxlength="150" required></textarea>
+            </address>
+        </div>
+
+        <div ng-show="billingSection === 2" class="corporateBillingSection">
+            <div class="inputContainer center-block">
+										<span class="input input--akira"
+                                              ng-class='{"input--filled" : userBillingInfo.company !== undefined}'>
+											<input class="lightBrownText input__field input__field--akira" type="text"
+                                                   ng-model="userBillingInfo.company" id="corporateBillingCompany1"
+                                                   name="corporateBillingCompany"
+                                                   ng-model-options="{ updateOn: 'blur' }" max-length="30" required/>
+											<label class="input__label input__label--akira"
+                                                   for="corporateBillingCompany1">
+												<span class="input__label-content input__label-content--akira">
+													<span class="error"
+                                                          ng-show="(billingForm.corporateBillingCompany.$touched && billingForm.corporateBillingCompany.$error.required) || (billingForm.corporateBillingCompany.$untouched && isChecked)">{{::'INVOICE_CORPORATE_NAME_EMPTY_ERROR' | translate}}</span>
+													<span class="lightBrownText not-error"
+                                                          ng-show="billingForm.corporateBillingCompany.$valid || (billingForm.corporateBillingCompany.$untouched && !billingForm.corporateBillingCompany.$valid && !isChecked)">{{::'INVOICE_CORPORATE_NAME' |translate}}</span>
+												</span>
+                                            </label>
+										</span>
+            </div>
+
+            <div class="inputContainer center-block">
+										<span class="input input--akira"
+                                              ng-class='{"input--filled" : userBillingInfo.tax_office !== undefined}'>
+											<input class="lightBrownText input__field input__field--akira" type="text"
+                                                   ng-model="userBillingInfo.tax_office" id="corporateBillingTaxOffice1"
+                                                   name="corporateBillingTaxOffice" ng-minlength="3"
+                                                   ng-model-options="{ updateOn: 'blur' }" max-length="30" required/>
+											<label class="input__label input__label--akira"
+                                                   for="corporateBillingTaxOffice1">
+												<span class="input__label-content input__label-content--akira">
+													<span class="error"
+                                                          ng-show="billingForm.corporateBillingTaxOffice.$touched && (billingForm.corporateBillingTaxOffice.$error.minlength)">{{::'INVOICE_TAX_OFFICE_ERROR' | translate}}</span>
+													<span class="error"
+                                                          ng-show="(billingForm.corporateBillingTaxOffice.$touched && billingForm.corporateBillingTaxOffice.$error.required) || (billingForm.corporateBillingTaxOffice.$untouched && !billingForm.corporateBillingTaxOffice.$valid && isChecked)">{{::'INVOICE_TAX_OFFICE_EMPTY_ERROR' | translate}}</span>
+													<span class="lightBrownText not-error"
+                                                          ng-show="billingForm.corporateBillingTaxOffice.$valid || (billingForm.corporateBillingTaxOffice.$untouched && !isChecked)">{{::'INVOICE_TAX_OFFICE' |translate}}</span>
+												</span>
+                                            </label>
+										</span>
+            </div>
+
+            <div class="inputContainer center-block">
+										<span class="input input--akira"
+                                              ng-class='{"input--filled" : userBillingInfo.tax_no !== undefined}'>
+											<input class="lightBrownText input__field input__field--akira" type="text"
+                                                   ng-model="userBillingInfo.tax_no" id="corporateBillingTaxNo1"
+                                                   name="corporateBillingTaxNo" maxlength="10" minlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                                                   ng-model-options="{ updateOn: 'blur' }"
+                                                   required/>
+											<label class="input__label input__label--akira"
+                                                   for="corporateBillingTaxOffice1">
+												<span class="input__label-content input__label-content--akira">
+													<span class="error"
+                                                          ng-show="billingForm.corporateBillingTaxNo.$touched && (billingForm.corporateBillingTaxNo.$error.minlength || billingForm.corporateBillingTaxNo.$error.maxlength || billingForm.corporateBillingTaxNo.$error.pattern)">{{::'INVOICE_TAX_NO_ERROR' |translate}}</span>
+													<span class="error"
+                                                          ng-show="(billingForm.corporateBillingTaxNo.$touched && billingForm.corporateBillingTaxNo.$error.required) || (billingForm.corporateBillingTaxNo.$untouched && !billingForm.corporateBillingTaxNo.$valid && isChecked)">{{::'INVOICE_TAX_NO_EMPTY_ERROR' |translate}}</span>
+													<span class="lightBrownText not-error"
+                                                          ng-show="billingForm.corporateBillingTaxNo.$valid || (billingForm.corporateBillingTaxNo.$untouched && !isChecked)">{{::'INVOICE_TAX_NO' | translate}}</span>
+												</span>
+                                            </label>
+										</span>
+            </div>
+
+            <address class="field">
+                <label class="lightBrownText error" for="corporateBillingAddress"
+                       ng-show="(billingForm.corporateBillingAddress.$touched && billingForm.corporateBillingAddress.$error.required) || (billingForm.corporateBillingAddress.$untouched && !billingForm.corporateBillingAddress.$valid && isChecked)">{{::'INVOICE_ADDRESS_EMPTY_ERROR' |translate}}</label>
+                <label class="lightBrownText not-error" for="corporateBillingAddress"
+                       ng-show="billingForm.corporateBillingAddress.$valid || (billingForm.corporateBillingAddress.$untouched && !isChecked)">{{::'INVOICE_ADDRESS' | translate}}</label>
+										<textarea class="textField lightBrownText form-control" rows="3"
+                                                  ng-model="userBillingInfo.billing_address"
+                                                  id="corporateBillingAddress1"
+                                                  name="corporateBillingAddress" ng-model-options="{ updateOn: 'blur' }"
+                                                  maxlength="150" required></textarea>
+            </address>
+        </div>
+
+        <label class="error serverError">{{errorMessage}}</label>
+
+        <section class="button field">
+            <button class="btn-bloomNfresh btn btn-default text-uppercase" ng-click="updateBilling()"
+                    ng-if="!processSuccess"><b>{{::'SAVE_BUTTON_TEXT' |translate}}</b></button>
+            <button class="btn-success btn btn-default" ng-if="processSuccess">
+                <img style="width: 14px;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/checked_white.svg">
+            </button>
+        </section>
+
+    </fieldset>
+</form>

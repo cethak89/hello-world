@@ -1,0 +1,544 @@
+<navbar-menu></navbar-menu>
+
+<main ng-app="flowerDescription" style="background: #FCF9F7;" class="flowerDetail mainContainer">
+
+<div>
+    <div itemtype="http://schema.org/Product" itemscope>
+        <meta itemprop="sku" content="{{flower.id}}" />
+        <meta itemprop="name" content="{{flower.name}}" />
+        <link itemprop="image" href="https://s3.eu-central-1.amazonaws.com/bloomandfresh/600-600/{{flower.id}}.jpg" />
+        <meta itemprop="description" content="{{flower.detail_page_desc}}" />
+
+        <div itemprop="offers" itemtype="http://schema.org/Offer" itemscope>
+            <meta itemprop="availability" content="https://schema.org/InStock" />
+            <meta itemprop="priceCurrency" content="TRY" />
+            <meta itemprop="price" content="{{flower.priceWithKDV}}" />
+        </div>
+        <div itemprop="audience" itemtype="http://schema.org/PeopleAudience" itemscope>
+            <meta itemprop="suggestedGender" content="unisex" />
+        </div>
+    </div>
+</div>
+
+<div style="width: 100%;height: 60px;border-bottom: 1px solid #e7e7e7;background-color: white;">
+    <figure style="padding-top: 18px;position: inherit;" class=""  itemscope itemtype="https://schema.org/BreadcrumbList">
+        <a class="breadPadding" href="/" style="padding-left: 30px;font-family: 'Gotham Light';font-size: 18px;color: rgb(129, 106, 74);" class="ng-binding ng-scope">Anasayfa</a>
+        <img class="breadPadding" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/arrow_breadCrum.jpg" style="padding-left: 15px;padding-bottom: 4px;padding-right: 15px;">
+        <div style="display: initial;" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemtype="https://schema.org/Thing" itemprop="item" class="breadPadding" href="https://bloomandfresh.com/{{main_tag_url}}" style="font-family: 'Gotham Light';font-size: 18px;color: rgb(129, 106, 74);" class="ng-binding ng-scope"><span itemprop="name">{{main_tag_name}}</span></a>
+            <meta itemprop="position" content="1" />
+        </div>
+        <img class="breadPadding" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/arrow_breadCrum.jpg" style="padding-left: 15px;padding-bottom: 4px;padding-right: 15px;">
+        <div style="display: initial;" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="/{{main_tag_url}}" style="font-family: 'Gotham Light';font-size: 18px;color: rgb(129, 106, 74);" class="ng-binding ng-scope"></a>
+            <a itemtype="https://schema.org/Thing" itemprop="item" class="breadPadding" href="{{$root.canonical}}" style="font-weight: 700;font-family: 'Gotham Light';font-size: 18px;color: #3b454d;" class="ng-binding ng-scope"><span itemprop="name">{{flower.name}}</span></a>
+            <meta itemprop="position" content="2" />
+        </div>
+
+    </figure>
+</div>
+<section class="container-fluid fixed-width" id="flowerDetailSection" style="background-color: #FCF9F7;">
+<section style="height: 516px;border-bottom: 1px solid #e7e7e7;background-color: #FCF9F7;display: flex;" class="flowerDescriptions row">
+<aside style="padding-left: 0px;flex: 1;border-right: 1px solid #e7e7e7;background-color: white;height: inherit;max-width: 326px;"
+       class="flowerImage col-lg-offset-0 col-lg-3 col-md-offset-0 col-md-3 col-sm-offset-0 col-sm-4 col-xs-offset-0 col-xs-12">
+    <figure style="" class="flowerImageContainer col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <img style="max-height: 555px;max-width: 326px;float: right;" class="flowerImage hidden-xs" ng-src="{{flower.DetailImage}}" alt="{{flower.img_title}}"/>
+        <img class="flowerImage hidden-lg hidden-md hidden-sm" ng-src="{{flower.mobileImage}}" alt="{{flower.img_title}}"/>
+    </figure>
+</aside>
+<article id="priceNameDetailId" style="flex: 1;" class="col-lg-5 col-md-5 col-sm-8 col-xs-12 {{ isCityUps(selectedCity.value) }}" ng-style="">
+<header class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <h1 style="margin-top: 40px;float: left;text-align: left;padding-left: 60px;" class="flowerName col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center darkBlueText">
+        {{flower.name}}
+    </h1>
+
+    <p style="min-height: 20px;font-size: 14px;color: #3b454d;float: left;text-align: left;padding-left: 60px;margin-top: 20px;" class="col-lg-offset-0 col-lg-12 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-12 flowerDescription text-center brownText">
+        {{flower.detail_page_desc}}<br/>
+    </p>
+
+    <div class="secondDetailLine col-lg-4 col-md-4 col-sm-4 col-xs-4" style="border-bottom: 1px solid #e7e7e7;height: 1px;width: 50%;margin-left: 60px;
+    margin-top: 25px;margin-bottom: 15px;">
+
+    </div>
+
+    <ul style="padding-left: 79px;margin-top: 20px;list-style-type: initial;;list-style-position: outside;font-family: 'Bodoni italic';font-size: 16px;color: #8b7456;text-align: left;" ng-if="flower.extra_info_1" class="extraInfo brownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <li>{{flower.extra_info_1}}</li>
+        <li ng-if="flower.extra_info_2">{{flower.extra_info_2}}</li>
+        <li ng-if="flower.extra_info_3">{{flower.extra_info_3}}</li>
+    </ul>
+
+    <div ng-if="selectedCity.value != 'ist' && selectedCity.value != 'ank' && selectedCity.value != 'ist-2'" class="ups-text-container hidden-lg hidden-md hidden-sm" style="">
+        <p style="font-weight: bolder;min-height: 20px;font-size: 14px;color: #3b454d;float: left;text-align: left;padding-left: 5px;margin-top: 25px;line-height: 18px;" class="col-lg-offset-0 col-lg-12 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-12 flowerDescription text-center brownText upsWarningTextDescription">
+            Önemli Kargo Bilgileri
+            <br/>
+            - Siparişiniz UPS Kargo ile ücretsiz olarak kargolanacaktır.
+            <br/>
+            - UPS Kargo tarafından belirlenen il bazında genel teslimat sürelerini anasayfamızda yer alan "Kargo Teslimat Bilgileri" bölümünden görebilirsiniz.
+            <br/>
+            - Sipariş takibinizi size e-posta ile iletilecek olan kargo takip numarası ile UPS kargo web sitesi üzerinden yapabilirsiniz.
+            <br/>
+            - Lütfen UPS kargonun Cumartesi - Pazar ve Resmi Tatil dağıtım/teslimat yapmadığını dikkate alınız. Hediyeleriniz hafta sonu ve resmi tatil günlerinde teslim edilmemektedir.
+            <br/>
+            - UPS Kargo hafta içi teslimat saatleri 09:00 - 17:00'dır.
+            <br/>
+            <br/>
+            Ürün Kargo Bilgileri
+            <br/>
+            - Kargoya verilme tarihi: {{soonTime.split(":")[1]}}
+            <br/>
+            - Tahmini teslimat süresi: {{upsDeliveryTime }} İş günü
+        </p>
+    </div>
+
+    <ul ng-if="flower.speciality == '1'" class="extraInfo brownText text-center col-lg-offset-1 col-lg-12 col-md-offset-1 col-md-10 col-sm-offset-1 col-sm-10 col-xs-offset-0 col-xs-12">
+        <li>Bu tasarım Bvlgari parfüm satın alan Bvlgari müşterileri için özel hazırlanmıştır. Sevil Parfümeri’den Bvlgari parfümlerine ve detaylarına ulaşmak için <a target="_blank" href="http://www.sevil.com.tr/markalar/bvlgari?utm_source=bloomandfresh&utm_medium=website&utm_campaign=Bvlgari_bnf_sevil">tıklayınız</a>.</li>
+    </ul>
+
+    <div ng-if="flower.extra_info_1" class="detailLine col-lg-10 col-md-10 hidden-sm hidden-xs" style="">
+
+    </div>
+
+
+</header>
+
+<footer class="hidden"  ng-if="flower.limit_statu !== '0' || flower.coming_soon !== '0' || !isActive  || flower.speciality != '0'">
+    <form class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+        <label class="brownText not-error hidden"
+               ng-hide="isChecked && (flower.sendingDistrict === undefined || flower.sendingDistrict === null)">{{cityName}}</label>
+        <div style="min-width: 280px;max-width: 320px;margin-left: auto;margin-right: auto;float: none;" class="sendingCityField field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+            <ui-select search-enabled="false" style="margin-bottom: 5px;" ng-model="selectedCity" theme="selectize" class="" ng-change="setCity(selectedCity)">
+                <ui-select-match placeholder="Gönderim Şehri" >{{selectedCity.name}}</ui-select-match>
+                <ui-select-choices repeat="city in cities">
+                    <span ng-bind-html="city.name"></span>
+                </ui-select-choices>
+            </ui-select>
+
+            <select class="mobilDropdownSelect hidden-lg hidden-md hidden-sm hidden-xs col-xs-12" ng-model="$root.mainCitySelected" ng-options="city.name for city in cites">
+                <option value="city.name">{{$root.subsFreqSelected.name}}</option>
+            </select>
+        </div>
+    </form>
+</footer>
+
+<footer class="hidden" ng-if="flower.limit_statu === '0' && flower.coming_soon === '0'">
+    <section ng-if="!isActive">
+        <p class="darkBlueText isNotActiveText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <span style="text-transform: uppercase;">{{cityName}}</span> için güncel ürünlerimize göz atmak ister misin?
+        </p>
+
+        <a href="/" title="Bloom And Fresh Çiçekler"
+           class="col-lg-12 col-md-12 col-sm-12 col-xs-12 btn btn-default btn-bloomNfresh text-uppercase">
+            <b>Göreyim</b> </a>
+    </section>
+
+    <section class="hidden-lg hidden-md col-sm-11 col-xs-12 callTheOffice">
+        <ul class="phoneContainer col-sm-12 col-xs-12">
+            <li class="phoneText textStyle col-sm-8 col-xs-9"><a class="darkBrownText" href="tel:+902122120282">{{::'CALL_US' | translate}}</a></li>
+            <li class="phoneIcon col-sm-4 col-xs-3"><a class="btn btn-add darkBrownText" href="tel:+902122120282" type="button"></a></li>
+        </ul>
+    </section>
+    <section class="hidden-lg hidden-md col-sm-11 col-xs-12 remindMeLater">
+        <ul class="reminderContainer col-sm-12 col-xs-12">
+            <li class="reminderText textStyle col-sm-8 col-xs-9"><span class="darkBrownText">{{::'REMIND_ME_HEADER_2' | translate}}</span></li>
+            <li class="mailIcon col-sm-4 col-xs-3" ng-if="!isSuccess"><button class="btn btn-add darkBrownText" ng-click="remindMeLater()"></button></li>
+            <li class="mailIcon successIcon col-sm-4 col-xs-3" ng-if="isSuccess"><button class="btn btn-add ion-checkmark darkBrownText"></button></li>
+        </ul>
+    </section>
+</footer>
+<footer ng-if="(flower.limit_statu !== '0' || flower.coming_soon !== '0') && isActive"
+        class="col-lg-12 col-md-12 col-sm-11 col-xs-12">
+    <form style="margin-top: 0px;margin-left: auto;width: 300px;position: relative;margin-right: auto;"
+          class="subscribeProductForm text-center" name="productSubscription" novalidate>
+        <label class="brownText not-error"
+               ng-show="productSubscription.productSubscriptionMail.$valid || (productSubscription.productSubscriptionMail.$untouched && !isChecked)">{{::'INFORM_ME_ABOUT_FLOWER_TITLE'
+            | translate}}</label>
+        <label class="error"
+               ng-show="(productSubscription.productSubscriptionMail.$touched && productSubscription.productSubscriptionMail.$error.required) || (productSubscription.productSubscriptionMail.$untouched && isChecked)">{{::'EMAIL_EMPTY_ERROR'
+            | translate}}</label>
+        <label class="error"
+               ng-show="productSubscription.productSubscriptionMail.$touched && (productSubscription.productSubscriptionMail.$error.email || productSubscription.productSubscriptionMail.$error.pattern)">{{::'EMAIL_ERROR'
+            | translate}}</label>
+        <input type="email" class="form-control" ng-model="subscribe.mail"
+               id="productSubscriptionMail" name="productSubscriptionMail"
+               placeholder="{{::'EMAIL_TEXT' | translate}}" ng-model-options="{ updateOn: 'change'}"
+               ng-pattern="/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/" maxlength="60"
+               required autocomplete="off">
+        <label class="error">
+            {{errorMessage}}
+        </label>
+
+        <button style="top: 35px;right: 5px;" type="submit" ng-click="productSubscriptionMail()">
+            <img style="width: 14px;" ng-if="IsSuccess" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/checked.svg">
+            <img style="width: 14px;" ng-if="!IsSuccess" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/arrow_right.svg">
+        </button>
+    </form>
+</footer>
+
+<div ng-if="flower.limit_statu == '0' && flower.coming_soon == '0' " style="position: absolute;bottom: 108px;
+    padding-left: 50px;width: 100%;text-align: center;" class="col-lg-12 col-md-12 hidden-sm hidden-xs">
+    <div ng-if="flower.best_seller === '1'" style="display: inline-table;">
+        <img style="vertical-align: text-bottom;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/1.png">
+        <p style="display: inline;color: #AB9A84;font-family: 'Gotham Light';margin-left: 6px;
+            font-size: 13px;font-weight: 700;margin-right: 5px;">Çok Satan</p>
+    </div>
+    <div ng-if="flower.choosen === '1'" style="display: inline-table;">
+        <img style="vertical-align: text-bottom;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/2.png">
+        <p style="display: inline;color: #AB9A84;font-family: 'Gotham Light';margin-left: 6px;
+            font-size: 13px;font-weight: 700;margin-right: 5px; ">Stüdyonun Tercihi</p>
+    </div>
+    <div style="display: inline-table;">
+        <img style="vertical-align: text-bottom;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/3.png">
+        <p style="display: inline;color: #AB9A84;font-family: 'Gotham Light';margin-left: 6px;
+            font-size: 13px;font-weight: 700;margin-right: 5px;">Ücretsiz Teslimat</p>
+    </div>
+    <div ng-if="soonTime == 'En erken: Bugün' && selectedCity.value != 'ist' && selectedCity.value != 'ank' && selectedCity.value != 'ist-2'" style="display: inline-table;">
+        <img style="vertical-align: text-bottom;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/hizli-cargo_bnf.png">
+        <p style="display: inline;color: #AB9A84;font-family: 'Gotham Light';margin-left: 6px;
+            font-size: 13px;font-weight: 700;margin-right: 5px;">Aynı Gün Kargo</p>
+    </div>
+</div>
+
+<!-- Only small and xsmall !-->
+
+<p style="font-family: 'Gotham Light';font-size: 13px;height: 19px;width: 100%;text-align: center;color: #3b454d;
+                        font-weight: 600;position: absolute;bottom: 165px;" ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && isActive && ( selectedCity.value == 'ist' || selectedCity.value == 'ank' || selectedCity.value == 'ist-2' ) " class="soonTimePositionBnf ng-binding ng-scope hidden-lg hidden-md">{{soonTime}}</p>
+<form style="position: absolute;bottom: 155px;" class="activeProductPositionFirst hidden-lg hidden-md col-sm-12 col-xs-12 text-center" ng-if="isActive">
+    <label class="brownText not-error hidden"
+           ng-hide="isChecked && (flower.sendingDistrict === undefined || flower.sendingDistrict === null)">{{cityName}}</label>
+    <label class="error"
+           ng-show="isChecked && (flower.sendingDistrict === undefined || flower.sendingDistrict === null)">{{::'SENDING_DISTRICT_DROPDOWN_ERROR' | translate}}</label>
+    <label class="error"
+           ng-show="!isActive && flower.limit_statu === '0' && flower.coming_soon === '0' ">
+        <span style="text-transform: uppercase;">{{cityName}}</span> için güncel ürünlerimize göz atmak ister misin?
+    </label>
+</form>
+<form style="position: absolute;bottom: 155px;" class="activeProductPosition hidden-lg hidden-md col-sm-12 col-xs-12 text-center" ng-if="!isActive">
+    <label class="error"
+           ng-show="!isActive && flower.limit_statu === '0' && flower.coming_soon === '0' ">
+        <span style="text-transform: uppercase;">{{cityName}}</span> için güncel ürünlerimize göz atmak ister misin?
+    </label>
+</form>
+
+<!-- small end !-->
+
+
+<div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12 districtSmall" style="border-top: 1px solid #e7e7e7;border-right: 1px solid #e7e7e7;padding: 0px;position: absolute;bottom: 0px;height: 80px;background-color: white;">
+    <ui-select ng-change="locationChanged()" class="newCitySelect" ng-model="flower.sendingDistrict" theme="select2">
+        <ui-select-match placeholder="{{::'SENDING_DISTRICT_DROPDOWN_PLACEHOLDER_TEXT' | translate}}">
+            {{flower.sendingDistrict.district}}
+        </ui-select-match>
+        <ui-select-choices repeat="district in districts | filter: $select.search">
+            <span ng-bind-html="district.district | highlight: $select.search"></span>
+        </ui-select-choices>
+    </ui-select>
+</div>
+<div ng-if="flower.old_price && flower.limit_statu === '0'" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 priceSmall" style="right: 0px;border-top: 1px solid #e7e7e7;border-right: 1px solid #e7e7e7;padding-top: 0px;position: absolute;bottom: 0px;height: 80px;background-color: white;">
+    <strong style="color: rgba(59, 69, 77, 0.62);font-size: 24px;font-family: 'Bodoni Italic';line-height: 21px;
+    font-weight: 300;top: 3px;margin-left: auto;margin-right: auto;padding: 0px;" class="flowerPrice col-lg-12 col-md-11 col-sm-11 col-xs-12 darkBrownText text-center"
+            ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && isActive && flower.speciality == '0'">
+        {{flower.old_price}}
+        <img style="width: 156px;position: absolute;top: 5px;transform: rotate(2deg);left: 0;right: 0;
+    margin-left: auto;margin-right: auto;"
+             src="https://lh3.googleusercontent.com/-BqVW7Cgl3i0/XFWmLnq_nkI/AAAAAAAAAzA/cs7CFaj9OZQ-TgLRdk-f4kFSZJBjp8tDACL0BGAYYCw/h29/cross-out-thinner.png">
+        <span style="color: rgba(59, 69, 77, 0.62);">TL</span>
+						<span style="font-weight: 600;color: rgba(59, 69, 77, 0.62);;font-family: 'Gotham Book';vertical-align: super;font-size: 12px;" class="flowerTax">
+							+ {{::'TAX' | translate}}
+						</span>
+    </strong>
+    <strong style="    color: #3b454d;
+    font-size: 30px;
+    font-family: 'Bodoni Italic';
+    line-height: 22px;
+    position: relative;
+    font-weight: 300;
+    margin-left: auto;
+    margin-right: auto;" class="flowerPrice col-lg-12 col-md-11 col-sm-11 col-xs-12 darkBrownText text-center"
+            ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && isActive && flower.speciality == '0'">
+        {{flower.price}} <span style="color: #8b7456;">TL</span>
+						<span style="font-weight: 600;color: #8b7456;font-family: 'Gotham Book';vertical-align: super;font-size: 12px;" class="flowerTax">
+							+ {{::'TAX' | translate}}
+						</span>
+    </strong>
+    <strong style="font-size: 18px;margin-top: 4px;" class="flowerPrice col-lg-12 col-md-11 col-sm-11 col-xs-12 text-center redText"
+            ng-if="flower.limit_statu !== '0' || flower.coming_soon !== '0' || !isActive  || flower.speciality != '0'">
+						<span ng-if="flower.limit_statu === '1'">
+							{{::'SOLD_OUT' | translate}}
+						</span>
+						<span ng-if="flower.coming_soon === '1'">
+							{{::'SOON' | translate}}
+						</span>
+						<span ng-if="!isActive">
+							{{::'NOT_AVAILABLE' | translate}}
+						</span>
+						<span ng-if="flower.speciality == '1'">
+                            Özel Tasarım
+						</span>
+    </strong>
+</div>
+<div ng-if="!flower.old_price || flower.limit_statu === '1'" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 priceSmall" style="right: 0px;border-top: 1px solid #e7e7e7;border-right: 1px solid #e7e7e7;padding-top: 25px;position: absolute;bottom: 0px;height: 80px;background-color: white;">
+    <strong style="    color: #3b454d;
+    font-size: 30px;
+    font-family: 'Bodoni Italic';
+    line-height: 22px;
+    position: relative;
+    font-weight: 300;
+    margin-left: auto;
+    margin-right: auto;" class="flowerPrice col-lg-12 col-md-11 col-sm-11 col-xs-12 darkBrownText text-center"
+            ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && isActive && flower.speciality == '0'">
+        {{flower.price}} <span style="color: #8b7456;">TL</span>
+						<span style="font-weight: 600;color: #8b7456;font-family: 'Gotham Book';vertical-align: super;font-size: 12px;" class="flowerTax">
+							+ {{::'TAX' | translate}}
+						</span>
+    </strong>
+    <strong style="font-size: 18px;margin-top: 4px;" class="flowerPrice col-lg-12 col-md-11 col-sm-11 col-xs-12 text-center redText"
+            ng-if="flower.limit_statu !== '0' || flower.coming_soon !== '0' || !isActive  || flower.speciality != '0'">
+						<span ng-if="flower.limit_statu === '1'">
+							{{::'SOLD_OUT' | translate}}
+						</span>
+						<span ng-if="flower.coming_soon === '1'">
+							{{::'SOON' | translate}}
+						</span>
+						<span ng-if="!isActive">
+							{{::'NOT_AVAILABLE' | translate}}
+						</span>
+						<span ng-if="flower.speciality == '1'">
+                            Özel Tasarım
+						</span>
+    </strong>
+</div>
+<div class="hidden-lg hidden-md col-sm-12 col-xs-12" style="right: 0px;padding: 0px;position: absolute;bottom: 0px;height: 80px;background-color: white;">
+    <a ng-if="isActive && flower.limit_statu === '0' && flower.coming_soon === '0'" style="background-color: #242b31;border:none;height: 80px;border-radius: 0px;font-size: 18px;color: white;padding-left: 0px;padding-right: 0px;" ng-click="send()" role="button" rel="nofollow"
+       class="col-lg-12 col-md-12 col-sm-12 col-xs-12 btn btn-default btn-bloomNfresh text-uppercase">
+        <b style="top: 36%;">{{::'SEND_BUTTON_TEXT' | translate}}</b> </a>
+    <a ng-if="(!isActive && flower.limit_statu === '0' && flower.coming_soon === '0') || ( flower.limit_statu === '1' || flower.coming_soon === '1' )" style="background-color: #242b31;border:none;height: 80px;border-radius: 0px;font-size: 18px;color: white;padding-left: 0px;padding-right: 0px;" href="/" role="button" rel="nofollow"
+       class="col-lg-12 col-md-12 col-sm-12 col-xs-12 btn btn-default btn-bloomNfresh text-uppercase">
+        <b style="top: 36%;">Göreyim</b> </a>
+</div>
+</article>
+<article style="flex: 1;" class="col-lg-4 col-md-4 hidden-sm hidden-xs" ng-style="">
+
+    <div ng-if="selectedCity.value == 'ist' || selectedCity.value == 'ank' || selectedCity.value == 'ist-2'" class="col-lg-12" style="position: absolute;top: 83px;">
+        <ul style="width: 100%;margin-bottom: 0px;" class="flowerTags flexContainer center-block hidden-xs">
+            <li style="height: 45px;width: 100%;display: block;text-align: left;" class="flexableItem" ng-repeat="tag in flower.tags" >
+                <img style="opacity: 0.8;width: 35px;height: 35px;" class="tags" ng-src="{{tag.inactive_image_url}}" ng-show="!tag.isHovered"
+                     ng-mouseenter="tag.isHovered = true" ng-mouseleave="tag.isHovered = false"/>
+                <img style="opacity: 0.8;width: 35px;height: 35px;" class="tags" ng-src="{{tag.active_image_url}}" ng-show="tag.isHovered"
+                     ng-mouseenter="tag.isHovered = true" ng-mouseleave="tag.isHovered = false"/>
+                <p tooltip-placement="top"
+                   tooltip-html-unsafe="{{getTagTooltip(tag)}}" style="color: #3b454d;opacity: 0.8;display: inline;margin-left: 20px;">
+                    {{tag.tags_name}}
+                </p>
+            </li>
+        </ul>
+    </div>
+
+    <div ng-if="selectedCity.value != 'ist' && selectedCity.value != 'ank' && selectedCity.value != 'ist-2'" class="col-lg-12" style="position: absolute;top: 0px;">
+        <p style="font-weight: bolder;min-height: 20px;font-size: 14px;color: #3b454d;float: left;text-align: left;padding-left: 5px;margin-top: 25px;line-height: 18px;" class="col-lg-offset-0 col-lg-12 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-12 flowerDescription text-center brownText upsWarningTextDescription">
+            Önemli Kargo Bilgileri
+            <br/>
+            - Siparişiniz UPS Kargo ile ücretsiz olarak kargolanacaktır.
+            <br/>
+            - UPS Kargo tarafından belirlenen il bazında genel teslimat sürelerini anasayfamızda yer alan "Kargo Teslimat Bilgileri" bölümünden görebilirsiniz.
+            <br/>
+            - Sipariş takibinizi size e-posta ile iletilecek olan kargo takip numarası ile UPS kargo web sitesi üzerinden yapabilirsiniz.
+            <br/>
+            - Lütfen UPS kargonun Cumartesi - Pazar ve Resmi Tatil dağıtım/teslimat yapmadığını dikkate alınız. Hediyeleriniz hafta sonu ve resmi tatil günlerinde teslim edilmemektedir.
+            <br/>
+            - UPS Kargo hafta içi teslimat saatleri 09:00 - 17:00'dır.
+            <br/>
+            <br/>
+            Ürün Kargo Bilgileri
+            <br/>
+            - Kargoya verilme tarihi: {{soonTime.split(":")[1]}}
+            <br/>
+            - Tahmini teslimat süresi: {{upsDeliveryTime }} İş günü
+        </p>
+    </div>
+
+    <p style="font-family: 'Gotham Light';font-size: 13px;height: 19px;width: 100%;text-align: center;color: #3b454d;
+                        font-weight: 600;position: absolute;bottom: 93px;" ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && isActive && ( selectedCity.value == 'ist' || selectedCity.value == 'ank' || selectedCity.value == 'ist-2' ) " class="ng-binding ng-scope">{{soonTime}}</p>
+    <form style="position: absolute;bottom: 84px;" class="col-lg-12 col-md-12 col-sm-11 col-xs-12 text-center" ng-if="isActive">
+        <label class="brownText not-error hidden"
+               ng-hide="isChecked && (flower.sendingDistrict === undefined || flower.sendingDistrict === null)">{{cityName}}</label>
+        <label class="error"
+               ng-show="isChecked && (flower.sendingDistrict === undefined || flower.sendingDistrict === null)">{{::'SENDING_DISTRICT_DROPDOWN_ERROR' | translate}}</label>
+        <label class="error"
+               ng-show="(!isActive && flower.limit_statu === '0' && flower.coming_soon === '0') || ( flower.limit_statu === '1' || flower.coming_soon === '1' ) ">
+            <span style="text-transform: uppercase;">{{cityName}}</span> için güncel ürünlerimize göz atmak ister misin?
+        </label>
+    </form>
+    <form style="position: absolute;bottom: 84px;" class="col-lg-12 col-md-12 col-sm-11 col-xs-12 text-center" ng-if="!isActive">
+        <label class="error"
+               ng-show="(!isActive && flower.limit_statu === '0' && flower.coming_soon === '0') || ( flower.limit_statu === '1' || flower.coming_soon === '1' ) ">
+            <span style="text-transform: uppercase;">{{cityName}}</span> için güncel ürünlerimize göz atmak ister misin?
+        </label>
+    </form>
+    <div class="col-lg-12 col-md-12" style="right: 0px;padding: 0px;position: absolute;bottom: 0px;height: 80px;background-color: white;">
+        <a ng-if="isActive && flower.limit_statu === '0' && flower.coming_soon === '0'" style="background-color: #242b31;border:none;height: 80px;border-radius: 0px;font-size: 18px;color: white;" ng-click="send()" role="button" rel="nofollow"
+           class="col-lg-12 col-md-12 col-sm-12 col-xs-12 btn btn-default btn-bloomNfresh text-uppercase">
+            <b style="top: 36%;">{{::'SEND_BUTTON_TEXT' | translate}}</b> </a>
+        <a ng-if="(!isActive && flower.limit_statu === '0' && flower.coming_soon === '0') || ( flower.limit_statu === '1' || flower.coming_soon === '1' ) " style="background-color: #242b31;border:none;height: 80px;border-radius: 0px;font-size: 18px;color: white;" href="/" role="button" rel="nofollow"
+           class="col-lg-12 col-md-12 col-sm-12 col-xs-12 btn btn-default btn-bloomNfresh text-uppercase">
+            <b style="top: 36%;">Göreyim</b> </a>
+    </div>
+
+</article>
+</section>
+
+<article style="margin-top: 20px;" id="flowerDetailBlog" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 blog">
+    <section style="height: 525px;margin-top: 0px;background-color: white;" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <header style="margin-top: 30px;margin-left: 20px;margin-bottom: 25px;" class="blogHeader col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <h2 class="flowerBlogHeader lightBrownText"> {{flower.how_to_title}} </h2>
+
+            <p>
+                {{flower.how_to_detail}}
+            </p>
+        </header>
+        <aside style="margin-top: 0px;margin-left: 20px;margin-bottom: 10px;" class="firstAside col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <img class="hidden-xs" src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/shape-1.png">
+
+            <p style="color: #816a4a" class="col-lg-11 col-md-11 col-sm-11 col-xs-12 brownText">
+                {{flower.how_to_step1}}
+            </p>
+        </aside>
+        <aside style="margin-top: 0px;margin-left: 20px;margin-bottom: 10px;" class="secondAside col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <img class="hidden-xs" src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/shape-1.png">
+
+            <p style="color: #816a4a" class="col-lg-11 col-md-11 col-sm-11 col-xs-12 brownText">
+                {{flower.how_to_step2}}
+            </p>
+        </aside>
+        <aside style="margin-top: 0px;margin-left: 20px;margin-bottom: 10px;" class="secondAside col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <img class="hidden-xs" src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/shape-1.png">
+
+            <p style="color: #816a4a" class="col-lg-11 col-md-11 col-sm-11 col-xs-12 brownText">
+                {{flower.how_to_step3}}
+            </p>
+        </aside>
+    </section>
+    <figure style="height: 525px;padding-left: 0px;padding-right: 0px;" class="carouselContainer col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <ul style="height: 100%;background-color: #FCF9F7;" class="imagesCarousel center-block col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="flower.youtube_url"  rn-carousel-pause-on-hover rn-carousel rn-carousel-controls>
+            <!--<li ng-show="flower.youtube_url">
+                <iframe width="700" height="525" ng-src="{{trustSrc(flower.youtube_url)}}" frameborder="0"></iframe>
+            </li>-->
+            <li ng-repeat="image in flower.detailListImage" >
+                <iframe ng-if="flower.youtube_url && flower.detailListImage.length == $index + 1" width="700" height="525" ng-src="{{trustSrc(flower.youtube_url)}}" frameborder="0"></iframe>
+                <img style="width: inherit;position: absolute;left: 50%;top: 50%;-webkit-transform: translateY(-50%) translateX(-50%);" ng-src="{{image}}" alt="Bloom And Fresh {{flower.name}} Slide {{$index+1}}">
+            </li>
+        </ul>
+
+        <ul style="max-width: 700px;height: 100%;background-color: #FCF9F7;" class="imagesCarousel center-block col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-if="!flower.youtube_url" rn-carousel-auto-slide  rn-carousel-pause-on-hover rn-carousel rn-carousel-controls><!--<li ng-show="flower.youtube_url">
+                        <iframe width="700" height="525" ng-src="{{trustSrc(flower.youtube_url)}}" frameborder="0"></iframe>
+                    </li>-->
+            <li ng-repeat="image in flower.detailListImage">
+                <iframe ng-if="flower.youtube_url && flower.detailListImage.length == $index + 1" width="700" height="525" ng-src="{{trustSrc(flower.youtube_url)}}" frameborder="0"></iframe>
+                <img style="width: inherit;position: absolute;left: 50%;top: 50%;-webkit-transform: translateY(-50%) translateX(-50%);" class="imageMobileInherit" style="" ng-src="{{image}}" alt="Bloom And Fresh {{flower.name}} Slide {{$index+1}}">
+            </li>
+        </ul>
+    </figure>
+</article>
+</section>
+<h4 ng-if="relatedFlowers.length > 0" style="padding-left: 0px;font-size: 23px;line-height: 30px;    padding-top: 15px;
+    padding-bottom: 10px;text-align: center;    font-family: 'Gotham Black';
+    letter-spacing: 1px;
+    margin: 0 0 20px;
+    padding-right: 0;" class="infoSectionHeader darkBlueText col-lg-12 col-md-12 col-sm-12 col-xs-12 text-uppercase text-left ng-binding"> Bu güzellikler de ilgini çekecektir!</h4>
+<section ng-if="relatedFlowers.length > 0" style="padding-left: 0px;padding-right: 0px;" class="flowersSection container-fluid fixed-width" id="cicekler">
+    <section class="row flowers" style="margin-left: 0px;margin-right: 0px;">
+        <a style="z-index: 4;padding-left: 0px;padding-right: 0px;" ng-repeat="flower in relatedFlowers" class="flowerContainer col-lg-3 col-md-3 col-sm-6 col-xs-12"
+           ui-sref="flowerDescription({flowerCategory: flower.tag_main,seo_param: flower.ceo_url, flowerName: flower.url_parametre, id: flower.id })"
+           title="Bloom And Fresh {{flower.name}}" hreflang="{{::'HREFLANG'| translate }}" >
+            <!-- ng-style="{'background-color': flower.background_color}"      > -->
+            <h4 style="position: absolute;z-index: 2;    font-family: 'Bodoni Italic';font-size: 24px;
+                display: table;height: 40px;" class="flowerName col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center darkBlueText">
+                <span class="textElement">{{flower.name}}</span>
+            </h4>
+
+            <p style="position: absolute;z-index: 2;margin-top: 60px;font-family: 'Gotham Light';font-size: 13px;
+                height: 60px;padding-left: 5px;padding-right: 5px;" class="flowerDescription col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center lightOrangeText">
+                {{flower.landing_page_desc}}
+            </p>
+
+            <figure style="min-width: 200px;min-height: 300px;padding-left: 0px;padding-right: 0px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 flowerImage">
+                <!--ng-style="{'background-color': flower.second_background_color}">-->
+                <img style="width: 100%;" ng-src="{{flower.MainImage}}" class="flowerImg center-block hidden-xs">
+                <img style="width: 100%;" ng-src="{{flower.mobileImage}}" class="flowerImg center-block hidden-lg hidden-md hidden-sm">
+                <figcaption ng-if="flower.limit_statu == '0' &&  flower.coming_soon == '0' && flower.activation_status_id == '1' " style="font-size: 18px;font-family: 'Bodoni Italic';padding: 0 .4em .4em;
+                    margin-top: -93px;position: absolute;z-index: 2;"
+                            class="flowerPrice col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center darkBlueText"
+                        >
+
+                    <span> {{flower.price}} TL </span>
+                        <span style="    font-size: 13px;color: #a59b8f;font-family: 'Gotham Book';vertical-align: middle;"
+                              class="flowerTax"> + {{::'TAX'| translate}}</span>
+                </figcaption>
+                <figcaption  style="font-size: 18px;font-family: 'Bodoni Italic';padding: 0 .4em .4em;
+                    margin-top: -93px;position: absolute;z-index: 2;"  class="flowerPrice col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center redText"
+                             ng-if="flower.limit_statu !== '0' || flower.coming_soon !== '0' || lower.activation_status_id !== '0'">
+							<span ng-if="flower.limit_statu === '1' || flower.activation_status_id === '0'">
+								{{::'SOLD_OUT'| translate}}
+							</span>
+							<span ng-if="flower.coming_soon === '1'">
+								{{::'SOON'| translate}}
+							</span>
+                </figcaption>
+                <button  style="z-index: 2;position: absolute;border-radius: 20px;float: none;background: #3b454d;
+    color: #fff;text-shadow: none;text-decoration: none;margin-bottom: 2em;right: 0;left: 0 ;margin-left: auto;margin-right: auto ;margin-top: -61px;"  class="whiteText btn btn-default col-lg-6 col-md-6 col-sm-6 col-xs-6 center-block sendFlowerButton">
+                    <b>Göreyim</b>
+                </button>
+            </figure>
+        </a>
+    </section>
+</section>
+
+<right-bottom-pop-up></right-bottom-pop-up>
+</main>
+
+<bf-footer></bf-footer>
+<script>
+    function onPlayerStateChange(event) {
+        if(!playing){
+            alert('hi');
+            playing = true;
+        }
+    }
+</script>
+
+<!-- <script type="text/javascript">
+    $( document ).ready(function() {
+        setTimeout(
+                function()
+                {
+                    $tempLocation = $(location).attr('pathname').split("-");
+                    $tempId = $tempLocation[$tempLocation.length - 1];
+
+                    //var product = {
+                    //    identifier: $tempId
+                    //};
+                    sociomantic.sonar.adv['bloomandfresh-tr'].clear();
+
+                    window.product = {
+                        identifier: $tempId
+                    };
+                    sociomantic.sonar.adv['bloomandfresh-tr'].track();
+                }, 2000);
+    });
+</script>
+
+<script type="text/javascript">
+    $( document ).ready(function() {
+        setTimeout(
+                function()
+                {
+                    (function(){
+                        var s   = document.createElement('script');
+                        var x   = document.getElementsByTagName('script')[0];
+                        s.type  = 'text/javascript';
+                        s.async = true;
+                        s.src   = ('https:'==document.location.protocol?'https://':'http://')
+                        + 'eu-sonar.sociomantic.com/js/2010-07-01/adpan/bloomandfresh-tr';
+                        x.parentNode.insertBefore( s, x );
+                    })();
+                }, 1000);
+    });
+</script> -->

@@ -1,0 +1,284 @@
+<script>
+    (function () {
+        // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+        if (!String.prototype.trim) {
+            (function () {
+                // Make sure we trim BOM and NBSP
+                var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+                String.prototype.trim = function () {
+                    return this.replace(rtrim, '');
+                };
+            })();
+        }
+        [].slice.call(document.querySelectorAll('input.input__field')).forEach(function (inputEl) {
+            // in case the input is already filled..
+            if (inputEl.value.trim() !== '') {
+                classie.add(inputEl.parentNode, 'input--filled');
+            }
+            // events:
+            inputEl.addEventListener('focus', onInputFocus);
+            inputEl.addEventListener('blur', onInputBlur);
+        });
+        function onInputFocus(ev) {
+            classie.add(ev.target.parentNode, 'input--filled');
+        }
+
+        function onInputBlur(ev) {
+            if (ev.target.value.trim() === '') {
+                classie.remove(ev.target.parentNode, 'input--filled');
+            }
+        }
+    })();
+</script>
+
+<navbar-menu class="ribbonPurchase"></navbar-menu>
+
+<main ng-app="subscriptionFlower" class="purchase">
+
+    <section class="container-fluid">
+        <header class="row">
+            <ul id="ulBar" class="col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+                <li class="col-lg-4 col-md-4 col-sm-4 col-xs-4 active barPoint ">
+                    <dl>
+                        <dd class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 1</dd>
+                        <dt class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"><a href="abonelik-1" class="text-uppercase"> Çiçek ve Zaman</a></dt>
+                    </dl>
+                </li>
+                <li class="col-lg-4 col-md-4 col-sm-4 col-xs-4 barPoint active" >
+                    <dl>
+                        <dd class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 2</dd>
+                        <dt class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"><a href="abonelik-2" class="text-uppercase"> Alıcı Bilgileri </a></dt>
+                    </dl>
+                </li>
+                <li class="col-lg-4 col-md-4 col-sm-4 col-xs-4 barPoint active" >
+                    <dl>
+                        <dd ng-if="crossSellActive" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 4</dd>
+                        <dd ng-if="!crossSellActive" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 3</dd>
+                        <dt class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"><a class="text-uppercase"> {{::'PAYMENT_HEADER' | translate}} </a></dt>
+                    </dl>
+                </li>
+            </ul>
+        </header>
+
+
+        <form id="payment" name="paymentForm" class="fixed-width row form-horizontal" method="post" novalidate action="https://everybloom.com/sales-without-secure"> <!-- action="https://everybloom.com/submit-sale" -->
+        <section class="sectionPayment col-lg-9 col-md-9 col-sm-9 col-xs-12" ng-controller="subscriptionCardController">
+        <header class="col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+            <h2 class="text-center"><b>{{::'PAYMENT_HEADER_2' | translate}}</b></h2>
+        </header>
+
+        <fieldset class="col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+            <label class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">{{::'PRICE_HEADER' | translate}}</label>
+
+            <div class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                <strong class="totalPayment">
+                    {{totalPrice}} TL
+                            <span>
+                                + {{::'KDV_18' | translate}}
+                            </span>
+                </strong>
+            </div>
+            <label class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">{{::'TOTAL_PRICE_HEADER' | translate}}</label>
+
+            <div  class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                <strong class="totalPayment">
+                    {{taxInclueded}} TL
+                            <span>
+                                ({{::'TAX_INCLUDED' | translate}})
+                            </span>
+                </strong>
+            </div>
+
+        </fieldset>
+
+        <fieldset class="paymentInfo col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+
+            <label id="checkIf" class="col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentCardNumber">{{::'CREDIT_CARD_HEADER' | translate}}</label>
+
+            <div class="paymentCardNumber field col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                <input type="tel" class="form-control" ng-model="payment.cardNumber" id="paymentCardNumber" name="card_no" maxlength="19" minlength="16"
+                       autocomplete="off" required/>
+            </div>
+
+            <label   class="col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentCardExpirationDate">{{::'EXPIRE_DATE_HEADER' | translate}}</label>
+
+            <div class="paymentCardExpirationDay smallField col-lg-2 col-md-3 col-sm-3 col-xs-6">
+                <ui-select ng-model="payment.expirationMonth" theme="selectize" class="hidden-sm hidden-xs">
+                    <ui-select-match>{{payment.expirationMonth}}</ui-select-match>
+                    <ui-select-choices repeat="expirationMonth in expirationMonths | filter: $select.search">
+                        <span ng-bind-html="expirationMonth | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+
+                <select class="mobilDropdownSelect hidden-lg hidden-md col-sm-12 col-xs-12" ng-model="payment.expirationMonth" ng-options="expirationMonth for expirationMonth in expirationMonths track by expirationMonth" required>
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="paymentCardExpirationYear smallField col-lg-2 col-md-3 col-sm-3 col-xs-6">
+                <ui-select ng-model="payment.expirationYear" theme="selectize" class="hidden-sm hidden-xs">
+                    <ui-select-match>{{payment.expirationYear}}</ui-select-match>
+                    <ui-select-choices repeat="expirationYear in expirationYears | filter: $select.search">
+                        <span ng-bind-html="expirationYear | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+
+                <select class="mobilDropdownSelect hidden-lg hidden-md col-sm-12 col-xs-12" ng-model="payment.expirationYear" ng-options="expirationYear for expirationYear in expirationYears" required>
+                    <option value=""></option>
+                </select>
+            </div>
+            <label  class="col-lg-offset-3 col-lg-3 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentCCVNumber">CVC</label>
+
+            <div class="paymentCVCNumber smallField col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                <input class="form-control" ng-model="payment.cvcNumber" id="paymentCCVNumber" type="tel" name="card_cvv" ng-minlength="3" required onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                       payments-validate="cvc" payments-format="cvc" ng-maxlength="3" maxlength="3" autocomplete="off"/>
+            </div>
+
+            <a style="width: 20px;" type="button" class="cardSecurity btn btn-default lightBrownText col-lg-2 col-md-3 col-sm-3" tooltip-placement="right" tooltip-html-unsafe="{{cvcInfo}}">
+                <span class="hidden-xs glyphicon glyphicon-question-sign"></span>
+            </a>
+
+            <section style="padding-left: 13%;padding-top: 20px;float: left" id="checkBoxDiv" class="checkbox icheckField lightBrownText col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-10 text-center">
+                <label id="3Dcheck" style="float: left" class="not-error">
+                    <input type="checkbox" id="3dSecureCheck" class="contactCheckbox"> 3D Secure ile ödemek istiyorum.
+                    <a style="width: 20px;color: #8D7758;" type="button" tooltip-placement="right" tooltip-html-unsafe="3D Secure, internet üzerinden kredi kartı ve banka kartıyla yapılan alışveriş işlemlerinin güvenliğinin artırılması için Visa ve MasterCard tarafından geliştirilmiş bir sistemdir. 3D secure ile ödeme yapabilmek için kredi kartınızın 3D secure işlemlere açık olması gerekmektedir. Bankamatik kartı ile sadece 3D secure işlemler yapılabilir.">
+                        <span class="glyphicon glyphicon-question-sign"></span>
+                    </a>
+                </label>
+            </section>
+
+            <section style="padding-left: 13%;" class="checkbox icheckField contracts lightBrownText col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-12 text-center">
+                <label style="float: left;text-align: left;" class="not-error">
+                    <input type="checkbox" class="contactCheckbox">
+                    <a ng-click="openModel('preinformForm')">{{::'PREINFORMING_LINK' | translate}}</a> {{::'CONJUNCTION_LINKS' | translate}}
+                    <a ng-click="openModel('longDistancePurchaseContract')">{{::'LONG_DISTINCE_PURCHASE_LINK' | translate}}</a> {{::'LINKS_END' | translate}}
+                </label>
+            </section>
+
+            <label class="contractsError text-center col-lg-12 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-12 error text-left">{{serverError}}</label>
+
+            <section class="buttonSection col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <button id="submitButton"  type="submit" onclick="return purchaseCheckSubs()"
+                        class="purchaseProgressButton purchaseCompleteButton btn btn-default center-block col-lg-5 col-md-6 col-sm-12 col-xs-12"> <b class="text-uppercase">{{::'PAYMENT_BUTTON_TEXT' | translate}}</b></button>
+            </section>
+
+        </fieldset>
+
+        <fieldset class="creditCardLogos col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+            <p class="infoText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                *{{::'INVOICE_INFO_TEXT' | translate}}
+            </p>
+
+            <div class="cards col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="center-block flexContainer cardLogos">
+                    <li class="flexableItem"><span class="logo mastercard"></span></li>
+                    <li class="flexableItem visaContainer"><span class="logo visa"></span></li>
+                    <li class="flexableItem"><span class="logo garantiPost"></span></li>
+                </ul>
+            </div>
+        </fieldset>
+
+        <input id="3Dcheckbox" type="hidden" value="0"/>
+        <input name="card_month" type="hidden" value="{{payment.expirationMonth}}"/>
+        <input name="card_year" type="hidden" value="{{payment.expirationYear}}"/>
+        <input name="sale_number" type="hidden" value="{{$root.saleNumber}}"/>
+        <input ng-if="isUserLogin()" name="access_token" type="hidden" value="{{loggedUser.access_token}}">
+        </section>
+
+
+        <aside class="rightPurchaseInfo col-lg-3 col-md-3 col-sm-3 hidden-xs">
+            <section class="flowerInfoContainer notUserContacts">
+                <figure class="col-lg-5 col-md-7 col-sm-12 center-block">
+                    <img class="flower-image" ng-src="{{selectedFlower.photo_url}}"/>
+                </figure>
+                <article class="flowerNameAndDescription col-lg-7 col-md-12 col-sm-12">
+                    <header class="col-lg-12 col-md-12 col-sm-12">
+                        <h3 style="font-size: 17px; font-family: 'Gotham Bold';color: #8a7454;margin-bottom: 0px;">{{selectedFlower.name}}</h3>
+                    </header>
+
+                    <p style="font-size: 18px;font-family: 'Bodoni Italic';color: #3b454d;" class="col-lg-12 col-md-12 hidden-sm middleBrownText">
+                        {{selectedFlower.price}} TL <span style="font-size: 13px;color: #a59b8f;font-family: 'Gotham Book';vertical-align: middle;">+KDV</span>
+                    </p>
+                    <header ng-if="$root.subsExtra == 1" class="col-lg-12 col-md-12 col-sm-12">
+                        <h3 style="margin-top: 5px;font-size: 17px; font-family: 'Gotham Bold';color: #8a7454;margin-bottom: 0px;">Cam Vazo</h3>
+                    </header>
+
+                    <p ng-if="$root.subsExtra == 1" style="font-size: 18px;font-family: 'Bodoni Italic';color: #3b454d;" class="col-lg-12 col-md-12 hidden-sm middleBrownText">
+                        {{selectedFlower.side_price}} TL <span style="font-size: 13px;color: #a59b8f;font-family: 'Gotham Book';vertical-align: middle;">+KDV</span>
+                    </p>
+                </article>
+            </section>
+
+            <section class="priceInfo infoSection">
+                <table class="table">
+                    <tr>
+                        <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">Toplam Fiyat</strong></td>
+                        <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{totalPrice}} TL + KDV</td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">İlk Gönderim</strong></td>
+                        <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{subsFirstDaySelected.dayName}} {{subsHourSelected.hourName}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">Gönderim Sıklığı</strong></td>
+                        <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{subsFreqSelected.name}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">Gönderim Adresi</strong></td>
+                        <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{$root.address}}</td>
+                    </tr>
+                    <tr>
+                        <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">Teslimat Notu</strong></td>
+                        <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{$root.note}}</td>
+                    </tr>
+                </table>
+            </section>
+        </aside>
+        </form>
+
+
+
+    </section>
+</main>
+
+<bf-footer class="hidden-xs"></bf-footer>
+<!-- <script type="text/javascript">
+    $( document ).ready(function() {
+        setTimeout(
+                function()
+                {
+                    (function(){
+                        var s   = document.createElement('script');
+                        var x   = document.getElementsByTagName('script')[0];
+                        s.type  = 'text/javascript';
+                        s.async = true;
+                        s.src   = ('https:'==document.location.protocol?'https://':'http://')
+                        + 'eu-sonar.sociomantic.com/js/2010-07-01/adpan/bloomandfresh-tr';
+                        x.parentNode.insertBefore( s, x );
+                    })();
+                }, 1000);
+    });
+</script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        setTimeout(
+                function()
+                {
+                    $tempAmount = $('#flowerPriceJs').text().split(" ")[0];
+                    if($tempAmount){
+                        $tempAmount.replace(",", ".");
+                        $tempId = $('#product_id').val();
+                        //var basket = {
+                        //    products: [
+                        //        { identifier: $tempId, amount: $tempAmount, currency: 'TRY', quantity: 1 }
+                        //    ]
+                        //};
+                        sociomantic.sonar.adv['bloomandfresh-tr'].clear();
+
+                        window.basket = {
+                            products: [{ identifier: $tempId, amount: $tempAmount, currency: 'TRY', quantity: 1 }]
+                        };
+                        sociomantic.sonar.adv['bloomandfresh-tr'].track();
+                    }
+                }, 2000);
+    });
+</script> -->

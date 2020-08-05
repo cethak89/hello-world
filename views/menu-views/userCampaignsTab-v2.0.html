@@ -1,0 +1,73 @@
+<section class="campaigns">
+    <p ng-if="loggedUser.prime > 0" class="lightBrownText ng-binding">
+        {{::'PRIME_INFO' | translate}}
+    </p>
+	<ul class="">
+		<li ng-repeat="campaign in campaigns" class="campaignContainer" ng-class="{lastContainer: checkContainer($index)}" ui-sref="flowers({baseUrl:'{{'FLOWERS_URL' | translate }}',tagUrl:'{{::'FLOWERS_URL_TAG' | translate}}'})" ng-click="useCampaign(campaign)">
+			<figure class="campaignIconContainer">
+				<div class="iconBlock center-block">
+					<img class="campaignIcon" ng-src="{{campaign.image_type}}">
+				</div>
+			</figure>
+
+			<strong class="campaignName darkBlueText">
+				{{campaign.name}}
+			</strong>
+
+			<p class="campaignInfo center-block text-center darkOrangeText">
+				{{campaign.description}}
+			</p>
+			<a role="button" ui-sref="flowers({baseUrl:'{{'FLOWERS_URL' | translate }}',tagUrl:'{{::'FLOWERS_URL_TAG' | translate}}'})" ng-click="useCampaign(campaign)" class="useCampaign">
+				<span>{{::'USE_COUPON_BUTTON' | translate}}</span>
+			</a>
+		</li>
+
+		<li class="campaignContainer addCampaign" ng-if="!addCampaign">
+			<section class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<button style="padding: 2px;" type="button" class="btn-add btn btn-default btn-lg" ng-click="changeAddCampaign()" aria-label="Left Align">
+					<span style="font-size: 44px;" class="middleBrownText glyphicon glyphicon-plus" aria-hidden="true"></span>
+				</button>
+			</section>
+			<span class="addCardText center-block lightBrownText col-lg-8">
+					{{::'ADD_COUPON' | translate}}
+			</span>
+		</li>
+		<li class="campaignContainer addCampaign addCampaignForm" ng-if="addCampaign">
+			<form class="" name="addCampaignForm">
+				<header class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+					<h4 class="header"> {{::'ADD_COUPON' | translate}} </h4>
+					<button class="close-button redText btn pull-right" ng-click="changeAddCampaign()">
+						<span class="ion-ios-close-outline"></span>
+					</button>
+				</header>
+
+				<fieldset class="text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div class="inputContainer center-block">
+					    <span class="input input--akira" ng-class='{"input--filled" : campaign.id !== undefined }'>
+					    	<input class="lightBrownText input__field input__field--akira" type="text" ng-model="campaign.id" id="campaignId" name="campaignId" maxlength="30"
+					    	       ng-model-options="{ updateOn: 'change' }" required/>
+					    	<label class="input__label input__label--akira" for="campaignId">
+					    		<span class="input__label-content input__label-content--akira" ng-class="">
+					    			<span class="error"
+					    			      ng-show="addCampaignForm.campaignId.$touched && (addCampaignForm.campaignId.$error.required || addCampaignForm.campaignId.$untouched && isChecked)">{{::'DISCOUNT_COUPON_EMPTY_ERROR' | translate}}</span>
+					    			<span class="lightBrownText not-error" ng-show="addCampaignForm.campaignId.$valid || (addCampaignForm.campaignId.$untouched && !isChecked)">{{::'DISCOUNT_COUPON' | translate}}</span>
+					    		</span>
+					    	</label>
+					    </span>
+					</div>
+				</fieldset>
+
+				<label class="error">
+					{{errorMessage}}
+				</label>
+				<button class="btn-bloomNfresh btn col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-click="saveCampaign()">
+					{{::'SAVE_COUPON' | translate}}
+				</button>
+			</form>
+		</li>
+	</ul>
+</section>
+
+<section ng-if="!isCampaignExist()">
+	<img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/logos/bloomandfresh-logo-4-v2.png">
+</section>

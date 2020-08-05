@@ -1,0 +1,67 @@
+<section class="signSection profile" ng-class="{open: isSignOpen('profile')}">
+	<article class="container-fluid">
+		<button type="button" class="closeButton btn btn-default btn-lg" aria-label="Left Align" ng-click="setSignSection('')"></button>
+
+		<section class="panel text-center row">
+			<header class="col-lg-12">
+				<small class="lightBrownText col-lg-12 text-center">Merhaba</small>
+				<h3 class="text-uppercase col-lg-12"><b>{{loggedUser.name}}</b> </h3>
+			</header>
+
+			<section class="col-lg-12">
+				<ul class="nav nav-pills">
+					<li role="presentation" class="active" ng-class="{active:isSelected(1)}"><a href ng-click="setTab(1)">Siparişlerin</a></li>
+					<li role="presentation" ng-class="{active:isSelected(2)}"><a href ng-click="setTab(2)">Kişilerin</a></li>
+					<li role="presentation" ng-class="{active:isSelected(3)}"><a href ng-click="setTab(3)">Hesap Bilgilerin</a></li>
+					<li role="presentation" ng-class="{active:isSelected(4)}"><a href ng-click="setTab(4)">My Blog</a></li>
+				</ul>
+				<div class="myOrders" ng-show="isSelected(1)">
+					<table class="table">
+						<thead>
+							<tr>
+								<th class="col-lg-3 lightBrownText">Çiçek</th>
+								<th class="col-lg-3 lightBrownText">Kime</th>
+								<th class="col-lg-3 lightBrownText">Ne Zaman</th>
+								<th class="col-lg-3 lightBrownText">Durumu</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="purchase in purchases">
+								<td class="flowerInfo">
+									<img ng-src="{{purchase.MainImage}}">
+									<dl>
+										<dt>{{purchase.name}}</dt>
+										<dt>{{purchase.sum_total}}</dt>
+									</dl>
+								</td>
+								<td class="receiverInfo">
+									<dl>
+										<dt>{{purchase.receiver}}</dt>
+										<dt>{{purchase.mobile}}</dt>
+									</dl>
+								</td>
+								<td class="receiveDate">
+									<dl>
+										<dt>17 Şubat 2015,Salı</dt>
+										<dt>14:00-16:00</dt>
+									</dl>
+								</td>
+								<td class="receiveStatus">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div ng-show="isSelected(2)">
+					Kişilerim
+				</div>
+				<div ng-show="isSelected(3)">
+					Hesap Bilgilerim
+				</div>
+				<div ng-show="isSelected(4)">
+					Benim bloom&fresh blogum
+				</div>
+			</section>
+		</section>
+	</article>
+</section>

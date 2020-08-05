@@ -1,0 +1,35 @@
+<div class="modal-header">
+	<h4 class="modal-title text-center header">{{::'ADD_COUPON' | translate}}</h4>
+	<!--<button type="button" class="btn btn-danger pull-right"><span class="ion-ios-close-empty"></span></button> -->
+</div>
+<div class="modal-body" style="display: initial;"  stop-event="touchend">
+	<form class="" style="text-align: center;" name="addCampaignForm">
+
+		<fieldset class="text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="inputContainer center-block">
+				<span class="input input--akira" ng-class='{"input--filled" : campaign.id !== undefined }'>
+					<input class="lightBrownText input__field input__field--akira" type="text" ng-model="campaign.id" id="campaignId" name="campaignId" maxlength="15"
+							ng-model-options="{ updateOn: 'change' }"
+                            required/>
+					<label class="input__label input__label--akira" for="campaignId">
+						<span class="input__label-content input__label-content--akira" ng-class="">
+							<span class="error"
+									ng-show="(addCampaignForm.campaignId.$touched && addCampaignForm.campaignId.$error.required) || (addCampaignForm.campaignId.$untouched && isChecked)">{{::'DISCOUNT_COUPON_EMPTY_ERROR' | translate}}</span>
+							<span class="lightBrownText not-error" ng-show="addCampaignForm.campaignId.$valid || (addCampaignForm.campaignId.$untouched && !isChecked)">{{::'DISCOUNT_COUPON' | translate}}</span>
+						</span>
+					</label>
+				</span>
+			</div>
+		</fieldset>
+        <label id="warningId" class="warning hidden">
+            İşlem gerçekleşiyor...
+        </label>
+		<label class="error">
+			{{errorMessage}}
+		</label>
+	</form>
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="saveCampaign()"> {{::'SAVE_BUTTON_TEXT' | translate}} </button>
+</div>

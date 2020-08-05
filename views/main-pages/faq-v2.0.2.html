@@ -1,0 +1,239 @@
+<navbar-menu></navbar-menu>
+<div style="width: 100%;height: 60px;border-bottom: 1px solid #e7e7e7;background-color: white;">
+    <figure style="padding-top: 18px;position: inherit;" class="">
+        <a class="breadPadding" href="/" style="padding-left: 30px;font-family: 'Gotham Light';font-size: 18px;color: rgb(129, 106, 74);" class="ng-binding ng-scope">Anasayfa</a>
+        <img class="breadPadding" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/arrow_breadCrum.jpg" style="padding-left: 15px;padding-bottom: 4px;padding-right: 15px;">
+        <a class="breadPadding" href="/destek" style="font-weight: 700;font-family: 'Gotham Light';font-size: 18px;color: #3b454d;" class="ng-binding ng-scope">Destek</a>
+    </figure>
+</div>
+<main class="faq container-fluid">
+
+	<header class="row text-center page-header">
+		<h1 class="text-uppercase darkBlueText"><b>{{::'HELP_NAME_2' | translate}}</b></h1>
+		<small class="lightBrownText">
+			<p translate="HELP_HEADER_SMALL_1"></p>
+
+			<p translate="HELP_HEADER_SMALL_2"></p>
+
+			<p translate="HELP_HEADER_SMALL_3"></p>
+		</small>
+		<img class="pageImg" src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/faq-1.png" alt="Sıkça sorulan sorular resmi">
+	</header>
+
+	<article class="faqBody row text-center">
+		<section class="tabbable tabs-left col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-11 col-sm-offset-0 col-sm-12 col-xs-12">
+			<ul class="nav nav-tabs col-lg-3 col-md-3 col-sm-12 col-xs-12">
+				<li class="active"><a ui-sref="help({baseUrl: '{{'HELP_URL' | translate}}','#':'{{::'ORDERS_NAME' | translate}}'})" data-toggle="tab"><span class="text-uppercase">{{::'ORDERS_NAME' | translate}}</span></a></li>
+				<li><a ui-sref="help({baseUrl: '{{'HELP_URL' | translate}}','#':'{{::'PAYMENT_NAME' | translate}}'})" data-toggle="tab"><span class="text-uppercase">{{::'PAYMENT_NAME' | translate}}</span></a></li>
+				<li><a ui-sref="help({baseUrl: '{{'HELP_URL' | translate}}','#':'{{::'DELIVERY_NAME' | translate}}'})" data-toggle="tab"><span class="text-uppercase">{{::'DELIVERY_NAME' | translate}}</span></a></li>
+				<li><a ui-sref="help({baseUrl: '{{'HELP_URL' | translate}}','#':'{{::'CANCELLATION_NAME_URL' | translate}}'})" data-toggle="tab"><span class="text-uppercase">{{::'CANCELLATION_NAME' | translate}}</span></a></li>
+				<li><a ui-sref="help({baseUrl: '{{'HELP_URL' | translate}}','#':'{{::'PRODUCTS_NAME' | translate}}'})" data-toggle="tab"><span class="text-uppercase">{{::'PRODUCTS_NAME' | translate}}</span></a></li>
+				<li><a ui-sref="help({baseUrl: '{{'HELP_URL' | translate}}','#':'mybloom'})" data-toggle="tab"><span class="text-uppercase">MYBLOOM</span></a></li>
+			</ul>
+			<aside class="tab-content col-lg-9 col-md-9 col-sm-12 col-xs-12">
+				<section class="tab-pane active" id="{{::'ORDERS_NAME' | translate}}">
+					<accordion close-others="true">
+						<accordion-group class="tab-pane active" is-open="status.open4">
+							<accordion-heading>
+								{{::'ORDER_QUESTION_1' | translate}} <i class="hasSecondLine pull-left" ng-class="{'ion-chevron-down': status.open4, 'ion-chevron-right': !status.open4}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="ORDER_ANSWER_1"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open">
+							<accordion-heading>
+                                {{::'ORDER_QUESTION_2' | translate}} <i class="pull-left hasSecondLine" ng-class="{'ion-chevron-down': status.open, 'ion-chevron-right': !status.open}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="ORDER_ANSWER_2"></p>
+
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open1">
+							<accordion-heading>
+								{{::'ORDER_QUESTION_3' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open1, 'ion-chevron-right': !status.open1}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="ORDER_ANSWER_3"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open2">
+							<accordion-heading>
+                                {{::'ORDER_QUESTION_4' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open2, 'ion-chevron-right': !status.open2}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="ORDER_ANSWER_4"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open3">
+							<accordion-heading>
+                                {{::'ORDER_QUESTION_5' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open3, 'ion-chevron-right': !status.open3}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="ORDER_ANSWER_5"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open6">
+							<accordion-heading>
+                                {{::'ORDER_QUESTION_6' | translate}}  <i class="pull-left" ng-class="{'ion-chevron-down': status.open6, 'ion-chevron-right': !status.open6}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="ORDER_ANSWER_6"></p>
+						</accordion-group>
+					</accordion>
+				</section>
+				<section class="tab-pane" id="{{::'PAYMENT_NAME' | translate}}">
+					<accordion close-others="true">
+						<accordion-group class="tab-pane active" is-open="status.open">
+							<accordion-heading>
+                                {{::'PAYMENT_QUESTION_1' | translate}}  <i class="pull-left" ng-class="{'ion-chevron-down': status.open, 'ion-chevron-right': !status.open}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="PAYMENT_ANSWER_1"></p>
+
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open1">
+							<accordion-heading>
+                                {{::'PAYMENT_QUESTION_2' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open1, 'ion-chevron-right': !status.open1}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="PAYMENT_ANSWER_2"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open2">
+							<accordion-heading>
+                                {{::'PAYMENT_QUESTION_3' | translate}}
+								<i class="pull-left" ng-class="{'ion-chevron-down': status.open2, 'ion-chevron-right': !status.open2}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="PAYMENT_ANSWER_3"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open3">
+							<accordion-heading>
+                                {{::'PAYMENT_QUESTION_4' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open3, 'ion-chevron-right': !status.open3}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="PAYMENT_ANSWER_4"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open5">
+							<accordion-heading>
+                                {{::'PAYMENT_QUESTION_5' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open5, 'ion-chevron-right': !status.open5}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="PAYMENT_ANSWER_5"></p>
+						</accordion-group>
+					</accordion>
+				</section>
+				<section class="tab-pane" id="{{::'DELIVERY_NAME' | translate}}">
+					<accordion close-others="true">
+                        <accordion-group class="tab-pane" is-open="status.open4">
+                            <accordion-heading>
+                                {{::'DELIVERY_QUESTION_4' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open4, 'ion-chevron-right': !status.open4}"></i>
+                            </accordion-heading>
+                            <p class="accordion-text darkBlueText text-left" translate="DELIVERY_ANSWER_4"></p>
+                        </accordion-group>
+						<accordion-group class="tab-pane active" is-open="status.open">
+							<accordion-heading>
+                                {{::'DELIVERY_QUESTION_1' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open, 'ion-chevron-right': !status.open}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="DELIVERY_ANSWER_1"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open1">
+							<accordion-heading>
+                                {{::'DELIVERY_QUESTION_2' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open1, 'ion-chevron-right': !status.open1}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="DELIVERY_ANSWER_2"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open2">
+							<accordion-heading>
+                                {{::'DELIVERY_QUESTION_3' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open2, 'ion-chevron-right': !status.open2}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="DELIVERY_ANSWER_3"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open5">
+							<accordion-heading>
+                                {{::'DELIVERY_QUESTION_5' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open5, 'ion-chevron-right': !status.open5}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="DELIVERY_ANSWER_5"></p>
+						</accordion-group>
+                        <accordion-group class="tab-pane" is-open="status.open6">
+							<accordion-heading>
+                                {{::'DELIVERY_QUESTION_6' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open6, 'ion-chevron-right': !status.open6}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="DELIVERY_ANSWER_6"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open7">
+							<accordion-heading>
+                                {{::'DELIVERY_QUESTION_7' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open7, 'ion-chevron-right': !status.open7}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="DELIVERY_ANSWER_7"></p>
+						</accordion-group>
+					</accordion>
+				</section>
+				<section class="tab-pane" id="{{::'CANCELLATION_NAME_URL' | translate}}">
+					<accordion close-others="true">
+						<accordion-group class="tab-pane active" is-open="status.open">
+							<accordion-heading>
+                                {{::'CANCELLATION_QUESTION_1' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open, 'ion-chevron-right': !status.open}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="CANCELLATION_ANSWER_1"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open1">
+							<accordion-heading>
+                                {{::'CANCELLATION_QUESTION_2' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open1, 'ion-chevron-right': !status.open1}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="CANCELLATION_ANSWER_2"></p>
+						</accordion-group>
+					</accordion>
+				</section>
+				<section class="tab-pane" id="{{::'PRODUCTS_NAME' | translate}}">
+					<accordion close-others="true">
+						<accordion-group class="tab-pane active" is-open="status.open">
+							<accordion-heading>
+                                {{::'PRODUCTION_QUESTION_1' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open, 'ion-chevron-right': !status.open}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left"  translate="PRODUCTION_ANSWER_1"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open1">
+							<accordion-heading>
+                                {{::'PRODUCTION_QUESTION_2' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open1, 'ion-chevron-right': !status.open1}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="PRODUCTION_ANSWER_2"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open2">
+							<accordion-heading>
+                                {{::'PRODUCTION_QUESTION_3' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open2, 'ion-chevron-right': !status.open2}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="PRODUCTION_ANSWER_3"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open3">
+							<accordion-heading>
+                                {{::'PRODUCTION_QUESTION_4' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open3, 'ion-chevron-right': !status.open3}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="PRODUCTION_ANSWER_4"></p>
+						</accordion-group>
+					</accordion>
+				</section>
+				<section class="tab-pane" id="mybloom">
+					<accordion close-others="true">
+						<accordion-group class="tab-pane active" is-open="status.open">
+							<accordion-heading>
+                                {{::'MYBLOOM_QUESTION_1' | translate}}<i class="pull-left" ng-class="{'ion-chevron-down': status.open, 'ion-chevron-right': !status.open}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="MYBLOOM_ANSWER_1"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open1">
+							<accordion-heading>
+                                {{::'MYBLOOM_QUESTION_3' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open1, 'ion-chevron-right': !status.open1}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="MYBLOOM_ANSWER_3"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open2">
+							<accordion-heading>
+                                {{::'MYBLOOM_QUESTION_4' | translate}}<i class="pull-left" ng-class="{'ion-chevron-down': status.open2, 'ion-chevron-right': !status.open2}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="MYBLOOM_ANSWER_4"></p>
+						</accordion-group>
+						<accordion-group class="tab-pane" is-open="status.open3">
+							<accordion-heading>
+                                {{::'MYBLOOM_QUESTION_5' | translate}} <i class="pull-left" ng-class="{'ion-chevron-down': status.open3, 'ion-chevron-right': !status.open3}"></i>
+							</accordion-heading>
+							<p class="accordion-text darkBlueText text-left" translate="MYBLOOM_ANSWER_5"></p>
+						</accordion-group>
+					</accordion>
+				</section>
+			</aside>
+		</section>
+
+		<span class="footerLink darkBlueText">
+			{{::'FOR_MORE_INFORMATION_CONTACT_US' | translate}} <a class="contactUsButton ion-chevron-right lightBrownText" role="button" ui-sref="contactUs({baseUrl : '{{'CONTACT_US_URL' | translate}}'})"></a>
+		</span>
+	</article>
+
+</main>
+
+<bf-footer></bf-footer>

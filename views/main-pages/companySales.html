@@ -1,0 +1,73 @@
+<navbar-menu></navbar-menu>
+<main class="contactUs" ng-app="deliveryLocations">
+<header style="background: url('https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/contactImages/bize_ulas.jpg');background-size: cover;" class="pageHeader jumbotron text-center">
+    <h1 class="pageTitle">
+        <img ng-if="!companyOrElse" src="{{loggedUser.logo_img}}" style="width: 45px;
+    padding-bottom: 18px;" class="ng-scope">
+        {{loggedUser.company_name}} Siparişleri
+    </h1>
+    <small class="pageInfo center-block lightBrownText"></small>
+
+    <img class="flowersIcon" src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/flowers_on_the_way.png" alt="flowers icon">
+</header>
+<article class="howWeDoItArticles container-fluid">
+<section style="border: none;background-color: white;height: 100%;border-bottom: 2px solid #816a4a;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th style="font-weight: bold;">
+                Sipariş Tarihi
+            </th>
+            <th style="font-weight: bold;">
+                Sipariş No
+            </th>
+            <th style="font-weight: bold;">
+                Gönderen
+            </th>
+            <th style="font-weight: bold;">
+                Alıcı
+            </th>
+            <th style="font-weight: bold;">
+                Çiçek
+            </th>
+            <th style="font-weight: bold;">
+                Fiyat + KDV
+            </th>
+            <th style="font-weight: bold;">
+                Teslimat Tarihi
+            </th>
+            <th style="font-weight: bold;">
+                Teslim Alan
+            </th>
+        </tr>
+        <tr ng-repeat="sale in sales">
+            <td>
+                {{sale.created_at}}
+            </td>
+            <td>
+                {{sale.id}}
+            </td>
+            <td>
+                {{sale.sender_name}} {{sale.sender_surname}}
+            </td>
+            <td>
+                {{sale.name}} {{sale.surname}}
+            </td>
+            <td>
+                {{sale.products}}
+            </td>
+            <td>
+                {{sale.sum_total}}
+            </td>
+            <td>
+                {{sale.delivery_date}}
+            </td>
+            <td>
+                {{sale.picker}}
+            </td>
+        </tr>
+    </table>
+</section>
+</article>
+</main>
+
+<bf-footer></bf-footer>

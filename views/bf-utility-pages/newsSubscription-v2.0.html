@@ -1,0 +1,8 @@
+<fieldset ng-class="{'has-success': IsSuccess, 'has-error': IsError}">
+	<label class="error serverError">{{errorMessage}}</label>
+	<input type="email" class="form-control" ng-model="subscription.mail" name="subscriptionMail" placeholder="{{::'EMAIL_TEXT' | translate}}" ng-model-options="{allowInvalid: true, updateOn: 'change'}" maxlength="60" autocomplete="off">
+	<button type="submit" ng-click="addNewFollower()">
+        <img style="width: 14px;" ng-if="IsSuccess" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/checked.svg">
+        <img class="lazyFooter" style="width: 14px;" ng-if="!IsSuccess" src="" name="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/arrow_right.svg">
+	</button>
+</fieldset>

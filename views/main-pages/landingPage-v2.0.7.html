@@ -1,0 +1,621 @@
+
+
+<main style="background-color: #FBFBFB" class="landingMain mainContainer" ng-app="landingModule" routeLoadingIndicator>
+    <header class="landingPage" style="min-height: 280px;min-width: 100px;z-index: 4;background-color: white">
+        <left-hidden-menu></left-hidden-menu>
+        <right-menus></right-menus>
+        <mega-drop-down></mega-drop-down>
+
+        <nav class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row ribbonMenu">
+                <button type="button" class="ribbonMenuOne secretMenu btn btn-default btn-lg pull-left" aria-label="Left Align"
+                        ng-click="setMenuVisibility(1)">
+                    <span class="glyphicon ion-navicon darkBlueText" aria-hidden="true"></span>
+                </button>
+                <button type="button" ng-show="isUserLogin() === false" class="ribbonMenuTwo signIn btn btn-default btn-lg pull-right"
+                        aria-label="Left Align" ng-click="setSignSection('giris')">
+                    <span class="signInBlueIcon signInIcon darkBlueText" aria-hidden="true"></span>
+                </button>
+                <button type="button" ng-show="isUserLogin()" class="ribbonMenuTwo signIn btn btn-default btn-lg pull-right"
+                        aria-label="Right Align" ng-click="setSignSection('profil')">
+                    <span class=" glyphicon userNameFirstChar text-uppercase darkBlueText" aria-hidden="true"> <b
+                            class="darkBlueText">{{ loggedUser.name[0] }}</b> </span>
+                </button>
+                <ul class="ribbonMenuThree flags pull-right" ng-repeat="activeLanguage in activeLanguages"
+                    ng-if="activeLanguages.length > 1">
+                    <li class="flagImagesContainer">
+                        <a ui-sref="landing{{activeLanguage.lang_id=== 'tr' ? '' : '-'+ activeLanguage.lang_id}}"
+                            ng-click="langChanged()" class="flagUrl text-uppercase"
+                            ng-class="{active:isCurrentLang(activeLanguage.lang_id)}"><b>{{activeLanguage.lang_id}}</b></a>
+                    </li>
+                </ul>
+                <ul ng-if="checkCompanyUser() > 0 && companyStatus"  style="line-height: 47px;" class="ribbonMenuThree flags pull-right">
+                    <li class="flagImagesContainer">
+                        <img ng-click="showCompanyOrElse()" ng-if="!companyOrElse" src="{{loggedUser.logo_img}}" style="width: 45px;padding-bottom: 20px;">
+                        <a href="" ng-click="showCompanyOrElse()" class="flagUrl text-uppercase"><b style="font-size: 8px;" ng-if="!companyOrElse">{{loggedUser.company_name}}</b><b style="font-size: 8px;" ng-if="companyOrElse">Güncel</b></a>
+                    </li>
+                </ul>
+                <figure class="ribbonMenuFour icon center-block">
+                    <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/logos/bloomandfresh-logo-v2.svg" class=""
+                         alt="{{::'LANDING_IMG_ALT' | translate}}">
+                </figure>
+                <figure style="visibility: hidden;" class="ribbonMenuFive">
+                    <span ng-if="menuElement.open_style && menuElement.order == 1" ng-click="setDropDown()" target="_blank" href="{{menuElement.url}}" ng-repeat="menuElement in upMenu" ng-style="{ 'left' : '{{menuElement.left_perc}}' }"  style=" cursor: pointer ;position: absolute;color: #816A4A;font-family: 'Bodoni Italic';font-size: 24px;text-shadow: 0px 0px 1px #8e7758, 0px 0px 2px #8e7758;top: 81%;">{{menuElement.name}}</span>
+                    <span ng-if="!menuElement.open_style && menuElement.order == 1" ng-click="setDropDown()" href="{{menuElement.url}}" ng-repeat="menuElement in upMenu" ng-style="{ 'left' : '{{menuElement.left_perc}}' }"  style=" cursor: pointer ; position: absolute;font-size: 24px;color: #816A4A;font-family: 'Bodoni Italic';text-shadow: 0px 0px 1px #8e7758, 0px 0px 2px #8e7758;top: 81%;">{{menuElement.name}}</span>
+                    <a ng-if="menuElement.open_style && menuElement.order != 1 " target="_blank" href="{{menuElement.url}}" ng-repeat="menuElement in upMenu" ng-style="{ 'left' : '{{menuElement.left_perc}}' }"  style=" position: absolute;font-family: 'Gotham Light';font-size: 18px;color: #816A4A;">{{menuElement.name}}</a>
+                    <a ng-if="!menuElement.open_style && menuElement.order != 1 " href="{{menuElement.url}}" ng-repeat="menuElement in upMenu" ng-style="{ 'left' : '{{menuElement.left_perc}}' }"  style=" position: absolute;font-family: 'Gotham Light';font-size: 18px;color: #816A4A;">{{menuElement.name}}</a>
+                </figure>
+            </div>
+        </nav>
+
+        <carousel style="z-index: 4;background-color: #FBFBFB;" interval="5000" class="hidden-xs">
+            <slide ng-repeat="promo in promos" active="promo.showCurrent">
+                <div ng-if="promo.url != 'http://studio.bloomandfresh.com'"  href="{{::promo.url}}" title="Bloom And Fresh">
+                    <section class="container headerText">
+                        <h1 ng-bind-html="promo.header" ng-style="{'text-shadow': '0 0 14px {{promo.background_color}}', 'color':promo.font_color}" class="promoText text-center darkBlueText center-block"></h1>
+                        <div style="z-index: 100;min-width: 290px;max-width: 320px;margin-left: auto;margin-right: auto;float: none;" class="sendingDistrictField field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+                            <ui-select style="z-index: 100;" ng-model="selectedCity" theme="selectize" class="" ng-change="setCity(selectedCity)">
+                                <ui-select-match style="z-index: 100;" placeholder="Göndereceğin yeri seç"  allow-clear="true">{{selectedCity.name}}</ui-select-match>
+                                <ui-select-choices style="z-index: 100;" repeat="city in cities | filter: $select.search">
+                                    <span ng-bind-html="city.name | highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+
+                            <select style="z-index: 100;" class="mobilDropdownSelect hidden-lg hidden-md hidden-sm hidden-xs col-xs-12" ng-model="$root.mainCitySelected" ng-options="city.name for city in cites">
+                                <option style="z-index: 100;" value="city.name">{{$root.subsFreqSelected.name}}</option>
+                            </select>
+                        </div>
+                    </section>
+                    <div class="img-container"
+                         ng-style="{ 'background-image': 'url({{::promo.img_url}})' }"></div>
+                </div>
+                <a target="_blank"  ng-if="promo.url == 'http://studio.bloomandfresh.com'" href="{{::promo.url}}" title="Bloom And Fresh">
+                    <section class="container headerText">
+                        <h1 ng-bind-html="promo.header" ng-style="{'text-shadow': '0 0 14px {{promo.background_color}}', 'color':promo.font_color}" class="promoText text-center darkBlueText center-block"></h1>
+                        <div style="z-index: 100;min-width: 290px;max-width: 320px;margin-left: auto;margin-right: auto;float: none;" class="sendingDistrictField field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+                            <ui-select style="z-index: 100;" ng-model="selectedCity" theme="selectize" class="" ng-change="setCity(selectedCity)">
+                                <ui-select-match style="z-index: 100;" placeholder="Göndereceğin yeri seç"  allow-clear="true">{{selectedCity.name}}</ui-select-match>
+                                <ui-select-choices style="z-index: 100;" repeat="city in cities | filter: $select.search">
+                                    <span ng-bind-html="city.name | highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+
+                            <select style="z-index: 100;" class="mobilDropdownSelect hidden-lg hidden-md hidden-sm hidden-xs col-xs-12" ng-model="$root.mainCitySelected" ng-options="city.name for city in cites">
+                                <option style="z-index: 100;" value="city.name">{{$root.subsFreqSelected.name}}</option>
+                            </select>
+                        </div>
+                    </section>
+                    <div class="img-container"
+                         ng-style="{ 'background-image': 'url({{::promo.img_url}})' }"></div>
+                </a>
+            </slide>
+        </carousel>
+
+        <a style="min-width: 100px;min-height:280px" href="{{::promos[0].url}}"
+           title="Bloom And Fresh" class="hidden-lg hidden-md hidden-sm mobilHeader" ng-style="{'background': 'rgb(239, 238, 236) url({{::promos[0].img_url}}) no-repeat center'}">
+            <section class="container headerText">
+                <h1 ng-bind-html="promos[0].header" ng-style="{'text-shadow': '0 0 14px {{promos[0].background_color}}', 'color':promos[0].font_color}" class="promoText text-center darkBlueText center-block"> </h1>
+                <div style="min-width: 290px;max-width: 320px;margin-left: auto;margin-right: auto;float: none;" class="sendingDistrictField field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+                    <ui-select ng-model="selectedCity" theme="selectize" class="" ng-change="setCity(selectedCity)">
+                        <ui-select-match placeholder="Göndereceğin yeri seç"  allow-clear="true">{{selectedCity.name}}</ui-select-match>
+                        <ui-select-choices repeat="city in cities | filter: $select.search">
+                            <span ng-bind-html="city.name | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+
+                    <select class="mobilDropdownSelect hidden-lg hidden-md hidden-sm hidden-xs col-xs-12" ng-model="$root.mainCitySelected" ng-options="city.name for city in cites">
+                        <option value="city.name">{{$root.subsFreqSelected.name}}</option>
+                    </select>
+                </div>
+            </section>
+        </a>
+    </header>
+
+    <section class="flowersSection container-fluid fixed-width" id="cicekler">
+        <section class="row flowers">
+            <a style="z-index: 4;" ng-repeat="flower in flowers" class="flowerContainer col-lg-3 col-md-3 col-sm-6 col-xs-12"
+               itemscope itemtype="http://schema.org/Product"
+               ui-sref="flowerDescription({flowerCategory: flower.tag_main,flowerName: flower.url_parametre, id: flower.id })"
+               title="Bloom And Fresh {{flower.name}}" hreflang="{{::'HREFLANG'| translate }}"
+               ng-if="(checkCompanyUser() == flower.company_product && flower.company_product > 0 && companyOrElse) || (flower.company_product == 0 && companyOrElse == false && ( ( selectedCity.value == 'ist' && flower.city_id == 1  ) || ( selectedCity.value == 'ank' && flower.city_id == 2  )   ) )  ">
+               <!-- ng-style="{'background-color': flower.background_color}"      > -->
+                <h4 style="position: absolute;z-index: 2;" class="flowerName col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center darkBlueText">
+                    <span class="textElement" itemprop="name">{{flower.name}}</span>
+                </h4>
+
+                <p style="position: absolute;z-index: 2;margin-top: 60px;" class="flowerDescription col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center lightOrangeText" itemprop="description">
+                    {{flower.landing_page_desc}}
+                </p>
+
+                <figure style="min-width: 200px;min-height: 300px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 flowerImage">
+                        <!--ng-style="{'background-color': flower.second_background_color}">-->
+                    <img itemprop="image" ng-src="{{flower.MainImage}}" class="hidden-xs flowerImg center-block" alt="{{flower.img_title}}">
+                    <img itemprop="image" ng-src="{{flower.mobileImage}}" class="hidden-lg hidden-md hidden-sm flowerImg center-block" alt="{{flower.img_title}}">
+                    <figcaption style="margin-left: 0px !important;position: absolute;z-index: 2;"  class="flowerPrice col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center darkBlueText"
+                                ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && flower.speciality == '0'" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                        <!--<span itemprop="price"> {{ flower.price + " TL" }} </span>
+                        <span class="flowerTax"> + {{::'TAX'| translate}}</span>-->
+
+                        <span itemprop="price"> {{ flower.price   }} TL </span>
+                        <span class="flowerTax"> + {{::'TAX'| translate}}</span>
+                    </figcaption>
+                    <figcaption  style="margin-left: 0px !important;position: absolute;z-index: 2;"  class="flowerPrice col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center redText"
+                                ng-if="flower.limit_statu !== '0' || flower.coming_soon !== '0' || flower.speciality !== '0'" itemprop="availability" href="http://schema.org/InStock">
+							<span ng-if="flower.limit_statu === '1'">
+								{{::'SOLD_OUT'| translate}}
+							</span>
+							<span ng-if="flower.coming_soon === '1'">
+								{{::'SOON'| translate}}
+							</span>
+							<span style="color: black" ng-if="flower.speciality === '1'">
+								Özel Tasarım
+							</span>
+                    </figcaption>
+                    <button  style="z-index: 2;margin-left: auto;
+    margin-right: auto;left: 0;right: 0;"  class="whiteText btn btn-default col-lg-6 col-md-6 col-sm-6 col-xs-6 center-block sendFlowerButton">
+                        <b ng-if="flower.limit_statu === '0' && flower.coming_soon === '0'">{{::'SEND_BUTTON_TEXT'|
+                            translate}}</b>
+                        <b ng-if="flower.limit_statu !== '0' || flower.coming_soon !== '0'">{{::'DETAIL_BUTTON_TEXT'|
+                            translate}}</b>
+                    </button>
+                    <p class="getSmallSoon" style="font-family: 'Gotham Light';font-size: 13px;height: 19px;margin-bottom: 0px;position: absolute;bottom: 2px;width: 100%;
+                    text-align: center;color: #3b454d;font-weight: 600;margin-bottom: 3px;" ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && flower.today">En Erken: Bugün</p>
+                    <p class="getSmallSoon" style="font-family: 'Gotham Light';font-size: 13px;height: 19px;margin-bottom: 0px;position: absolute;bottom: 2px;width: 100%;
+                    text-align: center;color: #3b454d;font-weight: 600;margin-bottom: 3px;" ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && flower.tomorrow">En Erken: Yarın</p>
+                    <p class="getSmallSoon" style="font-family: 'Gotham Light';font-size: 13px;height: 19px;margin-bottom: 0px;position: absolute;bottom: 2px;width: 100%;
+                    text-align: center;color: #3b454d;font-weight: 600;margin-bottom: 3px;" ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && !flower.tomorrow && !flower.today">En Erken: {{flower.theDayAfter}}</p>
+                </figure>
+            </a>
+        </section>
+    </section>
+
+    <section style="background-color: #FBFBFB;" class="infoSection">
+        <section class="container-fluid fixed-width" id="nereyeGonderiyoruz">
+            <section style="padding-bottom: 3.7em;" class="row social">
+                <form class="form-inline col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-6 col-sm-offset-1 col-sm-10 col-xs-offset-0 col-xs-12"
+                      novalidate method="post">
+                    <aside style="padding-left: 0px;" class="col-lg-offset-1 col-lg-6 col-md-7 col-sm-6 col-xs-12">
+                        <h4 style="padding-left: 0px;" class="infoSectionHeader darkBlueText col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+                            {{::'INFORM_ME_HEADER'| translate}}</h4>
+
+                        <p style="padding-left: 0px;" class="explanation lightBrownText col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {{::'INFORM_ME_TEXT'| translate}}</p>
+                    </aside>
+                    <bf-news-subscription
+                            class="form-group col-lg-5 col-md-5 col-sm-offset-0 col-sm-5 col-xs-offset-1 col-xs-10"></bf-news-subscription>
+                </form>
+                <aside class="socialAccounts col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-6 col-sm-offset-1 col-sm-10 col-xs-offset-0 col-xs-12">
+                    <section style="padding-left: 0px;" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                        <h4 style="padding-left: 0px;" class="infoSectionHeader col-lg-12 col-md-12 col-sm-12 col-xs-12 darkBlueText text-left">
+                            {{::'SOCIAL_MEDIA_HEADER'| translate}}</h4>
+
+                        <p style="padding-left: 0px;" style="width: 81%;" class="explanation lightBrownText col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {{::'SOCIAL_MEDIA_TEXT'| translate}}</p>
+                    </section>
+
+                    <a href="https://instagram.com/bloomandfresh/" target="_blank"
+                       title="{{::'INS_URL_TITLE'| translate}}"
+                       class="bottom-xs col-lg-1 col-md-1 col-sm-1 col-xs-3 instagramButton"><img
+                            src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/social-icons/instagram-icon-red.png"
+                            alt="{{::'INS_IMG_ALT'| translate}}"></a>
+                    <a href="https://www.facebook.com/bloomandfresh?ref=hl" target="_blank"
+                       title="{{::'FB_URL_TITLE'| translate}}"
+                       class="col-lg-1 col-md-1 col-sm-1 col-xs-3 facebookButton"><img
+                            src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/social-icons/facebook-icon-red.png" alt="{{::'FB_IMG_ALT'| translate}}"></a>
+                    <a href="https://www.pinterest.com/bloomandfresh/" target="_blank"
+                       title="{{::'PIN_URL_TITLE'| translate}}"
+                       class="col-lg-1 col-md-1 col-sm-1 col-xs-3 pinterestButton"><img
+                            src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/social-icons/pinterest-icon-red.png"
+                            alt="{{::'PIN_IMG_ALT'| translate}}"></a>
+                    <a href="https://twitter.com/BloomAndFresh" target="_blank"
+                       title="{{::'TW_URL_TITLE'| translate}}"
+                       class="bottom-xs col-lg-1 col-md-1 col-sm-1 col-xs-3 twitterButton"><img
+                            src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/social-icons/twitter-icon-red.png" alt="{{::'TW_IMG_ALT'| translate}}"></a>
+                </aside>
+            </section>
+            <section class="row how" style="padding-top: 0px;">
+                <article style="padding-left: 0px;" class="col-lg-offset-0 col-lg-4 col-md-offset-0 col-md-4 col-sm-offset-1 col-sm-9 col-xs-offset-0 col-xs-12">
+                    <aside style="padding-top: 6px;" class="howDescription col-lg-offset-1 col-lg-11 col-md-12 col-sm-12 col-xs-12">
+                        <h4 style="padding-left: 0px;font-size: 30px;line-height: 30px;" class="infoSectionHeader darkBlueText col-lg-12 col-md-12 col-sm-12 col-xs-12 text-uppercase text-left">
+                            {{::'HOW_HEADER'| translate}}</h4>
+
+                        <p style="padding-left: 0px;" class="explanation darkBlueText col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {{'HOW_LANDING_TEXT_1' | translate}}</p>
+
+                        <p style="padding-left: 0px;" class="explanation lightBrownText col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {{'HOW_LANDING_TEXT_2' | translate}}</p>
+
+                        <section class="howSteps hidden-lg hidden-md hidden-sm col-xs-12">
+                            <ul>
+                                <li class="col-xs-6">
+                                    <figure class="stepContainer">
+                                        <img class="stepImg center-block"
+                                             src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-tasarim-sirlari-2.svg"
+                                             alt="İstanbul'un en iyi çiçek tasarımları">
+                                        <figcaption class="col-lg-11 text-center text-uppercase">
+                                            {{'HOW_CHAPTER_1' | translate}}
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <li class="col-xs-6">
+                                    <figure class="stepContainer">
+                                        <img class="stepImg center-block"
+                                             src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-detay-sirlari-2.svg"
+                                             alt="Her detayı düşünülmüş çiçek gönderim hizmeti">
+                                        <figcaption class="col-lg-11 text-center text-uppercase">
+                                            {{'HOW_CHAPTER_2' | translate}}
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                            </ul>
+                        </section>
+
+                        <p style="padding-left: 0px;" class="explanation lightBrownText col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {{ 'HOW_LANDING_TEXT_3' | translate}}</p>
+
+                        <section class="howSteps hidden-lg hidden-md hidden-sm col-xs-12">
+                            <ul>
+                                <li class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                    <figure class="stepContainer">
+                                        <img class="stepImg center-block"
+                                             src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-tazelik-sirlari-2.svg"
+                                             alt="İstanbul'un en taze çiçeklerini gönder">
+                                        <figcaption class="col-lg-11 text-center text-uppercase">
+                                            {{'HOW_CHAPTER_3' | translate}}
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <li class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                    <figure class="stepContainer">
+                                        <img class="stepImg center-block"
+                                             src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-koleksiyon-sirlari-2.svg"
+                                             alt="Özel koleksiyon çiçeklerimiz">
+                                        <figcaption class="col-lg-12 text-center text-uppercase">
+                                            {{'HOW_CHAPTER_4' | translate}}
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                            </ul>
+                        </section>
+                        <p style="padding-left: 0px;" class="explanation lightBrownText col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            {{ 'HOW_LANDING_TEXT_4' | translate}}</p>
+
+                        <section style="width: 101%;" class="howSteps hidden-lg hidden-md hidden-sm col-xs-12">
+                            <ul>
+                                <li class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                    <figure class="stepContainer">
+                                        <img class="stepImg center-block"
+                                             src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-goruntu-sirlari-2.svg"
+                                             alt="Ekranda gördüğünün aynı şekilde giden çiçekler">
+                                        <figcaption class="col-lg-12 text-center text-uppercase">
+                                            {{'HOW_CHAPTER_5' | translate}}
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <li class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                                    <figure class="stepContainer">
+                                        <img class="stepImg center-block"
+                                             src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-teslimat-sirlari-2.svg"
+                                             alt="Hızlı çiçek siparişi ve teslimatı">
+                                        <figcaption class="fastDelivery col-lg-12 text-center text-uppercase">
+                                            {{'HOW_CHAPTER_6' | translate}}
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                            </ul>
+                        </section>
+                        <a style="float: left !important;" class="text-uppercase text-right lightBrownText pull-right" ui-sref="how({baseUrl : '{{::'HOW_URL'| translate}}'})"><b>{{'MORE_INFORMATION'
+                            | translate}}</b> </a>
+                    </aside>
+                </article>
+                <section class="howSteps table-responsive col-lg-8 col-md-8 col-sm-12 hidden-xs">
+                    <table style="width: 96%" class="table .table-bordered">
+                        <tr>
+                            <td style="border-top: 0px;" class="col-lg-4">
+                                <a class="stepLink" ui-sref="how({baseUrl : '{{::'HOW_URL'| translate}}', howChapter:'{{::'HOW_URL_DESIGN'| translate}}'})" hreflang= "{{::'HREFLANG'| translate }}"
+                                   title="{{::'DESIGN_IMG_ALT'| translate}}">
+                                    <figure class="stepContainer">
+                                        <img class="stepImg center-block"
+                                             src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-tasarim-sirlari-2.svg"
+                                             alt="{{::'DESIGN_IMG_ALT'| translate}}">
+                                        <figcaption class="col-lg-11 text-center text-uppercase">
+                                            {{'HOW_CHAPTER_1' | translate}}
+                                        </figcaption>
+                                    </figure>
+                                </a>
+                            </td>
+                            <td style="border-top: 0px;" class="col-lg-4">
+                                <a class="stepLink" ui-sref="how({baseUrl : '{{::'HOW_URL'| translate}}', howChapter:'{{::'HOW_URL_DETAIL'|translate}}'})" hreflang= "{{::'HREFLANG'| translate }}"
+                                   title="{{::'DETAILS_IMG_ALT'| translate}}">
+                                    <figure class="stepContainer">
+                                        <img class="stepImg center-block"
+                                             src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-detay-sirlari-2.svg"
+                                             alt="{{::'DETAILS_IMG_ALT'| translate}}">
+                                        <figcaption class="col-lg-11 text-center text-uppercase">
+                                            {{'HOW_CHAPTER_2' | translate}}
+                                        </figcaption>
+                                    </figure>
+                                </a>
+                            </td>
+                            <td style="border-top: 0px;" class="col-lg-4">
+                                <a class="stepLink" ui-sref="how({baseUrl : '{{::'HOW_URL'| translate}}', howChapter:'{{::'HOW_URL_FRESHNESS'|translate}}'})" hreflang= "{{::'HREFLANG'| translate }}"
+                                   title="{{::'FRESHNESS_IMG_ALT'| translate}}">
+                                    <figure class="stepContainer">
+                                        <img class="stepImg center-block"
+                                             src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-tazelik-sirlari-2.svg"
+                                             alt="{{::'FRESHNESS_IMG_ALT'| translate}}">
+                                        <figcaption class="col-lg-11 text-center text-uppercase">
+                                            {{'HOW_CHAPTER_3' | translate}}
+                                        </figcaption>
+                                    </figure>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: 0px;" class="col-lg-4">
+                                <a class="stepLink" ui-sref="how({baseUrl : '{{::'HOW_URL'| translate}}', howChapter:'{{::'HOW_URL_COLLECTION'|translate}}'})" hreflang= "{{::'HREFLANG'| translate }}"
+                                   title="{{::'COLLECTION_IMG_ALT'| translate}}">
+                                    <figure class="stepContainer">
+                                        <img class="stepImg center-block"
+                                             src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-koleksiyon-sirlari-2.svg"
+                                             alt="{{::'COLLECTION_IMG_ALT'| translate}}">
+                                        <figcaption class="col-lg-12 text-center text-uppercase">
+                                            {{'HOW_CHAPTER_4' | translate}}
+                                        </figcaption>
+                                    </figure>
+                                </a>
+                            </td>
+                            <td style="border-top: 0px;" class="col-lg-4">
+                                <a class="stepLink" ui-sref="how({baseUrl : '{{::'HOW_URL'| translate}}', howChapter:'{{::'HOW_URL_APPEARANCE'|translate}}'})" hreflang= "{{::'HREFLANG'| translate }}"
+                                   title="{{::'APPEARANCE_IMG_ALT'| translate}}">
+                                    <figure class="stepContainer">
+                                        <img class="stepImg center-block"
+                                             src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-goruntu-sirlari-2.svg"
+                                             alt="{{::'APPEARANCE_IMG_ALT'| translate}}">
+                                        <figcaption class="col-lg-12 text-center text-uppercase">
+                                            {{'HOW_CHAPTER_5' | translate}}
+                                        </figcaption>
+                                    </figure>
+                                </a>
+                            </td>
+                            <td style="border-top: 0px;" class="col-lg-4">
+                                <a class="stepLink" ui-sref="how({baseUrl : '{{::'HOW_URL'| translate}}', howChapter:'{{::'HOW_URL_DELIVERY'|translate}}'})"
+                                   hreflang= "{{::'HREFLANG'| translate }}"
+                                   title="{{::'DELIVERY_IMG_ALT'| translate}}">
+                                    <figure class="stepContainer">
+                                        <img class="stepImg center-block"
+                                             src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-teslimat-sirlari-2.svg"
+                                             alt="{{::'DELIVERY_IMG_ALT'| translate}}">
+                                        <figcaption class="fastDelivery col-lg-12 text-center text-uppercase">
+                                            {{'HOW_CHAPTER_6' | translate}}
+                                        </figcaption>
+                                    </figure>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+            </section>
+            <section class="row districts">
+                <!--<aside style="margin-top: 0px;" class="districtMap col-lg-7 col-md-7 hidden-sm hidden-xs">
+                    <a href="{{::'ISTANBUL_ONLINE_DELIVERY'| translate}}">
+                        <img style="margin-left: 5%;" src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/promos/bf-cicek-haritasi.png"
+                             alt="{{::'DELIVERY_MAP_IMG_ALT'| translate}}">
+                    </a>
+                </aside>-->
+                <article style="margin-top: 0px;padding-right: 0px;" class="ourDistricts col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <section style="margin-left: 0px;padding-right: 0px;padding-left: 0px;" class="info col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <h4 style="text-align: center;font-size: 30px;line-height: 30px;" class="col-lg-12 col-md-12 col-sm-12 darkBlueText text-uppercase text-left">İstanbul ve Ankara Online Çiçek Gönderim Bölgelerimiz!</h4>
+
+                        <p style="padding-left: 0px;font-size: 17px;text-align: center;float: none" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 lightBrownText">İstanbul veya Ankara’ya online çiçek göndermek istiyorsan en doğru adrestesin! Bloom and Fresh’in birbirinden güzel ve farklı çiçeklerini online olarak sipariş verebileceğin bölgeler aşağıda. Çiçek siparişini verirken çiçeğinin teslim edilmesini istediğin bölge için uygun gönderim saatleri de karşına çıkıyor olacak!</p>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <p style="padding-left: 0px;font-size: 17px;text-align: center;float: none" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 lightBrownText">İSTANBUL ONLİNE ÇİÇEK GÖNDERİM BÖLGELERİ</p>
+                            <div class="district-names col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">ATAŞEHİR</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">AVCILAR*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">BAĞCILAR</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">BAHÇELİEVLER</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">BAHÇEŞEHİR*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">BAKIRKÖY</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">BAYRAMPAŞA*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh beşiktaş">BEŞİKTAŞ</h5>
+
+                                <h5 class=" darkBlueText" title="Bloom And Fresh beykoz">BEYKOZ*</h5>
+
+                                <h5 class=" darkBlueText" title="Bloom And Fresh beykoz">BEYLİKDÜZÜ*</h5>
+
+                            </div>
+                            <div class="district-names col-lg-4 col-md-4 col-sm-6 col-xs-12">
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh beyoğlu">BEYOĞLU</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh beyoğlu">ÇAYIROVA*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh eyüp">ÇEKMEKÖY*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh eyüp">ESENYURT*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh eyüp">EYÜP</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh fatih">FATİH</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh beyoğlu">GAZİOSMANPAŞA*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh fatih">GÜNGÖREN</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh kadiköy">KADIKÖY</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh kağıthane">KAĞITHANE</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh beyoğlu">KARTAL</h5>
+
+                            </div>
+                            <div class="district-names col-lg-4 col-md-4 col-sm-6 col-xs-12">
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh beyoğlu">KÜÇÜKÇEKMECE*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh kağıthane">MALTEPE</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh beyoğlu">PENDİK</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh beyoğlu">SANCAKTEPE*</h5>
+
+                                <h5 class=" text-uppercase darkBlueText" title="Bloom And Fresh sariyer">SARIYER</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh beyoğlu">SULTANBEYLİ*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh sisli">ŞİŞLİ</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh beyoğlu">TUZLA</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh ümraniye">ÜMRANİYE</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh üsküdar">ÜSKÜDAR</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh üsküdar">ZEYTİNBURNU</h5>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <p style="padding-left: 0px;font-size: 17px;text-align: center;float: none" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 lightBrownText">ANKARA ONLİNE ÇİÇEK GÖNDERİM BÖLGELERİ</p>
+                            <div class="district-names col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">ALTINDAĞ*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">ÇANKAYA</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">ETİMESGUT*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">GÖLBAŞI*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">KEÇİÖREN*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">MAMAK*</h5>
+
+                                <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">YENİMAHALLE*</h5>
+
+                            </div>
+                        </div>
+                        <a style="width: 100%;text-align: center;" class="text-uppercase text-right lightBrownText pull-right" href="/istanbul-online-cicek-siparisi"><b class="ng-binding">Daha fazla detay</b> </a>
+                        <p class="darkBlueText col-lg-12 col-md-12 col-sm-10 col-xs-12" style="font-size: 13px;text-align: center;">
+                            * {{::'SENDING_DISTRICTS_INFO'| translate}}
+                        </p>
+                    </section>
+                </article>
+            </section>
+        </section>
+    </section>
+
+    <article class="bloomBlog">
+        <section class="container-fluid fixed-width">
+            <header style="padding-bottom: 3em;background-color: white;" class="row">
+                <aside class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <section style="padding-top: 20px;padding-left: 9%;"
+                            class="col-lg-offset-1 col-lg-11 col-md-11 col-sm-offset-1 col-sm-9 col-xs-offset-0 col-xs-12">
+                        <h4 style="" class=" text-left lightBrownText">{{::'FLOWER_PREPARATION_HEADER' | translate}}</h4>
+                        <p class="darkBlueText">{{::'FLOWER_PREPARATION_TEXT' | translate}} </p>
+                    </section>
+                </aside>
+                <article class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <figure style="margin-left: 5%;" class="col-lg-offset-1 col-lg-3 col-md-offset-1 col-md-3 col-sm-offset-1 col-sm-3 col-xs-offset-0 col-xs-12">
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/bloomBlog/bloomandfresh-blog-cicegini-sec-2.png"
+                             alt="{{::'CHOICE_IMG_ALT' | translate}}"
+                             class="center-block howImg-1">
+                        <figcaption class="text-center darkBlueText">{{::'FLOWER_PREPARATION_1_HEADER' | translate}}
+                        </figcaption>
+                        <p class="text-center lightBrownText"> {{::'FLOWER_PREPARATION_1_TEXT' | translate}}</p>
+                    </figure>
+                    <figure style="margin-left: 8%;" class="col-lg-offset-1 col-lg-3 col-md-3 col-sm-offset-1 col-sm-3 col-xs-offset-0 col-xs-12 howWeDoItFigure">
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/bloomBlog/bloomandfresh-blog-bize-birak-2.png"
+                             alt="{{::'LEAVE_US_IMG_ALT' | translate}}"
+                             class="center-block howImg-2">
+                        <figcaption class="text-center darkBlueText">{{::'FLOWER_PREPARATION_2_HEADER' | translate}}
+                        </figcaption>
+                        <p class="text-center lightBrownText"> {{::'FLOWER_PREPARATION_2_TEXT' | translate}}</p>
+                    </figure>
+                    <figure style="margin-left: 7%;" class="col-lg-offset-1 col-lg-3 col-md-3 col-sm-offset-1 col-sm-3 col-xs-offset-0 col-xs-12 howWeDoItFigure">
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/bloomBlog/bloomandfresh-blog-gulumseme-garantili-2.png"
+                             alt="{{::'HAPPINESS_IMG_ALT' | translate}}"
+                             class="center-block howImg-3">
+                        <figcaption class="text-center darkBlueText">{{::'FLOWER_PREPARATION_3_HEADER' | translate}}
+                        </figcaption>
+                        <p class="text-center lightBrownText"> {{::'FLOWER_PREPARATION_3_TEXT' | translate}}</p>
+                    </figure>
+                </article>
+            </header>
+        </section>
+    </article>
+
+    <!-- companyBilling -->
+
+    <article class="bloomBlog">
+        <section style="border-bottom: 2px solid #816a4a;" class="container-fluid fixed-width">
+            <header class="row" style="border: 0px;padding-top: 0px;padding-bottom: 0px;">
+                <aside class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <section class="col-lg-offset-1 col-lg-11 col-md-11 col-sm-offset-1 col-sm-9 col-xs-offset-0 col-xs-12">
+                        <br>
+                        <br>
+                        <h4 style="font-size: 18px;color: #3b454d;font-size: 30px;line-height: 30px;" class=" text-left lightBrownText">{{::'LANDING_COMPANY_OR' | translate}}?</h4>
+                        <p class="darkBlueText">{{::'LANDING_SPECIAL_COMPANY' | translate}}?</p>
+                        <br>
+                        <p style="font-size: 16px;font-family: 'Gotham Light';line-height: 25px;margin-bottom: 2.25em;padding-right: 28%;color: #8D7758;">{{::'LANDING_SPECIAL_COMPANY_DESC' | translate}}!<a href="{{::'ISTANBUL_COMPANY_DELIVERY'| translate}}"><img style="    padding-left: 10px;padding-top: 4px;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/images/landingOk.png"></a>
+                        </p>
+                    </section>
+                </aside>
+                <article style="padding-right: 0px;padding-left: 0px;" class="hidden-xs hidden-sm col-lg-6 col-md-6">
+                    <img src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/images/landingCompany.png" style="position: absolute;padding-top: 23%;margin-left: -24px;">
+                    <img style="width: 100%;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/kurumImage.jpg"
+                         alt="{{::'DELIVERY_MAP_IMG_ALT'| translate}}">
+                </article>
+            </header>
+        </section>
+    </article>
+
+    <article style="padding-top: 27px;" class="bloomBlog">
+        <section class="container-fluid fixed-width">
+            <header class="row" style="border: 0px;padding-top: 0px;padding-bottom: 0px;">
+                <article style="padding-right: 0px;padding-left: 0px;" class="hidden-xs hidden-sm col-lg-6 col-md-6">
+                    <img style="width: 100%;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/images/dugun_cicegi.jpg"
+                         alt="{{::'DELIVERY_MAP_IMG_ALT'| translate}}">
+                </article>
+                <aside class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <section class="col-lg-offset-1 col-lg-11 col-md-11 col-sm-offset-1 col-sm-9 col-xs-offset-0 col-xs-12">
+                        <br>
+                        <br>
+                        <h4 style="font-size: 18px;color: #3b454d;font-size: 30px;line-height: 30px;" class=" text-left lightBrownText">{{::'LANDING_SPECIAL_OR' | translate}}?</h4>
+                        <p class="darkBlueText">{{::'LANDING_SPECIAL_OR_DETAIL' | translate}}?</p>
+                        <br>
+                        <p style="font-size: 16px;font-family: 'Gotham Light';line-height: 25px;margin-bottom: 2.25em;padding-right: 28%;color: #8D7758;">{{::'LANDING_SPECIAL_OR_DESC' | translate}}!<a target="_blank" href="http://studio.bloomandfresh.com/"><img style="    padding-left: 10px;padding-top: 4px;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/images/landingOk.png"></a>
+                        </p>
+                    </section>
+                </aside>
+            </header>
+        </section>
+    </article>
+
+    <right-bottom-pop-up></right-bottom-pop-up>
+</main>
+<bf-footer></bf-footer>
+<script type="text/javascript">
+    /*$( document ).ready(function() {
+        setTimeout(
+                function()
+                {
+                    (function(){
+                        var s   = document.createElement('script');
+                        var x   = document.getElementsByTagName('script')[0];
+                        s.type  = 'text/javascript';
+                        s.async = true;
+                        s.src   = ('https:'==document.location.protocol?'https://':'http://')
+                        + 'eu-sonar.sociomantic.com/js/2010-07-01/adpan/bloomandfresh-tr';
+                        x.parentNode.insertBefore( s, x );
+                    })();
+                }, 1500);
+    });*/
+</script>

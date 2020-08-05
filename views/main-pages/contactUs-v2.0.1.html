@@ -1,0 +1,186 @@
+<navbar-menu></navbar-menu>
+<main class="contactUs" ng-app="contactUs">
+    <div style="width: 100%;height: 60px;border-bottom: 1px solid #e7e7e7;background-color: white;">
+        <figure style="padding-top: 18px;position: inherit;" class="">
+            <a class="breadPadding" href="/" style="padding-left: 30px;font-family: 'Gotham Light';font-size: 18px;color: rgb(129, 106, 74);" class="ng-binding ng-scope">Anasayfa</a>
+            <img class="breadPadding" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/arrow_breadCrum.jpg" style="padding-left: 15px;padding-bottom: 4px;padding-right: 15px;">
+            <a class="breadPadding" href="/bize-ulasin" style="font-weight: 700;font-family: 'Gotham Light';font-size: 18px;color: #3b454d;" class="ng-binding ng-scope">Bize Ulaşın</a>
+        </figure>
+    </div>
+    <header class="pageHeader jumbotron text-center">
+        <h1 class="pageTitle">
+            {{::'CONTACT_HEADER_2' | translate}}
+        </h1>
+        <small class="pageInfo center-block lightBrownText"></small>
+
+        <img class="flowersIcon" src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/flowers_on_the_way.png" alt="flowers icon">
+    </header>
+
+    <article class="bNfContactInfo container-fluid">
+        <section
+                class="formSection col-lg-4 col-lg-offset-1 col-md-4 col-md-offset-1 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1">
+            <form class="" name="contactUsForm" novalidate>
+                <h3 class="fieldHeader darkBlueText"> {{::'HOW_CAN_WE_HELP' | translate}}</h3>
+                <fieldset class="center-block">
+                    <label class="error pull-left" for="contactName"
+                           ng-show="contactUsForm.contactName.$touched && (contactUsForm.contactName.$error.minlength || contactUsForm.contactName.$error.pattern)">{{'NAME_ERROR'| translate}}</label>
+                    <label class="error pull-left" for="contactName"
+                           ng-show="(contactUsForm.contactName.$touched && contactUsForm.contactName.$error.required) || (contactUsForm.contactName.$untouched && isChecked)">{{'NAME_EMPTY_ERROR'
+                        | translate}}</label>
+                    <label class="lightBrownText not-error pull-left" for="contactName"
+                           ng-show="contactUsForm.contactName.$valid || (contactUsForm.contactName.$untouched && !isChecked)">{{'NAME_TEXT'
+                        | translate}}</label>
+                    <input class="form-control text-capitalize" type="text" ng-model="contact.name" id="contactName" name="contactName"
+                           maxlength="30"
+                           ng-pattern="{{::'TEXT_PATTERN' | translate}}" ng-minlength="3"
+                           ng-model-options="{ updateOn: 'change' }" required/>
+                </fieldset>
+                <fieldset class="center-block">
+                    <label class="error pull-left" for="contactMail"
+                           ng-show="contactUsForm.contactMail.$touched && (contactUsForm.contactMail.$error.email || contactUsForm.contactMail.$error.pattern)">{{'EMAIL_ERROR'|translate}}</label>
+                    <label class="error pull-left" for="contactMail"
+                           ng-show="(contactUsForm.contactMail.$touched && contactUsForm.contactMail.$error.required) || (contactUsForm.contactMail.$untouched && isChecked)">{{'EMAIL_EMPTY_ERROR'
+                        | translate}}</label>
+                    <label class="lightBrownText not-error pull-left" for="contactMail"
+                           ng-show="contactUsForm.contactMail.$valid || (contactUsForm.contactMail.$untouched && !isChecked)">{{::'EMAIL_TEXT'
+                        | translate}}</label>
+                    <input class="lightBrownText form-control" type="email" ng-model="contact.email" id="contactMail"
+                           name="contactMail" maxlength="30"
+                           ng-minlength="3" ng-model-options="{ updateOn: 'change' }"
+                           ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,4}$/" required/>
+                </fieldset>
+                <fieldset class="center-block">
+                    <label class="error pull-left" for="contactPhone"
+                           ng-show="contactUsForm.contactPhone.$touched && (contactUsForm.contactPhone.$error.minlength || contactUsForm.contactPhone.$error.mask)">{{'PHONE_ERROR'
+                        |translate}}</label>
+                    <label class="lightBrownText not-error pull-left" for="contactPhone"
+                           ng-show="contactUsForm.contactPhone.$valid || (contactUsForm.contactPhone.$untouched && !isChecked)">{{'PHONE_TEXT'
+                        | translate}}</label>
+                    <input class="form-control textField" ng-model="contact.mobile" ui-mask="(999)-999-99-99"
+                           ng-model-options="{ updateOn: 'blur' }" id="contactPhone" name="contactPhone"/>
+                </fieldset>
+                <fieldset class="center-block">
+                    <label class="lightBrownText error pull-left" for="contactMessage"
+                           ng-show="(contactUsForm.contactMessage.$touched && contactUsForm.contactMessage.$error.required) || (contactUsForm.contactMessage.$untouched && !contactUsForm.contactMessage.$valid && isChecked)">{{::'MESSAGE_EMPTY_ERROR'
+                        | translate}}</label>
+                    <label class="lightBrownText not-error pull-left" for="contactMessage"
+                           ng-show="contactUsForm.contactMessage.$valid || (contactUsForm.contactMessage.$untouched && !isChecked)">{{::'MESSAGE_TEXT'
+                        | translate}}</label>
+                    <textarea style="resize: none;" class="textField lightBrownText form-control" rows="5" ng-model="contact.contactMessage"
+                              id="contactMessage" name="contactMessage" maxlength="250"
+                              ng-model-options="{ updateOn: 'change' }" required></textarea>
+                </fieldset>
+                <label class="error serverError">{{error}}</label>
+                <fieldset class="center-block">
+                    <button class="btn-bloomNfresh btn btn-default text-uppercase" ng-if="!processSuccess"
+                            ng-click="sendMessage()"><b>{{::'SEND_BUTTON_TEXT' | translate}}</b></button>
+                    <button class="btn-success btn btn-default disabled" ng-if="processSuccess">
+                        <img style="width: 26px;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/checked.svg">
+                    </button>
+                </fieldset>
+
+                <!--[if !IE]><!-->
+                <loader
+                        working="working"
+                        disable-background="true"
+                        template="2">
+                </loader>
+
+                <!--<![endif]-->
+            </form>
+        </section>
+        <aside class="col-lg-6 col-lg-offset-1 col-md-6 col-md-offset-1 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0">
+            <section>
+                <h2 class="fieldHeader col-lg-10 col-md-10 col-sm-10 col-xs-10 darkBlueText">
+                    İstanbul İletişim Bilgileri
+                </h2>
+
+                <iframe
+                        width="90%"
+                        height="200"
+                        frameborder="0" style="border:0"
+                        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d187.90384303150142!2d29.0525668!3d41.1026113!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0000000000000000%3A0xf95e64be0fdb9b0d!2sBloom+and+Fresh!5e0!3m2!1sen!2str!4v1448892566317"
+                        allowfullscreen>
+                </iframe>
+
+                <ul class="bNfPhoneAndMail col-lg-12 col-md-12 col-sm-11 col-xs-12">
+                    <li class="pull-left"><span style="margin-top: 8px;" class="icons pull-left ion-ios-home-outline"></span><span
+                            class="text addressText" translate="COMPANY_ADDRESS"></span></li>
+                    <li class="pull-left"><span class="phoneIcon icons pull-left"></span><a href="tel:+902122120282"
+                                                                                            class="phoneAndMailText lightBrownText">{{::'COMPANY_PHONE'
+                        | translate}}</a></li>
+                    <li class="pull-left"><a class="mailIcon icons pull-left" role="button"
+                                             href="mailto:merhaba@bloomandfresh.com"></a><span
+                            class="phoneAndMailText lightBrownText">{{::'COMPANY_CONTACT_MAIL' | translate}}</span></li>
+                </ul>
+            </section>
+            <section>
+                <h2 class="fieldHeader col-lg-10 col-md-10 col-sm-10 col-xs-10 darkBlueText">
+                    Ankara İletişim Bilgileri
+                </h2>
+
+                <iframe
+                        width="90%"
+                        height="200"
+                        frameborder="0" style="border:0"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3062.1063344586446!2d32.85114131614668!3d39.871855996518796!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14d3459df9a34497%3A0x2ce5b0d100ad04a!2sHilal+Mahallesi%2C+685.+Sk.+No%3A1%2C+06550+%C3%87ankaya%2FAnkara%2C+Turkey!5e0!3m2!1sen!2sgr!4v1553871443119!5m2!1sen!2sgr"
+                        allowfullscreen>
+                </iframe>
+
+                <ul class="bNfPhoneAndMail col-lg-12 col-md-12 col-sm-11 col-xs-12">
+                    <li class="pull-left"><span style="margin-top: 8px;" class="icons pull-left ion-ios-home-outline"></span><span
+                            class="text addressText">IF Girişim ve Teknoloji A.Ş.<br>Hilal Mah. 685 Sok. No:1/B Çankaya-Ankara</span></li>
+                    <li class="pull-left"><span class="phoneIcon icons pull-left"></span><a href="tel:+903124409190"
+                                                                                            class="phoneAndMailText lightBrownText">
+                        (312) 440 91 90
+                                                                                            </a></li>
+                    <li class="pull-left"><a class="mailIcon icons pull-left" role="button"
+                                             href="mailto:merhaba@bloomandfresh.com"></a><span
+                            class="phoneAndMailText lightBrownText">{{::'COMPANY_CONTACT_MAIL' | translate}}</span></li>
+                </ul>
+            </section>
+            <section>
+                <h2 class="fieldHeader col-lg-10 col-md-10 col-sm-10 col-xs-10 darkBlueText">{{::'SOCIAL_MEDIA_HEADER_2'
+                    | translate}}</h2>
+
+                <p class="text col-lg-10 col-md-12 col-sm-12 col-xs-12">
+                    {{::'SOCIAL_MEDIA_TEXT'| translate}}
+                </p>
+
+                <ul class="bNfPhoneAndMail socialIcons col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <a target="_blank" href="https://www.facebook.com/bloomandfresh?ref=hl"
+                           class="btn-add icons ion-social-facebook-outline pull-left"
+                           title="{{::'FB_URL_TITLE' | translate}}"></a>
+                        <a target="_blank" href="https://www.facebook.com/bloomandfresh?ref=hl"
+                           class="phoneAndMailText lightBrownText" title="{{::'FB_URL_TITLE' | translate}}">bloomandfresh</a>
+                    </li>
+                    <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <a target="_blank" href="https://instagram.com/bloomandfresh/"
+                           class="btn-add icons ion-social-instagram-outline pull-left"
+                           title="{{::'INS' | translate}}"></a>
+                        <a target="_blank" href="https://instagram.com/bloomandfresh/"
+                           class="phoneAndMailText lightBrownText" title="{{::'INS_URL_TITLE' | translate}}">bloomandfresh</a>
+                    </li>
+                    <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <a target="_blank" href="https://twitter.com/BloomAndFresh"
+                           class="btn-add icons ion-social-twitter-outline pull-left"
+                           title="{{::'TW_URL_TITLE' | translate}}"></a>
+                        <a target="_blank" href="https://twitter.com/BloomAndFresh"
+                           class="phoneAndMailText lightBrownText" title="{{::'TW_URL_TITLE' | translate}}">bloomandfresh</a>
+                    </li>
+                    <li class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <a target="_blank" href="https://www.pinterest.com/bloomandfresh/"
+                           class="btn-add icons ion-social-pinterest-outline pull-left"
+                           title="{{::'PIN_URL_TITLE' | translate}}"></a>
+                        <a target="_blank" href="https://www.pinterest.com/bloomandfresh/"
+                           class="phoneAndMailText lightBrownText" title="{{::'PIN_URL_TITLE' | translate}}">bloomandfresh</a>
+                    </li>
+                </ul>
+            </section>
+
+        </aside>
+    </article>
+</main>
+
+<bf-footer></bf-footer>

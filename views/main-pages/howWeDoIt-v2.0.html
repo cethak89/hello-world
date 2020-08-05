@@ -1,0 +1,83 @@
+<navbar-menu></navbar-menu>
+
+<main class="how">
+    <div style="width: 100%;height: 60px;border-bottom: 1px solid #e7e7e7;background-color: white;">
+        <figure style="padding-top: 18px;position: inherit;" class="">
+            <a class="breadPadding" href="/" style="padding-left: 30px;font-family: 'Gotham Light';font-size: 18px;color: rgb(129, 106, 74);" class="ng-binding ng-scope">Anasayfa</a>
+            <img class="breadPadding" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/arrow_breadCrum.jpg" style="padding-left: 15px;padding-bottom: 4px;padding-right: 15px;">
+            <a class="breadPadding" href="/nasil-yapiyoruz/" style="font-weight: 700;font-family: 'Gotham Light';font-size: 18px;color: #3b454d;" class="ng-binding ng-scope">Nasıl Yapıyoruz</a>
+        </figure>
+    </div>
+    <header class="pageHeader jumbotron text-center">
+        <h1 class="pageTitle">
+            Bloom and Fresh ile Çiçek Göndermek
+        </h1>
+        <small class="pageInfo center-block lightBrownText">
+            Şehrin en güzel çiçeklerini gönderirken nelere mi dikkat ediyoruz? Bloom and Fresh, çiçekleri ve hizmeti ile ilgili tüm sırları burada açıklıyoruz.
+        </small>
+
+        <span class="down-icon center-block"></span>
+    </header>
+
+    <article class="howWeDoItArticles container-fluid">
+        <section class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center">
+            <figure class="sectionHowImg">
+                <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-tasarim-sirlari.png" alt="özel tasarımlar"/>
+            </figure>
+
+            <h4 class="text-uppercase lightBrownText"> {{::'HOW_CHAPTER_1' | translate}} </h4>
+
+            <p class="darkBlueText howText" translate="HOW_CHAPTER_1_TEXT"></p>
+        </section>
+        <section class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center">
+            <figure class="sectionHowImg">
+                <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-koleksiyon-sirlari.png" alt="sınırlı koleksiyon"/>
+            </figure>
+            <h4 class="text-uppercase lightBrownText"> {{::'HOW_CHAPTER_2' | translate}} </h4>
+
+            <p class="darkBlueText howText" translate="HOW_CHAPTER_2_TEXT"></p>
+        </section>
+        <section class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center">
+            <figure class="sectionHowImg">
+                <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-tazelik-sirlari.png" alt="sanki dalından koparılmış gibi"/>
+            </figure>
+            <h4 class="text-uppercase lightBrownText"> {{::'HOW_CHAPTER_3' | translate}} </h4>
+
+            <p class="darkBlueText howText" translate="HOW_CHAPTER_3_TEXT"></p>
+        </section>
+        <section class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center">
+            <figure class="sectionHowImg">
+                <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-detay-sirlari.png" alt="güzellik detayda gizlidir"/>
+            </figure>
+            <h4 class="text-uppercase lightBrownText"> {{::'HOW_CHAPTER_4' | translate}} </h4>
+
+            <p class="darkBlueText howText" translate="HOW_CHAPTER_4_TEXT"></p>
+        </section>
+        <section class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center">
+            <figure class="sectionHowImg">
+                <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-goruntu-sirlari.png" alt="resimde görüldüğü gibi çiçekler"/>
+            </figure>
+            <h4 class="text-uppercase lightBrownText"> {{::'HOW_CHAPTER_5' | translate}} </h4>
+
+            <p class="darkBlueText howText" translate="HOW_CHAPTER_5_TEXT"></p>
+        </section>
+        <section class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center">
+            <figure class="sectionHowImg">
+                <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/howImages/bloomandfresh-teslimat-sirlari.png" alt="hızlı sipariş ve teslimat garantili"/>
+            </figure>
+            <h4 class="text-uppercase lightBrownText"> {{::'HOW_CHAPTER_6' | translate}} </h4>
+
+            <p class="darkBlueText howText" translate="HOW_CHAPTER_6_TEXT"></p>
+        </section>
+    </article>
+
+    <footer class="moreQuestion container-fluid">
+		<span class="footerLink darkBlueText pull-right">
+			{{::'FOR_MORE_INFORMATION_CONTACT_US' | translate}} <a
+                class="contactUsButton ion-chevron-right lightBrownText" role="button" ui-sref="contactUs({baseUrl : '{{'CONTACT_US_URL' | translate}}'})"></a>
+		</span>
+    </footer>
+
+</main>
+
+<bf-footer></bf-footer>

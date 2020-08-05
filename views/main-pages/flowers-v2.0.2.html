@@ -1,0 +1,1404 @@
+<navbar-menu></navbar-menu>
+<main class="flowers mainContainer" ng-app="flowers">
+    <div style="width: 100%;height: 60px;border-bottom: 1px solid #e7e7e7;background-color: white;">
+        <figure style="padding-top: 18px;position: inherit;" class="">
+            <a class="breadPadding" href="/" style="padding-left: 30px;font-family: 'Gotham Light';font-size: 18px;color: rgb(129, 106, 74);" class="ng-binding ng-scope">Anasayfa</a>
+            <img ng-if="!chosenTag" class="breadPadding" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/arrow_breadCrum.jpg" style="padding-left: 15px;padding-bottom: 4px;padding-right: 15px;">
+            <img ng-if="chosenTag" class="breadPadding" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/arrow_breadCrum.jpg" style="padding-left: 15px;padding-bottom: 4px;padding-right: 15px;">
+            <a ng-if="chosenTag" class="breadPadding" style="font-weight: 700;font-family: 'Gotham Light';font-size: 18px;color: #3b454d;" class="ng-binding ng-scope">{{chosenTag.tags_name}}</a>
+        </figure>
+    </div>
+    <header style="padding-top: 0px;background: none;padding-bottom: 0px;" class="pageHeader jumbotron text-center hidden-xs">
+        <div style="max-width: 1400px;margin-left: auto;margin-right: auto;display: block;height: 500px;">
+            <div ng-style="{'background': url(banner_image)}" style="padding-top: 100px;height: 499px;background: url({{banner_image}});background-position: center;" class="col-lg-8 col-md-8 col-sm-12">
+                <p style="font-family: 'Bodoni Italic';font-size: 24px;color: #8e795a;margin-bottom: 0px;font-weight: 300;">Bloom and Fresh</p>
+                <h1 style="font-family: 'Gotham Bold';color: #3b454d;font-weight: 300;font-size: 46px;letter-spacing: 3px;margin-top: 5px;" ng-if="!chosenTag">
+                    {{::'FLOWERS_NAME' | translate}}
+                </h1>
+                <h1 style="font-family: 'Gotham Bold';color: #3b454d;font-weight: 300;font-size: 46px;letter-spacing: 3px;margin-top: 5px;" ng-if="chosenTag">
+                    {{chosenTag.tags_name}}
+                </h1>
+            </div>
+            <div style="height: inherit;background-color: #3b454d;padding-top: 50px;" class="col-lg-4 col-md-4 col-sm-12">
+                <img style="margin-left: auto;margin-right: auto;display: block;" src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/bnfLogo9491.png">
+                <p ng-bind-html="headerText" style="color: #ffffff;font-size: 16px;font-family: 'Gotham Light';margin-top: 40px;font-weight: 700;"></p>
+            </div>
+        </div>
+    </header>
+    <header style="padding-top: 0px;background: none;padding-bottom: 0px;" class="pageHeader jumbotron text-center hidden-lg hidden-md hidden-sm">
+        <div style="max-width: 1400px;margin-left: auto;margin-right: auto;display: block;">
+            <div style="background-color: #3b454d;padding-top: 15px;padding-bottom: 5px;" class="col-sm-12">
+                <h1 style="font-family: 'Gotham Bold';color: #ffffff;font-weight: 300;font-size: 22px;letter-spacing: 3px;margin-top: 5px;" ng-if="!chosenTag">
+                    {{::'FLOWERS_NAME' | translate}}
+                </h1>
+                <h1 style="font-family: 'Gotham Bold';color: #ffffff;font-weight: 300;font-size: 22px;letter-spacing: 3px;margin-top: 5px;" ng-if="chosenTag">
+                    {{chosenTag.tags_name}}
+                </h1>
+                <p ng-bind-html="headerText" style="color: #ffffff;font-size: 14px;font-family: 'Gotham Light';margin-top: 15px;font-weight: 700;"></p>
+            </div>
+        </div>
+    </header>
+    <nav style="height: 120px;" class="container-fluid fixed-width hidden-xs">
+        <section style="border-style: solid;border-bottom-width: 1px;border-color: #f3efea;height: inherit;" class="row">
+            <div style="border-style: solid;border-left-width: 1px;;border-color: #f3efea;height: inherit;max-width: 1200px;margin-left: auto;margin-right: auto;display: block;">
+                <div style="text-align: center;padding-top: 30px;border-style: solid;border-right-width: 1px;;border-color: #f3efea;height: 119px;padding-left: 0px;padding-right: 0px;" class="col-lg-1 col-md-1 col-sm-2" ng-repeat="tag in tags" ng-class="{flowerBg: (tag.id === chosenTag.id)}" >
+                    <a ui-sref="flowers({ baseUrl:'{{'FLOWERS_URL' | translate }}',tagUrl:tag.tag_ceo})" ng-click="tagSelected(tag)" class=""
+                       title="{{tag.tag_header}}">
+                        <img class="nonMobile" style="width: 40px;height: 40px;" src="{{tag.big_image}}" />
+                        <p ng-show="tag.id !== chosenTag.id" style="font-family: 'Gotham Bold';color: #3b454d;font-weight: 300;font-size: 11px;margin-top: 7px;line-height: 14px;" >{{tag.tags_name}}</p>
+                        <p ng-show="tag.id === chosenTag.id" style="font-family: 'Gotham Bold';color: white;font-weight: 300;font-size: 11px;margin-top: 7px;line-height: 14px;" >{{tag.tags_name}}</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </nav>
+    <nav class="hidden-lg hidden-md hidden-sm container-fluid fixed-width hidden-xs">
+        <section class="row">
+            <ul style="text-align: center;" class="tagSection">
+                <li class="tagContainer" ng-repeat="tag in tags">
+                    <a ui-sref="flowers({ baseUrl:'{{'FLOWERS_URL' | translate }}',tagUrl:tag.tag_ceo})" ng-click="tagSelected(tag)" class=""
+                       title="{{tag.tag_header}}">
+                        <img class="nonMobile" src="{{tag.inactive_image_url}}" ng-show="!tag.isHovered && tag.id !== chosenTag.id"
+                             ng-mouseenter="tag.isHovered = true" ng-mouseleave="tag.isHovered = false"/>
+                        <img class="nonMobile" src="{{tag.active_image_url}}" ng-show="tag.isHovered || tag.id === chosenTag.id"
+                             ng-mouseenter="tag.isHovered = true" ng-mouseleave="tag.isHovered = false"/>
+                    </a>
+                </li>
+            </ul>
+        </section>
+    </nav>
+    <article class="container-fluid fixed-width">
+        <section class="row listOfFlowers">
+            <div style="padding-top: 0px;padding-left: 0px;padding-right: 0px;border-style: solid;border-width: 1px;border-color: #f3efea;" ng-repeat="flower in filteredFlowers" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 flowerClassJS"
+                 ng-style="{'background-color': flower.background_color}" ng-if="flower.company_product == 0 && ( ( selectedCity.value == 'ist' && flower.city_id == 1  ) || ( selectedCity.value == 'ank' && flower.city_id == 2  ) || ( selectedCity.value == 'ist-2' && flower.city_id == 341  ) || ( selectedCity.value != 'ank' && selectedCity.value != 'ist' && selectedCity.value != 'ist-2' && flower.cargo_sendable == 1 && flower.city_id == 1  ) ) ">
+                <a style="padding-left: 0px;padding-right: 0px;" class="flowersImageMax imageContainer col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-6 col-sm-offset-0 col-sm-5 col-xs-offset-0 col-xs-12"
+                   ui-sref="flowerDescription({flowerCategory: flower.tag_main,seo_param: flower.ceo_url, flowerName: flower.url_parametre, id: flower.id })"
+                   title="{{flower.url_title}}">
+                    <img class="hidden-xs flowerImage lazy"
+                         src="{{flower.MainImage}}"
+                         name="{{flower.MainImage}}" alt="{{flower.img_title}}"/>
+                    <img class="hidden-lg hidden-md hidden-sm flowerImage lazy"
+                         src="{{flower.mobileImage}}"
+                         name="{{flower.mobileImage}}" alt="{{flower.img_title}}"/>
+                </a>
+                <h3 style="position: absolute;top: -5px;font-family: 'Bodoni Italic';
+                font-size: 35px;
+                letter-spacing: -2px;
+                line-height: 35px;
+                margin: 20px 0 10px;" class="hidden-sm hidden-md hidden-lg flowerName col-xs-12 text-center">
+                    <a class="darkBlueText"
+                       ui-sref="flowerDescription({flowerCategory: flower.tag_main,seo_param: flower.ceo_url, flowerName: flower.url_parametre, id: flower.id })"
+                       title="{{flower.url_title}}">
+                        {{flower.name}}
+                    </a>
+                </h3>
+
+                <p style="position: absolute;top: 50px;font-family: 'Gotham Light';
+                font-size: 13px;line-height: 20px;
+                padding: 0;min-height: 100px;" class="hidden-sm hidden-md hidden-lg flowerDescription col-xs-12 text-center brownText">
+                    {{flower.detail_page_desc}}<br/>
+                </p>
+                <strong style="bottom: 60px;font-family: 'Bodoni Italic';font-size: 18px;color: rgba(129, 106, 74, 0.65);line-height: 14px;" class="flowerPrice col-xs-12 lightBrownText text-center hidden-sm hidden-md hidden-lg"
+                        ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && flower.speciality == '0' && flower.old_price">
+                    {{flower.old_price}} TL
+                    <img style="width: 123px;position: absolute;top: 8px;transform: rotate(2deg);left: 0;
+    right: 0;margin-left: auto;margin-right: auto;" src="https://lh3.googleusercontent.com/-BqVW7Cgl3i0/XFWmLnq_nkI/AAAAAAAAAzA/cs7CFaj9OZQ-TgLRdk-f4kFSZJBjp8tDACL0BGAYYCw/h29/cross-out-thinner.png">
+                    <div style="display: inline-block;width: 44px;height: 22px;position: relative;">
+                                <span style="font-weight: 300;font-size: 11px;color: #a59b8f;font-family: 'Gotham Book';position: absolute;top: 8px;left: -1px;" class="flowerTax">
+								+ {{::'TAX' | translate}}
+							</span>
+                    </div>
+                </strong>
+                <strong style="bottom: 60px;font-size: 22px;font-family: 'Bodoni Italic';line-height: 22px;" class="flowerPrice col-xs-12 lightBrownText text-center hidden-sm hidden-md hidden-lg"
+                        ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && flower.speciality == '0'">
+                    {{flower.price}} TL
+							<span style="font-size: 13px;color: #a59b8f;font-family: 'Gotham Book';" class="flowerTax">
+								+ {{::'TAX' | translate}}
+							</span>
+                </strong>
+                <article style="float: right;display: inline-block;padding-left: 5px;padding-right: 5px;" class="col-lg-6 col-md-6 col-sm-7 col-xs-12">
+                    <header class="hidden-xs text-center">
+                        <h3 class="hidden-xs flowerName col-lg-12 col-md-11 col-sm-12 col-xs-11 text-center">
+                            <a class="darkBlueText"
+                               ui-sref="flowerDescription({flowerCategory: flower.tag_main,seo_param: flower.ceo_url, flowerName: flower.url_parametre, id: flower.id })"
+                               title="{{flower.url_title}}">
+                                {{flower.name}}
+                            </a>
+                        </h3>
+
+                        <p style="margin-bottom: 10px;" class="hidden-xs flowerDescription col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center brownText">
+                            {{flower.detail_page_desc}}<br/>
+                        </p>
+                        <strong style="font-size: 18px;color: rgba(129, 106, 74, 0.65);line-height: 14px;" class="flowerPrice col-lg-12 col-md-11 col-sm-12 col-xs-11 lightBrownText text-center hidden-xs"
+                                ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && flower.speciality == '0' && flower.old_price">
+                            {{flower.old_price}} TL
+                            <img style="width: 123px;position: absolute;top: 8px;transform: rotate(2deg);left: 0;
+    right: 0;margin-left: auto;margin-right: auto;" src="https://lh3.googleusercontent.com/-BqVW7Cgl3i0/XFWmLnq_nkI/AAAAAAAAAzA/cs7CFaj9OZQ-TgLRdk-f4kFSZJBjp8tDACL0BGAYYCw/h29/cross-out-thinner.png">
+                            <div style="display: inline-block;width: 44px;height: 22px;position: relative;">
+                                <span style="font-weight: 300;font-size: 11px;color: #a59b8f;font-family: 'Gotham Book';position: absolute;top: 8px;left: -1px;" class="flowerTax">
+								+ {{::'TAX' | translate}}
+							</span>
+                            </div>
+                        </strong>
+                        <strong style="margin-bottom: 20px;" class="flowerPrice col-lg-12 col-md-11 col-sm-12 col-xs-11 lightBrownText text-center hidden-xs"
+                                ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && flower.speciality == '0'">
+                            {{flower.price}} TL
+                            <div style="display: inline-block;width: 44px;height: 22px;position: relative;">
+                                <span style="font-weight: 300;font-size: 13px;color: #a59b8f;font-family: 'Gotham Book';position: absolute;top: 4px;left: -1px;" class="flowerTax">
+								+ {{::'TAX' | translate}}
+							</span>
+                            </div>
+                        </strong>
+                        <ul style="margin-bottom: 0px;" class="flowerTags flexContainer center-block hidden-xs">
+                            <li class="flexableItem" ng-repeat="tag in flower.tags" tooltip-placement="top"
+                                tooltip-html-unsafe="{{getTagTooltip(tag)}}">
+                                <img style="width: 25px;height: 25px;" class="tags lazyFooter nonMobile" name="{{tag.inactive_image_url}}" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" ng-show="!tag.isHovered"
+                                     ng-mouseenter="tag.isHovered = true" ng-mouseleave="tag.isHovered = false"/>
+                                <img style="width: 25px;height: 25px;" class="tags nonMobile" src="{{tag.active_image_url}}" ng-show="tag.isHovered"
+                                     ng-mouseenter="tag.isHovered = true" ng-mouseleave="tag.isHovered = false"/>
+                            </li>
+                        </ul>
+
+                        <strong style="margin-bottom: 10px;margin-top: 100px;" class="outOfSaleText col-lg-12 col-md-11 col-sm-11 col-xs-11 text-center redText hidden-xs"
+                                ng-if="flower.limit_statu !== '0' || flower.coming_soon !== '0'">
+							<span ng-if="flower.limit_statu === '1'">
+								{{::'SOLD_OUT' | translate}}
+							</span>
+							<span ng-if="flower.coming_soon === '1'">
+								{{::'SOON' | translate}}
+							</span>
+                        </strong>
+
+                        <strong style="margin-top: -5px;" class="outOfSaleText col-lg-12 col-md-11 col-sm-11 col-xs-11 text-center redText hidden-xs"
+                                ng-if="flower.speciality == '1'">
+							<span style="color: black">
+								Özel Tasarım
+							</span>
+                        </strong>
+                    </header>
+
+                    <footer ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' || flower.speciality == '1'">
+                        <form style="margin-top: 20px;" class="sendingCityField text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <label style="display: block;" class="lightBrownText not-error"
+                                   ng-hide="flower.isChecked && (flower.sendingDistrict === undefined || flower.sendingDistrict === null)">
+                                {{::'SENDING_DISTRICT_DROPDOWN_TEXT' | translate}} </label>
+                            <label style="display: block;" class="error"
+                                   ng-show="flower.isChecked && (flower.sendingDistrict === undefined || flower.sendingDistrict === null)">{{::'SENDING_DISTRICT_DROPDOWN_ERROR'
+                                | translate}}</label>
+
+                            <ui-select search-enabled="false" style="margin-bottom: 15px;max-width: 250px;margin-left: auto;margin-right: auto;" ng-model="selectedCity" theme="selectize" class="hidden" ng-change="setCity(selectedCity)">
+                                <ui-select-match placeholder="Gönderim Şehri" >{{selectedCity.name}}</ui-select-match>
+                                <ui-select-choices repeat="city in cities">
+                                    <span ng-bind-html="city.name"></span>
+                                </ui-select-choices>
+                            </ui-select>
+
+                            <ui-select style="max-width: 250px;margin-bottom: 20px;" ng-model="flower.sendingDistrict" theme="select2" class="hidden-xs" ng-change="setCityDistrict(flower.sendingDistrict)">
+                                <ui-select-match placeholder="{{'SENDING_DISTRICT_DROPDOWN_PLACEHOLDER_TEXT' | translate}}">
+                                    {{flower.sendingDistrict.district}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="district in districts | filter: $select.search">
+                                    <span ng-bind-html="district.district | highlight: $select.search"></span>
+                                </ui-select-choices>
+                            </ui-select>
+
+                            <select style="max-width: 250px;margin-bottom: 20px !important;margin-left: auto;margin-right: auto;float: none;"
+                                    class="mobilDropdownSelect hidden-lg hidden-md hidden-sm col-xs-12"
+                                    ng-model="flower.sendingDistrict"
+                                    ng-options="district.district for district in districts track by district.district">
+                                <option value="">{{::'SENDING_DISTRICT_DROPDOWN_PLACEHOLDER_TEXT' | translate}}</option>
+                            </select>
+
+                            <a style="display: block;max-width: 250px;margin-left: auto;margin-right: auto;float: none;font-size: 16px;color: #FBFBFB;" ng-if="flower.speciality != '1'" ui-sref="flowerDescription({flowerCategory: flower.tag_main,seo_param: flower.ceo_url, flowerName: flower.url_parametre, id: flower.id })"  role="button" rel="nofollow"
+                               class="sendButton col-lg-12 col-md-12 col-sm-12 col-xs-12 btn btn-default text-uppercase"><b style="top: 23%;">{{::'SEND_BUTTON_TEXT' | translate}}</b></a>
+                            <a style="display: block;max-width: 250px;margin-left: auto;margin-right: auto;float: none;font-size: 16px;color: #FBFBFB;" ng-if="flower.speciality == '1'" ui-sref="flowerDescription({baseUrl:'{{'FLOWER_DETAIL_URL' | translate }}', flowerName: flower.name, id: flower.id })" role="button" rel="nofollow"
+                               class="sendButton col-lg-12 col-md-12 col-sm-12 col-xs-12 btn btn-default text-uppercase"><b style="top: 23%;">Gönder</b></a>
+                            <p class="getSmallSoon" style="margin-top: 10px;font-family: 'Gotham Light';font-size: 13px;height: 19px;width: 100%;text-align: center;color: #3b454d;font-weight: 600;"
+                               ng-if="( selectedCity.value == 'ank' || selectedCity.value == 'ist'  || selectedCity.value == 'ist-2' ) && flower.limit_statu === '0' && flower.coming_soon === '0' && flower.today == '1'">En Erken: Bugün</p>
+                            <p class="getSmallSoon" style="margin-bottom: 0px;margin-top: 10px;font-family: 'Gotham Light';font-size: 13px;height: 19px;width: 100%;text-align: center;color: #3b454d;font-weight: 600;"
+                               ng-if="( selectedCity.value != 'ank' && selectedCity.value != 'ist' && selectedCity.value != 'ist-2' ) && flower.limit_statu === '0' && flower.coming_soon === '0' && flower.today_ups == '1'">Aynı Gün Kargo</p>
+                            <p class="getSmallSoon" style="margin-top: 10px;font-family: 'Gotham Light';font-size: 13px;height: 19px;width: 100%;text-align: center;color: #3b454d;font-weight: 600;" ng-if="( selectedCity.value == 'ank' || selectedCity.value == 'ist' || selectedCity.value == 'ist-2' ) && flower.limit_statu === '0' && flower.coming_soon === '0' && flower.tomorrow == '1'">En Erken: Yarın</p>
+                            <p class="getSmallSoon" style="margin-bottom: 0px;margin-top: 10px;font-family: 'Gotham Light';font-size: 13px;height: 19px;width: 100%;text-align: center;color: #3b454d;font-weight: 600;" ng-if="( selectedCity.value != 'ank' && selectedCity.value != 'ist' && selectedCity.value != 'ist-2' ) && flower.limit_statu === '0' && flower.coming_soon === '0' && flower.tomorrow_ups == '1'">Yarın Kargolanır</p>
+                            <p class="getSmallSoon" style="margin-top: 10px;font-family: 'Gotham Light';font-size: 13px;height: 19px;width: 100%;text-align: center;color: #3b454d;font-weight: 600;" ng-if="( selectedCity.value == 'ank' || selectedCity.value == 'ist' || selectedCity.value == 'ist-2'  ) && flower.limit_statu === '0' && flower.coming_soon === '0' && flower.tomorrow == '0' && flower.today == '0'">En Erken: {{flower.theDayAfter}}</p>
+                            <p class="getSmallSoon" style="margin-bottom: 0px;margin-top: 10px;font-family: 'Gotham Light';font-size: 13px;height: 19px;width: 100%;text-align: center;color: #3b454d;font-weight: 600;" ng-if="( selectedCity.value != 'ank' && selectedCity.value != 'ist' && selectedCity.value != 'ist-2' ) && flower.limit_statu === '0' && flower.coming_soon === '0' && flower.tomorrow_ups == '0' && flower.today_ups == '0'">Kargo Tarihi: {{flower.theDayAfter_ups}}</p>
+                            <p class="getSmallSoon" style="font-family: 'Gotham Light';font-size: 13px;height: 19px;width: 100%;text-align: center;color: #3b454d;font-weight: 600;" ng-if="( selectedCity.value != 'ank' && selectedCity.value != 'ist' && selectedCity.value != 'ist-2'  ) && flower.limit_statu === '0' && flower.coming_soon === '0' ">Tahmini teslimat süresi: {{upsDeliveryTime}} Gün</p>
+                        </form>
+                    </footer>
+
+                    <footer class="outOfSale" ng-if="flower.limit_statu !== '0' || flower.coming_soon !== '0'">
+                        <a style="max-width: 250px;margin-left: auto;margin-right: auto;float: none;font-size: 16px;color: #FBFBFB;display: block;" ui-sref="flowerDescription({flowerCategory: flower.tag_main,seo_param: flower.ceo_url, flowerName: flower.url_parametre, id: flower.id })" role="button"
+                           class="sendButton col-lg-12 col-md-12 col-sm-12 col-xs-12 btn btn-default text-uppercase">
+                            <b>{{::'DETAIL_BUTTON_TEXT' | translate}}</b>
+                        </a>
+                    </footer>
+
+                    <!--<div style="width: 250px;margin-left: auto;margin-right: auto;float: none;padding-left: 5px;padding-right: 5px;display: table;padding-top: 15px;" class="col-lg-12">
+                        <p style="font-family: 'Bodoni italic';font-size: 20px;color: #8d7758;">Bu güzelliği paylaş
+                            <a style="text-decoration: none;" href="#"
+                               title="Bloom And Fresh Facebook Social Share"
+                               ng-click="shareEvent('facebook')"
+                               socialshare
+                               socialshare-provider="facebook"
+                               socialshare-display="popup"
+                               socialshare-url="https://bloomandfresh.com/{{flower.tag_main}}/{{flower.url_parametre}}-{{flower.id}}">
+                                    <img style="padding-bottom: 3px;padding-left: 20px;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/bu-guzelligi-paylas-facebook.png">
+                               </a>
+                            <a href="#" title="Bloom And Fresh Twitter Social Share"
+                                    ng-click="shareEvent('twitter')"
+                                    socialshare
+                                    socialshare-provider="twitter"
+                                    socialshare-url="https://bloomandfresh.com/{{flower.tag_main}}/{{flower.url_parametre}}-{{flower.id}}"
+                                    socialshare-via="BloomAndFresh">
+                                <img style="padding-bottom: 2px;padding-left: 15px;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/bu-guzelligi-paylas-twitter.png">
+                                    </a>
+                        </p>
+                    </div>-->
+                </article>
+                <div>
+                    <div itemtype="http://schema.org/Product" itemscope>
+                        <meta itemprop="sku" content="{{flower.id}}" />
+                        <meta itemprop="name" content="{{flower.name}}" />
+                        <link itemprop="image" href="https://s3.eu-central-1.amazonaws.com/bloomandfresh/600-600/{{flower.id}}.jpg" />
+                        <meta itemprop="description" content="{{flower.detail_page_desc}}" />
+
+                        <div itemprop="offers" itemtype="http://schema.org/Offer" itemscope>
+                            <meta itemprop="availability" content="https://schema.org/InStock" />
+                            <meta itemprop="priceCurrency" content="TRY" />
+                            <meta itemprop="price" content="{{calculatePriceWithKDV(flower)}}" />
+                        </div>
+                        <div itemprop="audience" itemtype="http://schema.org/PeopleAudience" itemscope>
+                            <meta itemprop="suggestedGender" content="unisex" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div ng-if="selectedCity.value != 'ank' && selectedCity.value != 'ist' && selectedCity.value != 'ist-2' " id="cargoText"
+             style="margin-bottom: 25px;margin-top: 15px" class="hidden col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <p style="margin-top: 15px;font-family: 'Gotham Light';font-size: 18px;line-height: 25px;text-align: center;max-width: 770px;margin-left: auto;margin-right: auto">
+                Malesef bu kategorideki ürünlerimizi seçmiş olduğunuz bölgeye teslim edemiyoruz.
+                <br>
+                Seçtiğiniz bölge için kargo ile teslim edilen ürünleri görmek için lütfen tıklayınız.
+            <a style="width: 270px;background: #3b454d;background-color: #3b454d;color: #ffffff;margin-top: 20px;
+            display: block;margin-left: auto;margin-right: auto;"
+               class="btn-bloomNfresh btn btn-default text-uppercase" href="/">
+                <b>Kargo Teslim Ürünler</b></a> </div>
+    </article>
+
+    <div style="margin-top: 40px;padding-bottom: 5px;" ng-if="chosenTag.tags_name == 'Orkide'">
+        <a id="buttonGoToTop">
+            <img style="width: 66px;margin-left: -8px;margin-top: -8px;"
+                 src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/round-expand_less-24px.svg">
+        </a>
+        <h1 id="FirstHeaderId" style="    font-family: 'Bodoni Italic';
+    font-size: 42px;
+    color: #8e795a;
+    margin-bottom: 0px;
+    font-weight: 300;text-align: center;">
+            Orkide
+        </h1>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 20px;">
+            Orkide Bakımı, Türleri ve Orkidelere Dair Her Şey
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Yaklaşık 28.000 türüyle Orkidegiller, otsu çiçekli bitkilerin en geniş ailesidir. Genellikle, her tür yüksek oranda yerelleşir ve belli koşullara hassas şekilde uyum sağlarlar. Dünyanın her yerinde yetişirler ve habitatlarının çeşitliliği yağmur ormanlarının karanlık zemininden uzun tropikal ağaçların tepesine kadar uzanır.
+            <br>
+            <br>
+            Orkidelerin çoğu epifiktir. Başka bir bitkiden destek aldıklarından ve onların dallarında, kökleri havada süzülerek büyüdüklerinden genel olarak “hava bitkileri” olarak bilinir. Kökleri ihtiyacı olan suyu ve besini, etrafından dönen sisten, nemden, tozdan ve bitki kalıntılarından alır ve bunları ağaçların tepelerindeyken toplar. Çamurlu bataklıklar gibi hoş olmayan ortamlara uyum sağlayan yerde yetişen orkideler de bulunmaktadır ki kökleri soğan şeklindedir.
+            <br>
+            <br>
+            Orkideler bitki dünyasının oyuncularından olup tuhaf ve çeşitli şekillerdeki çiçekler son derece uzmanlaşmış pek çok tozlaşma sistemine sahiptir. Çoğu tozlaşmalarına yardımcı olan böcekleri taklit eder ve bu adaptasyonlar bir tozlaştırıcı çekmek için kasıtlı manevralardır. Arı Orkidesi (Ophrys Apifera) buna en güzel örnektir.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Orkide Türleri
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Orkidelerin şekli ve kokusu onların yüzyıllardır seralar ve süs bitkisi yetiştiricileri için önemli ve cazip kılmaktadır. 1800’lerde bitki avcıları pek çok nadir türü soyu tükenme noktasına getirmiş olsa da çoğu bitki şimdi tohumundan yetiştiriliyor.
+            <br>
+            <br>
+            Phalenopsis Orkide en yaygın ve bilinir olan çeşidi olmakla birlikte Phalaenopsis Orkide, Dendrobium Orkide , Cybimdium Orkide, Vanda Orkide, Cattleya Orkide, Paphiopedilum Orkide gibi çok sayıda çeşidi mevcuttur. Bu çeşitlilik orkidelerin çiçeklerinin renkleri söz konusu olduğunda da devam etmekte ve alışılagelen beyaz orkide, pembe orkide, fuşya orkide, mor orkide gibi renklerin yanı sıra mavi orkide, siyah orkide de tür içerisinde yer almaktadır.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Renkler Arasında En Popüleri: Beyaz Orkide
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Beyaz renk tüm çiçeklerde olduğu gibi saf, sade ve duru bir güzellik arayanlar için orkide nezdinde de en çok tercih edilen renk olmakla birlikte fuşya ve turuncu tonları da gittiği ortama canlılık ve renk katması sebebiyle sıklıkla tercih edilmektedir. Çiçeklerinin güzelliğini uzunca bir süre muhafaza etmesinden dolayı dal üzerindeki çiçek sayısı bir diğer ifade ile kandil sayısı da orkide gönderirken ve seçerken tercih nedeni olmaktadır.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Orkide Göndermek ve Dikkat Edilmesi Gerekenler
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Orkide göndermek isteyenler için orkide üzerindeki açmış çiçek sayısı kadar tomurcukların da yer alması önemli bir tercih sebebidir. Böylece orkide gönderilen kişi hem açmış çiçeklerin keyfini sürebilir hem de tomurcukların çiçeklenmesine şahit olarak bu güzel bitkiden alacağı zevki katlayabilir.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Orkide Toprağı ve Özellikleri
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Doğada yaygın olarak ağaç gövdelerine tutunarak yaşayan orkidelerin toprakları da yine ağaç kabuğu içeren karışımlardan oluşmaktadır. Çeşitli ağaç kabuklarının irili ufaklı parçalanmış şekli genel anlamda orkide toprağını ifade etmektedir. Karışımların orkidenin köklerini yeteri kadar besleyebilmesi için bir suyu direne etme özelliği olan çam kabuğu ve suyu hapsetme özelliği olan hindistan cevizi kabuğu sıklıkla karışımlarda kullanılmaktadır. Ayrıca yine her bitki toprağının olmazsa olmazı küçük çakıl taşları, perlit, ponza, ufak köpük malzeme de bir diğer tamamlayıcı olarak karışımlarda kullanılmaktadır.
+            <br>
+            <br>
+            Farklı türde orkidelerin farklı toprak ihtiyaçları olmakla birlikte piyasada satılan pek çok marka genel ihtiyacı karşılayacak yöndedir. Burada güvenilir satış noktalarından almak, ambalajının sağlam olduğuna dikkat etmek ve ürün ile ilgili bilgilendirmeleri okumak gerekmektedir. Küflenmiş, nemli, içinde başka organizmaların yaşam bulduğu karışımlar olası hastalık sebebiyle tercih edilmemelidir. Günümüzde artık pek çok malzeme kolaylıkla temin edilebildiği için pek çok orkide sever kendi toprak karışımlarını kendileri hazırlamaktadır. Her çeşidin ihtiyacının farklı olduğunu yine hatırlatarak, burada bir tarif veya ölçü paylaşmaktansa fikir vermesi adına tek tip ağaç kabuğundan ziyade farklı ağaç kabukları içermesi ve bunların oranının su tutma ve tam tersi suyu direne etme şeklinde farklı özellikleri olan ağaç kabuklarından olması tercih edilmelidir. Ağaç kabuğu dışında da köklerin hava alması ve yine fazla suyun süzülebilmesi için muhtelif taş, cüruf, ponza, perlit, köpük herhangi biri eklenmelidir.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Orkide Bakımı ve Sağlıklı Bir Orkide
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Orkide türlerine göre ufak farklılıklar gösterse de orkide bakımı ve bir orkidenin sağlıklı olduğunu gözlemleyebilmek için ilk olarak tüm köklerin en uç noktasına kadar yeşil ve yeteri kadar kalın olduğundan emin olunmalıdır. Ek olarak yapraklarının yeşil, diri olması ve doğal minik izlerin dışında ciddi bir lekesi olmaması orkidenin durumu hakkında fikir verecektir. Yine çiçeklerinin formu ve minik izler dışında lekeler taşımaması da orkide bakımının iyi olduğuna ve bitkinin sağlıklı olduğuna işaret eden göstergelerden sayılır.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Orkide Bakımı için Oda ve Ortam Sıcaklığı
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Orkide türleri arasında farklar göstermekle birlikte orkide bakımı için en uygun ortam sıcaklığı 18 – 25 derece arasıdır. Orkide insanlar arasında tropikal bir algı yaratsa da direkt güneş ışığı ve aşırı sıcak ortamlarda bulundurulmaktan kaçınılmalıdır.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Sağlıklı Bir Orkide İçin Ortam Işığı
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Direkt güneşe maruz kalmadan aydınlık bir ortamda bulundurmamız gerekmektedir. Bir diğer açıdan tarif edecek olur isek uygun yer konusunda, pencere önü ancak tül perde arkası ve yarı gölge olacak şekilde yerleşim demek doğru olacaktır. Direkt güneşe maruz kalması yaprak ve çiçeklerde hızlı su kaybına ve yanık ve lekelenmelere neden olacaktır.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Orkideler için En Uygun Ortam Havası
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Pek çok iç mekan bitkisinin ihtiyacı olan temiz hava orkideler için de olmazsa olmazlardandır. Hızlı hava değişiminde sakınarak, direkt esintiye maruz kalmadan temiz hava ihtiyacını gün içinde karşılamamız gerekmektedir. Yarı açık pencere önünde kısa süreli bir havalandırma dahi hem yaprak hem de kökleri için fayda sağlayacaktır.
+            <br>
+            <br>
+            Ancak özellikle ofis ortamlarında karşımıza çıkan havalandırma ve klima sistemlerinin hava akımları orkide bakımı ve sağlığı için tehlike oluşturmaktadır. Bu orkideleri nedenle sürekli ve değişken ısılarda olan direkt hava akımlarından korumak ömrünü uzatacaktır.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Orkide Çiçeklendirme
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Türlerine bağlı olarak değişmekle birlikte genel olarak yılın 6 ayını çiçekli kalan 6 ayını çiçeksiz uykuda geçirmektedirler. Çoğunlukla aldığımız orkideler çiçek açmış ve/veya açmak üzere olan tomurcukları üzerinde olarak bize ulaşır. Tomurcuklar bir süre sonra uygun bakım koşulları altında açarlar. Çiçeklerin her biri kendi zamanını doldurdukça da dökülür sadece dallar kalıncaya kadar.
+            <br>
+            <br>
+            Tüm çiçeklerini dökmesi bilinen aksine orkidenizin artık öldüğü anlamına gelmemektedir. Yukarıda belirtilen şartlar ile orkide bakımı adımları izlendiğinde bir sonraki çiçeklendirme döneminde orkide yine güzel çiçeklerini açacaktır. Orkide çiçek açımını izlemenin de oldukça keyifli ve mutluluk veren bir aktivite olduğunu belirtmeliyiz.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Orkide Besin Kullanımı
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Orkidelerimiz kimi zaman ihtiyaç duyduğu mineral ve besinleri topraktan veya sulama suyundan alamayabilirler. Bu durumda hazır bitki besinleri kullanımı ile onlara takviye verip sağlıklı gelişmelerini destekleyebiliriz. Piyasada pek çok farklı markanın farklı içeriklerde bitki besinleri bulunmakta olup almış olduğunuz ürünün talimatlarını okuyarak uygulama yapmak her daim fayda getirecektir. Burada dikkat edilmesi gereken kritik nokta çiçekleri halihazırda üzerinden iken ekstra besin kullanmamamız yönünde olacaktır.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Orkide Bakımının en önemli noktası: Orkide Sulama
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Orkidelerin bulunduğu ortamın sıcaklığına bağlı olarak su ihtiyaçları değişmekle birlikte, köklerini ve toprağını kontrol ederek bir sulama periyodu oluşturabilirsiniz. Burada önemli olan fazla olan suyun tamamen süzüldüğüne emin olmaktır. Çünkü direne edilemeyen su zamanla kökte yumuşama ve takibinde çürüme yapacaktır. En sonunda da bakteri oluşumu ile orkidenizin sağlığını olumsuz etkileyecektir.
+            <br>
+            <br>
+            En ideal sulama yöntemi suya daldırma şeklinde olup şayet bakım koşullarınız elverişli ise tavsiyemiz de bu yöndedir. Ancak bakım koşulları uygun olmayanlar için orkide sulamada dikkat edilmesi gereken en önemli nokta orkideleri <a href="/vazoda-cicek">süs vazoları/saksılarından</a> (mermer, cam, seramik vb. altında delikleri bulunmayan) çıkartıp, plastik sulama kabı içerisinde sulamaktır. Sulama işleminden 10 – 15 dakika sonra, suyun direne olduğunu (aktığını) gördükten sonra orkide tekrar süs saksısının içine alınıp görsel keyfi sürülmeye devam edilebilir.
+            <br>
+            <br>
+            Bloom and Fresh orkideleri ile giden marka kartımızda orkideyi alanlar için daha sağlıklı bakım bilgileri için sitemize ve bu içeriğe yönlendirmelerimiz yer alıyor. Ancak yine de Bloom and Fresh koleksiyonu arasından orkide göndermek isteyenler de bu güzellikleri teslim alan sevdiklerini sayfamızı ziyaret etmek için yönlendirebilirse bu güzel bitkinin keyfini çok daha uzun süreler sürmelerini sağlayabilirler.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Daldırma Yöntemi ile Orkide Nasıl Sulanır?
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;padding-bottom: 50px;">
+            Orkidenizi şeffaf plastik kabı ile saksının boyunu aşmayacak alttan 3 parmak derinlikte dinlenmiş suya bırakmanız ve köklerin ihtiyacına göre 20-30 dakika bekletmek ve sonrasında çıkarıp kalan suyun süzülmesini sağlamak şeklindedir. Yapraklarının su ile temasından kaçınmakla birlikte sprey ile zamanla oluşan toz alınabilir. Nemli bir bez yardımı ile silinebilir. Kuru olduğundan emin olmak buradaki kilit nokta. Nemli ya da ıslak kaldığı zaman yine bakteri oluşumuna ve arkasından çürümeye neden olacaktır.
+            <br>
+            <br>
+            Beğendiğiniz orkidenizin yanına lezzetli bir <a href="/cikolata">çikolata</a> ya da <a href="/hediye-kutulari">hediye kutusu</a> eklemek isterseniz Bloom & Fresh’te sizi harika alternatifler bekliyor !
+        </p>
+    </div>
+
+    <div style="margin-top: 40px;padding-bottom: 5px;" ng-if="chosenTag.tags_name == 'Hediye Kutuları ve Hediye Sepeti'">
+        <a id="buttonGoToTop">
+            <img style="width: 66px;margin-left: -8px;margin-top: -8px;"
+                 src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/round-expand_less-24px.svg">
+        </a>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Özel günlerde ya da ortada hiçbir sebep yokken sevdiklerinizi mutlu etmekten, onlara küçük sürprizler yapmaktan hoşlanıyorsanız zengin içeriklere ve şık tasarımlara sahip hediye kutusu çeşitleri tam size göre! Dilediğiniz kişinin gününü güzelleştirmek ve yüzünde kocaman bir gülümsemeye neden olmak için Bloom and Fresh hediye kutusu modellerini mutlaka inceleyin!
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+        Lezzet Patlaması Yaratacak Hediye Sepetleri
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Birbirinden leziz kurabiyeler, çörekler, çikolatalar, lokumlar, drajeler gibi atıştırmalıklardan oluşan dopdolu bir hediye sepetine kim “Hayır!” diyebilir ki? Bloom and Fresh tarafından hazırlanan ve şık sepet ya da kutularda satışa sunulan ürünleri, yeni işe başlamış arkadaşınıza da moralini yükseltmek istediğiniz <a href="/sevgililer-gunu-cicekleri" >sevgilinize hediye</a> olarak gönderebilirsiniz. Mutlu etmek istediğiniz kişiye özel bir armağan vermek için onun sevdiği atıştırmalıkların yer aldığı hediye kutusunu seçebilirsiniz.
+        <br/><br/>
+        Lezzet patlaması yaratacak atıştırmalık sepetleri ve kutuları, farklı boyutlarda hazırlanarak ihtiyaca uygun çözümler de sunuyor. Hediye kutusu büyük olsun ve kalabalık bir gruba rahatlıkla yetsin istiyorsanız içerisinde daha çok ürün bulunan seçeneklere göz atabilirsiniz. Böylelikle çalışanlarınıza, ya da müşterilerinize gönül rahatlığıyla hediye sepeti sipariş edebilirsiniz.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Çikolata Tutkunlarının Kalbini Çalacak Hediye Kutuları
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Bloom and Fresh, çikolata tutkunlarının geri çeviremeyeceği enfes çikolataları da tek bir kutuda toplayarak leziz paketler hazırlıyor. En kaliteli kakao çekirdeklerinden yapılmış, tadı damağınızda kalacak, lezzetli çikolata çeşitlerinin yer aldığı paketler sevdiklerinizi mutlu etme garantili!
+            <br><br>
+            Çalışanlarınız, aileniz, arkadaşlarınız ya da sevgiliniz için seçeceğiniz çikolatalı hediye kutuları ya da sepetler ile mutluluk hormonlarını artırmaya hazır mısınız? Şık ve özel tasarım kutularda sunulan <a href="/cikolata">çikolata kutularını</a> sevinçli bir haberi tebrik etmek, özür dilemek, sevginizi dile getirmek ya da dilediğiniz herhangi bir amaç için hediye edebilirsiniz. Kaliteli çikolatalarla doldurulmuş çikolata kutusu ya da sepetlerini doğrudan sevdiklerinizin adresine sipariş verebilir ya da kendiniz teslim alarak sevdiğiniz kişiye kendi ellerinizle verebilirsiniz.
+            <br>
+            <br>
+            Dilerseniz çikolata kutuları yerine daha zengin içeriğe sahip özel çikolata sepeti modellerini de tercih edebilirsiniz. Bloom and Fresh’te hem sizin hem de sevdiklerinizin beklentilerine en uygun hediye kutularını ve sepetlerini bulabilirsiniz.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Yaratıcı Armağanlardan Hoşlananlara Konsept Hediye Kutusu Seçenekler
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            <a href="/nedensiz-cicek-gonder">Sürpriz yapmak</a> istediğiniz kişi daha yaratıcı, farklı çeşitlerin bir arada yer aldığı hediyelerden hoşlanıyorsa Bloom and Fresh’in konsept hediye kutusu çeşitleri ile beklentisini rahatlıkla karşılayabilirsiniz. Farklı tarzlara hitap edecek tasarımlara ve desenlere sahip kutularda, birden fazla obje ve atıştırmalık çeşitleri yer alıyor. Defter, kupa, tebrik kartı, kalem, kolonya, French Press, mum gibi farklı objelerin çikolata, kurabiye, kahve, çay gibi atıştırmalık ya da içeceklerle kombinlendiği hediye kutuları, pek çok kişinin beğenisini kazanıyor.
+            <br>
+            <br>
+            Eğlenmeyi sevenler için renkli ve esprili atıştırmalık ya da hediyeliklerden oluşan ya da gurmeler için özel aroma ve tatlara sahip ürünlerden hazırlanan onlarca konsept hediye kutusu, Bloom and Fresh kalitesi ve güvencesiyle sevdiklerinizle buluşuyor.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Özel Günler İçin Tasarlanmış Hediye Kutuları
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;margin-bottom: 40px;">
+            En özel günlerinde sevdiklerinin yanında olmayı ve onun sevincini paylaşmayı kim istemez ki? Onun yanında olduğunuzu hissetmesi ve bu özel günde iyi dileklerinizi kabul etmesi için Bloom and Fresh’in  tasarladığı özel gün temalı hediye kutuları arasından seçim yapabilirsiniz. Yılbaşı hediye sepeti çeşitlerinden yeni doğum yapmış yakınlarınıza gönderebileceğiniz çikolata kutularına kadar pek çok seçenek sayesinde özel günlerinize ekstra mutluluk ve neşe katabilirsiniz.
+            <br>
+            <br>
+            Farklı bütçelere <a href="/indirimli-cicekler-hediyeler">uygun hediye kutusu fiyatları</a> ile pek çok kişiye hitap eden Bloom and Fresh üzerinden hediye kutusu sipariş ederek sıradan bir günü de, sizin için çok özel bir günü de unutulmaz kılabilirsiniz.
+        </p>
+    </div>
+
+    <div style="margin-top: 40px;padding-bottom: 5px;" ng-if="chosenTag.tags_name == 'Erkeğe Çiçek'">
+        <a id="buttonGoToTop">
+            <img style="width: 66px;margin-left: -8px;margin-top: -8px;"
+                 src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/round-expand_less-24px.svg">
+        </a>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Babanız, arkadaşınız, sevgiliniz ya da eşiniz… Hayatınızdaki erkeği özel bir günde ya da herhangi bir sebep yokken mutlu etmek için klasik hediyelerden fazlasını arıyorsanız Bloom and Fresh’in erkekler için hediye seçenekleri sizin için biçilmiş kaftan. Birbirinden farklı Bloom and Fresh çiçek aranjmanlarına hemen göz atabilir, küçük ama etkili sürprizlerle onu mutlu edebilirsiniz.         </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Erkeklere Özel Çiçek Tasarımları
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Çiçek, genellikle kadınlara gönderilen bir hediye olarak düşünülse de doğru çiçek tasarımı ile erkekleri de mutlu etmek mümkün. Bloom and Fresh’in floral tasarım eğitimi almış ekibinin özenle hazırladığı çiçek aranjmanları arasından göndereceğiniz kişinin zevkine uygun bir tasarım bulabilirsiniz. Özellikle fazla bakım gerektirmeyen <a href="/teraryum-sukulent-kaktus">sukulent ya da kaktüs aranjmanları</a>, erkeğe çiçek gönderilirken en çok tercih edilenler arasında. Arizona XL, Otto ya da La Famiglia gibi birçok sukulent çeşidini içinde barındıran aranjmanlar arasından dilediğinizi seçip siparişinizi hemen verebilirsiniz.
+            <br>
+            <br>
+            “Erkeğe çiçek gönderilir mi?” sorusunun cevabını erkeklerin zevklerine uygun dokunuşlarla hazırladığı çiçek tasarımlarıyla veren Bloom and Fresh Floral Tasarım ekibi, tasarımlarında erkeklerin en çok tercih ettiği renklere yer veriyor. Yoğunlukla siyah, gri ve krem renklerindeki vazolara konan çiçekler; erkek arkadaşınızın, babanızın ya da arkadaşınızın çalışma ya da yaşam alanlarını güzelleştiriyor. Siz de erkek için hediye fikirleri arayışındaysanız Bloom and Fresh’in özel tasarım çiçeklerini değerlendirebilirsiniz.         </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Hayatınızdaki Erkeği Şaşırtacak Çiçek Tasarımları
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Erkek arkadaşınızı ya da eşinizi şaşırtmak için özel günleri beklemenize gerek yok. Doğum günü, yılbaşı, tanışma ya da <a href="/sevgililer-gunu-cicekleri">evlilik yıl dönümü</a> gibi günlerin yanı sıra hiç beklemediği bir anda da onu küçük hediyelerle şaşırtabilir, ilişkinizi canlı tutmak için harika bir adım atabilirsiniz. Erkek arkadaşa hediye fikirleri arayışındaysanız Bloom and Fresh’in özel tasarım çiçeklerine göz atabilir, sürpriz yapmanın en güzel halini deneyimleyebilirsiniz.
+            <br>
+            <br>
+            Bloom and Fresh’in erkek için çiçek düzenlemeleri ile sevgilinizin ofis masasını ya da evini renklendirebilirsiniz. Özellikle bitki bakımı ile yakından ilgili bir erkek arkadaşınız varsa Bloom and Fresh’in <a href="/teraryum-sukulent-kaktus/curly-air-plant-tillandsia-hava-bitkisi-454">Curly</a>, Obaku, Astrid ya da Quartet çiçekleri ilginizi çekebilir. Bloom and Fresh’te her ürünün nasıl bakılması gerektiğine dair açıklamayı bulabilir, siparişinizle birlikte giden Chrysal destek besini ile hediye ettiğiniz çiçeğin daha uzun ömürlü olmasını sağlayabilirsiniz. Ayrıca Bloom and Fresh’te yalnızca çiçek tasarımları değil hayatınızdaki erkeği mutlu edecek atıştırmalık ve kahve çeşitlerinin olduğu hediye kutuları da bulmanız mümkün. Rengarenk makaronlar, aromatik kahveler, ona mesaj atarken en çok kullandığınız emojilerle tasarlanmış kurabiyeler ve daha fazlasının olduğu erkek hediye kutusu modelleri arasından sevgilinizin ya da eşinizin zevkine uygun olanı hemen sipariş edebilirsiniz.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Çiçek Tasarımlarını Çikolata ile Zenginleştirin
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;margin-bottom: 40px;">
+            <a href="/erkek-arkadasa-hediyeler">Erkeğe hediye fikirleri</a> bulmak başta zorlu görünse de Bloom and Fresh’in erkek için çiçek ve çikolata düzenlemeleri ile işiniz çok kolay. Bloom and Fresh’te tasarım çiçek aranjmanlarının yanı sıra dünyaca ünlü markaların lezzetli çikolatalarıyla hazırlanmış <a href="/cikolata">çikolata kutuları</a> da bulmanız mümkün. Kaçamak yapmanız için sizi çikolatayla mutlu eden erkek arkadaşınızı ya da eşinizi bu lezzet kutularıyla şaşırtma sırası sizde! Dilerseniz çiçek siparişi verirken beğendiğiniz çikolata kutusunu da sepetinize ekleyebilir, ona çifte mutluluk yaşatabilirsiniz.
+            <br>
+            <br>
+            Bloom and Fresh, yalnızca çiçek tasarımları ve hediye kutularıyla değil hızlı teslimat seçenekleriyle de sizi mutlu ediyor. Tazecik çiçeklerle yapılmış aranjmanlar ve lezzetli atıştırmalık ve dekoratif eşyaların bulunduğu hediye kutularını erkek arkadaşınıza olabilecek en kısa sürede ulaştırmak için beğendiğiniz ürünleri sepetinize ekleyebilir, erkek için çiçek siparişinizi kolaylıkla verebilirsiniz.
+        </p>
+    </div>
+
+    <div style="margin-top: 40px;padding-bottom: 5px;" ng-if="chosenTag.tags_name == 'Çiçek Çikolata'">
+        <a id="buttonGoToTop">
+            <img style="width: 66px;margin-left: -8px;margin-top: -8px;"
+                 src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/round-expand_less-24px.svg">
+        </a>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Güzel başlangıçları, mutlu haberleri kutlamak ya da sevdiklerinizin günlerine hoş bir dokunuş katmak için çikolata kadar tatlı bir hediye olabilir mi? Bloom and Fresh’in şık kutu ve sepetler içerisinde paketlediği hediyelik çikolata çeşitleri sayesinde farklı damak tatlarına uyacak ürünleri kolayca bulabilirsiniz. Seçenekler arasından aradığınıza en yakın seçimi hemen sipariş edebilirsiniz.          <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Zengin İçeriklere Sahip Çikolata Sepetleri
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Bloom and Fresh çikolata sepeti çeşitleri, zengin içerikleriyle görenleri kendine hayran bırakıyor. Çikolata tutkunlarını etkisi altına alacak sepetlerin içeriği ve büyüklüğü farklı ihtiyaçlara ve beğenilere göre özel olarak hazırlanıyor. Bazı çikolata sepetlerinin içerisinde sadece çikolata çeşitleri yer alırken kimi sepetlerde ise bunlara ek olarak kurabiyeler, drajeler ve çeşitli atıştırmalıklar hatta hediyelik eşyalar da yer alıyor.
+            <br>
+            <br>
+            Sevdiklerinizin ağzını tatlandırıp yüzlerinde mutlu bir tebessüm oluşturacak sepetler, tek bir kişiye gönderilebildiği gibi kalabalık gruplara da armağan edilebiliyor. Çalışanlarınıza, uzakta olan ailenize, katılamadığınız bir parti ya da etkinliğe de şık bir çikolata sepeti gönderebilirsiniz. Sepetleri özür dilemek, mutsuz bir yakınınızı neşelendirmek için de değerlendirip çikolatanın mutluluğu çoğaltan etkisinden faydalanabilirsiniz.
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Şık ve Dopdolu Çikolata Kutuları
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Bir çikolata kutusu ile sevdiklerinizin gününü güzelleştirmeye ne dersiniz? Bloom and Fresh, standart ya da özel ölçülerdeki çikolata kutularını özel tasarımlar ile zenginleştirip içlerini kaliteli çikolata çeşitleriyle dolduruyor ortaya enfes bir hediyelik çıkıyor. Karton ya da metal çikolata hediye kutusu seçenekleri, içerikleri ile de birbirinden ayrılıyor.
+            <br>
+            <br>
+            Çikolata hediye olarak da <a href="/yeni-is-cicekleri">yeni iş hediyesi</a>, doğum gibi tebriklerinizi iletmek istediğiniz durumlarda da en iyi seçeneklerden biri oluyor. Bloom and Fresh’de özel günler için hazırlanan kutulara da ulaşabilir, ürünleri inceleyerek gönderim amacınıza en uygun seçenekler arasından çikolata siparişi verebilirsiniz. Napoliten çikolata gibi klasik seçimlerden dolgulu, yemişli ve daha pek çok seçeneğe kadar hayalinizdeki ürünleri Bloom and Fresh’de bulabilirsiniz.
+        </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Hediyelik Ürünlerle Satışa Sunulan Konsept Çikolata Paketleri
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;margin-bottom: 40px;">
+            Çikolata hediye ederken yanına birkaç hediyelik ürün daha eklemek istiyorsanız farklı konseptlerdeki çikolata paketi çeşitleri tam size göre! Kupalar, defterler, kalemler, tebrik kartları, demlikler, French Press’ler, solmayan çiçekler gibi çeşitli ürünlerle birlikte satışa sunulan çikolata paketlerinden bütçenize ve beklentilerinize en uygun olanını seçebilirsiniz.
+            <br>
+            <br>
+            Kahve ya da çayının yanında çikolata ya da çikolatalı bir atıştırmalık tüketmeyi çok seven yakınlarınıza, kahve ya da çay temalı paketleri armağan edebilirsiniz. Bu paketlerin bazılarında yer alan hazırlık ve sunum ürünleriyle de mükemmel bir konsept hediye seçimi yapabilirsiniz. Leziz çikolataları özel kahve çekirdekleri, bu çekirdeklerinden elde edilmiş filtre kahveler ya da aroması zengin çaylarla birlikte armağan edebilirsiniz. Eğlenceli ve bol bol tatlının yer aldığı neşeli bir paket arıyorsanız tasarım kurabiyeler, makaronlar ve drajeler ile zenginleştirilmiş çikolata paketlerini tercih edebilirsiniz.
+            <br>
+            <br>
+            Bloom and Fresh çikolata hediyeliklerinde en kaliteli kakao çekirdeklerinden elde edilen çikolatalar kullanılıyor. Sade ya da dolgulu şekillerde hazırlanan ürünlerin paket, sepet ve kutularının tasarımları, en iyi markaların ya da Bloom and Fresh’in imzasını taşıyor. Leziz armağanları; yeni yıldan bayrama, doğumdan yeni iş tebriğine, <a href="/dogum-gunu-cicekleri">doğum gününden</a> yıl dönümüne kadar pek çok özel gün için kullanabilirsiniz.
+            <br>
+            <br>
+            Anneniz, babanız, kardeşiniz, sevgiliniz, en yakın arkadaşınız, eşiniz ve tüm sevdikleriniz için aradığınız çikolata sepeti, kutusu veya paketlerine Bloom and Fresh aracılığıyla kolayca ulaşabilirsiniz. Aynı gün ücretsiz teslimat avantajından faydalanarak hemen sipariş verebilirsiniz. Sadece <a href="/istanbul-cicek-siparisi">İstanbul</a> ve Ankara şehirlerine teslimat sağlayan Bloom and Fresh üzerinden sevdiklerinize hemen çikolata gönderebilirsiniz.
+        </p>
+    </div>
+
+    <div style="margin-top: 40px;padding-bottom: 5px;" ng-if="chosenTag.tags_name == 'Çiçek Buketi'">
+        <a id="buttonGoToTop">
+            <img style="width: 66px;margin-left: -8px;margin-top: -8px;"
+                 src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/round-expand_less-24px.svg">
+        </a>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Çiçekler; nişan, evlilik, düğün, yeni iş ya da doğum günü gibi tüm özel günlerin en güzel eşlikçisi. Bloom and Fresh’in tasarım buket çiçek modelleri ise bu özel günleri taçlandırmanız için her zaman yanınızda. En güzel dileklerinizi Bloom and Fresh ile iletmek için birbirinden şık buket çiçek aranjmanlarını hemen inceleyebilirsiniz. 
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+        Rengarenk Çiçek Buketleri ile Sevdiklerinizi Heyecanlandırın
+    </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Hayatınızdaki dönüm noktalarını en az sizin kadar önemseyen insanlardan çiçek almak harika bir duygu. <a href="/dogum-gunu-cicekleri">Doğum günlerinde</a> yanında olamadığınız arkadaşlarınıza, yeni doğum yapan yakınınıza ya da iş yerinde terfi almak için aylardır uğraşıp karşılığını alan arkadaşınıza bir çiçek buketi gönderebilir, bu harika duyguyu yaşamalarını sağlayabilirsiniz. Bloom and Fresh’in floral tasarım eğitimi almış uzman ekibinin ellerinden çıkan düzenlemeleri inceleyebilir, sevdiklerinizin özel günlerini renklendirebilirsiniz. 
+            <br>
+            <br>
+            Bloom and Fresh buket çiçek aranjmanları; ekvador <a href="/solmayan-gul">güllerinden</a> tazecik karanfillere, rengarenk krizantemlerden limoniumlara kadar eşsiz pek çok çiçeğin; çam dalları, kuru başak, kozalak veya pamukla eşleştirilmesiyle oluşturuluyor. Şık burplar içine konan çiçek buketleri, sevdiklerinize en taze haliyle ulaştırılmak üzere Bloom and Fresh’in özel araçlarında yola çıkıyor. Ayrıca Bloom and Fresh’in paketlerinize eklediği Chrysal besin desteği ile sevdiklerinize gönderdiğiniz aranjmanların daha uzun ömürlü olması da sağlanıyor. Siz de renk ve aksesuar uyumunun bir uzman elinden çıktığı belli olan Bloom and Fresh çiçek aranjmanları arasından dilediğinizi seçebilirsiniz. 
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Özel Anları Buket Çiçekler ile Kutlayın
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Özel günleri kutlamak için ilk çiçeği kimin verdiği tam olarak bilinmese de çiçek vermenin tarihi Adem ve Havva’ya kadar dayandırılabilir. Hatta küçük çocukların bile renkleri ilgilerini çektiği için annelerine çiçek vermeleri, bu geleneğin aslında içgüdüsel bir tarafının da olduğunu gösteriyor. Ancak tarih boyunca çiçek verme amaçlarının kültürden kültüre değiştiği biliniyor. Birbirinden farklı şekil ve renklerdeki çiçek çeşitlerinin hangi kültürleri nasıl etkilediği konusundaki teorilerden bazılarının günümüzdeki çiçek verme geleneğini de şekillendirdiği söylenebilir. 
+            <br>
+            <br>
+            Antik Yunanistan’da çiçeklerin tanrıların bir parçası olduğu düşünülüyordu. Bu nedenle hediye olarak buket çiçek vermek, o kişinin özel olduğu anlamına geliyordu. Antik Mısır dönemine geldiğimizde ise çiçeklerin daha çok dini anlamları bulunuyordu. Özellikle cenaze törenlerinde kullanılan çiçekler, Mısırlılar için büyük önem taşıyordu. Victoria Dönemi’nde ise her çiçeğin kendine has bir anlamı vardı. Bugün olduğu gibi kırmızı çiçekler tutkuyu, pembe çiçekler romantik jestleri ve sarı çiçekler ise arkadaşlığı temsil ediyordu. Günümüzde ise çiçek vermek neredeyse her kültürde kutlama anlamına geliyor. Siz de sevdiklerinizin yanında olduğunuzu göstermek için Bloom and Fresh’in özel buket çiçek aranjmanlarını inceleyebilir, online çiçek siparişi vererek yüzyıllardır süregelen bu geleneğin bir parçası olabilirsiniz.         </p>
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Eşsiz Buket Çiçek Tasarımları ile Farkınızı Gösterin
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;margin-bottom: 40px;">
+            Çiçek aranjmanı dendiğinde aklınıza gelen klişe görüntülerden uzaklaşın. Bloom and Fresh’in hem klasik hem güncel floral tasarım ilkelerini harmanlayarak ortaya çıkardığı benzersiz buket çiçek tasarımları arasından hem sizin zevklerinize hem de sevdiklerinizin zevkine uygun olanları inceleyebilir, gönderim bölgesini seçtikten sonra çiçek gönder butonuna tıklayarak kolaylıkla gönderebilirsiniz. 
+            <br>
+            <br>
+            Bloom and Fresh’te gönderim amacınıza <a href="/indirimli-cicekler-hediyeler">uygun buket çiçek</a> tasarımları bulabilirsiniz. Dilerseniz bir yakınınıza geçmiş olsun demek ya da yeni işinin ilk gününde onu yalnız bırakmamak için Bloom and Fresh’in buket çiçeklerini inceleyebilirsiniz. Ayrıca sevdiklerinizi şaşırtacak çiçek tasarımlarına bütçenize uygun çiçek buketi fiyatları ile ulaşmanın tadını çıkarabilirsiniz. Çiçek yollamanın en şık hali Bloom and Fresh üzerinden hemen sipariş verebilir, kendinizi ya da yakınlarınızı şımartabilirsiniz.         </p>
+    </div>
+
+    <div style="margin-top: 40px;padding-bottom: 5px;" ng-if="chosenTag.tags_name == 'Yeni İş Çiçekleri'">
+        <a id="buttonGoToTop">
+            <img style="width: 66px;margin-left: -8px;margin-top: -8px;"
+                 src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/round-expand_less-24px.svg">
+        </a>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            En yakın arkadaşınız, ailenizin bir üyesi ya da eski iş arkadaşınız… Yeni işe başlayan sevdiklerinize uygun bir yeni iş çiçeği ya da yeni iş hediyesi arıyorsanız Bloom and Fresh’in hem şık hem de leziz seçeneklerini değerlendirebilirsiniz. En iyi dileklerinizi ve temennilerinizi iletmek için onlara en sevdikleri çiçekleri, objeleri ya da atıştırmalıkları gönderebilirsiniz.
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Ofislere Güzellik Katacak Yeni İş Çiçekleri
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Yeni bir işe başlayan ya da terfi alıp kariyeri için önemli bir adım atan yakınlarınızı bir çiçekle tebrik etmek isterseniz Bloom and Fresh’in birbirinden özel tasarımlara sahip çiçek aranjmanları sizi bekliyor. Cam, seramik, ahşap, mermer ya da hasır malzemeli şık saksılar içerisinde yer alan ve farklı beğenilere sahip kişiler için özenle hazırlanan ürünler arasından onun için en doğru çiçeği seçebilirsiniz.
+            <br>
+            <br>
+            Pek çok kişinin vazgeçilmez çiçeği olan <a href="/orkide">orkidelerden</a> rengarenk ve farklı türlerden oluşturulmuş buketlere, kaktüslerden iç mekan bitkilerine kadar birbirinden özel yeni iş çiçekleri için kategorimize göz atabilirsiniz. Modern tasarımlardan ve objelerden hoşlanan sevdiklerinize <a href="/teraryum-sukulent-kaktus">teraryum</a> içerisinde sunulan bitkileri de armağan edebilirsiniz. Teraryumların geri dönüşüm ile hazırlanan cam fanusları sayesinde hem çevreye katkıda bulunabilir hem de çevreye duyarlı sevdiklerinizi ekstra mutlu edebilirsiniz.
+            <br>
+            <br>
+            Sadece yeşil yapraklardan oluşan, modern mekanlarla çok hoş bir uyum sağlayacak yeni iş çiçeklerinin yanında ortama neşe katacak renkli bitkilere de Bloom and Fresh aracılığıyla ulaşabilirsiniz. Onun ev sevdiği ya da yeni ofisine en çok yakışacak bitkiyi seçip hemen online çiçek siparişi verebilirsiniz.
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Daima Sizi Hatırlatacak Yeni İş Hediyeleri
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Yeni iş hayatına başladığı ilk günde ona tüm kariyer yolculuğu boyunca hep yanında olacak bir hediye vermek ister misiniz? Bloom and Fresh’in yeni iş hediyesi seçenekleri arasında yer alan ve çeşitli ürünlerin bir araya getirilerek oluşturulduğu paketler, herkese hitap edecek zengin içeriklere sahip. Kahve tutkunu yakınlarınız için kupa, French Press, kahve ile <a href="/cikolata">çikolatadan</a> oluşan enfes ve kullanışlı bir tercih yapabilirsiniz.
+            <br>
+            <br>
+            Beş çaylarından vazgeçemeyen sevdikleriniz için çay temalı paketler harika bir tercih. Kupa, demleme süzgeci, mum, çay ve bisküviden oluşan bu paketler ile molalarında keyifli anlar yaşamasına destek olabilirsiniz. Kategoride hem çay hem de kahvenin ve çeşitli atıştırmalıkların yer aldığı paketleri de inceleyebilirsiniz.
+            <br>
+            <br>
+            Çalışmayı çok seven, sürekli notlar alıp yeni fikirlerini hayata geçirenler içinse not defterli ve kalemli paketler ideal. Yine kupa, kahve ve atıştırmalıkların da yer aldığı kırtasiye temalı paketlerle kariyerini desteklediğinizi bir kez daha gösterebilirsiniz.       <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+            Ağızları Tatlandıracak Yeni İş Çikolataları
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;margin-bottom: 40px;">
+            Konu tebrik olunca ağızları tatlandırmak en eski adetlerden biri. Bunun için de ilk tercihler arasında elbette ki çikolatalar geliyor. Bloom and Fresh’in çikolata kutuları ve sepetleri, tasarımları ve lezzetleri ile herkesin beğenisini kazanıyor. En kaliteli çikolataların yer aldığı seçeneklerden birine karar verirken sevdiklerinizin en çok beğendiği çeşitleri göz önünde bulundurabilirsiniz. Zengin içerikleriyle dikkatleri üzerine çeken geniş çikolata sepetlerini, yeni iş kuran bir dostunuza da armağan edebilir, tüm ofis çalışanlarını mutlu edebilirsiniz.
+            <br>
+            <br>
+            Yeni iş hediyesi olarak makaron gibi renkli ve damakları şenlendirecek çeşitli tatlı atıştırmalıkları da tercih edebilirsiniz. Bloom and Fresh’in neşeli kutu tasarımlarının içerisinde yer alan ve farklı adetlerde satışa sunulan makaronlarla sevdiklerinizin yeni işlerine tatlı bir başlangıç yapmalarını sağlayabilirsiniz.
+            <br>
+            <br>
+            Yeni iş çiçeği ve hediyelerinizi Bloom and Fresh ayrıcalığıyla satın alarak sevdiklerinizin adresine kolayca, sorunsuz bir şekilde ulaştırabilirsiniz. Yeni iş için çiçek göndermek ya da yeni iş hediyesi sipariş etmek için seçtiğiniz ürün için hemen gönder butonuna tıklayabilirsiniz.
+    </div>
+
+    <div style="margin-top: 40px;padding-bottom: 5px;" ng-if="chosenTag.tags_name == 'Butik Çiçek'">
+        <a id="buttonGoToTop">
+            <img style="width: 66px;margin-left: -8px;margin-top: -8px;"
+                 src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/round-expand_less-24px.svg">
+        </a>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Doğum günü, evlilik yıl dönümü, yeni iş kutlaması… Sebep ne olursa olsun, çiçekler her zaman sevginizi ve sevincinizi göstermenin en iyi yolu. Bloom and Fresh butik çiçek tasarımlarıyla en özel günlerinizde duygularınızın tercümanı oluyor. Rengarenk çiçek buketleri, cam vazoda çiçek tasarımları en içten mesajlarınızı sevdiklerinize iletiyor.
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+        Özel Günlere Renk Katan Butik Çiçekler
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Görselliğiyle ruhu okşayan butik çiçek tasarımları, unutulmaz birer hediye. Sevgilinizle tanıştığınız günden evlilik <a href="yil-donumu-cicekleri">yıl dönümünüze</a>, ilişkinizin tüm dönüm noktalarını romantik çiçek tasarımları ile taçlandırabilirsiniz. Bloom and Fresh’in alanında özel eğitimi alan, konusunda uzman floral tasarım ekibi, gülden krizanteme en güzel çiçekleri zarif aranjmanlarda bir araya getiriyorlar. Dilerseniz sevginizi ve iyi dileklerinizi kelimelere döktüğünüz özel notlarınızı da etiketle kapatılmış kartlı zarflarla seçtiğiniz tasarım çiçek üzerine ekliyorlar. Mevsimin en taze çiçekleri, capcanlı ve tazeliklerini uzun süre koruyacak şekilde istediğiniz adrese ulaşıyor. Farklı dokuları ve renkleri buluşturan butik çiçekler, adeta görsel şölen sunuyor.
+            <br>
+            <br>
+            Özel günlerinizde Bloom and Fresh’ten butik çiçek siparişi vererek sevdiklerine unutulmaz bir sürpriz yaşatabilirsiniz. Üstelik özenle tasarlanan çiçek siparişleriniz, siz butik çiçek gönder butonuna tıkladıktan sonra sadece birkaç saat içinde sevdiklerinize ulaşıyor. Bu sayede sevdiklerinizin günü özenle hazırlanmış, taptaze, rengarenk buketlerle aydınlanıyor.
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+        Hayran Bırakan Butik Çiçek Tasarımları
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Birbirinden güzel tasarım çiçek seçenekleri arasında doğanın en canlı renklerini bir araya getiren, burlap içerisinde sunulan buketler dikkat çekiyor. Ekvador güllerinden çardak güllere, krizantemden karanfile en güzel çiçekler, ahenkli buketlerde bir araya geliyor. Kozalaklar, kuru başaklar, yeşil yapraklar pembeden turuncuya uzanan renk skalasındaki çiçek aranjmanlarına son derece albenili bir hava katıyor. Dilerseniz burlapa sarılmış çiçek buketlerine alternatif olarak kraft kutuda sunulan aranjmanları ya da vazoda çiçek seçeneklerini de tercih edebilirsiniz. Modern tasarımlı cam vazoda çiçek buketleri, zarif görünümleriyle bulundukları ortama şıklık katıyor.
+            <br>
+            <br>
+            Bloom and Fresh’in burlapta, kraft kutuda ya da <a href="/vazoda-cicek">vazo içinde çiçek</a> tasarımları arasından beğendiğiniz seçeneği hemen sipariş edebilirsiniz. Ardından tek bir butona tıklayarak tasarım çiçek gönder dedikten sadece birkaç saat sonra çiçeği teslim alan sevdiğinizin mutluluğuna ortak olabilirsiniz.
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+        Özel Tasarım Saksı Çiçekleri ile Sevdiklerinizi Sevindirin
+    </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;margin-bottom: 40px;">
+            Yaşam alanlarında, iş yerlerinde dekoratif bir etki yaratan saksı çiçek çeşitleri, Bloom and Fresh’te özel tasarımlarla karşınıza çıkıyor. Her durumda etkileyici ve romantik bir hediye seçeneği olan orkideler, seramik vazolarında şık bir sunumla sevdiklerinize ulaşıyor. Dilerseniz mavi, mor gibi sıra dışı renkleriyle dikkat çeken tek dal orkideleri ya da klasik beyaz orkideleri tercih edebilirsiniz.
+            <br>
+            <br>
+            Fazla bakım istemeden uzun yıllar boyunca canlı kalan <a href="/teraryum-sukulent-kaktus">sukulent ve kaktüs</a> türleriyle hazırlanan aranjmanlar, ideal birer hediye seçeneği olarak dikkat çekiyor. Terracota saksılarda ya da sepetlerde bir araya gelen sukulent ve kaktüsler, son derece dekoratif bir görünüm sunuyor. Geri dönüştürülmüş cam kavanozlar içinde farklı bitkilerin birlikteliğiyle ve yosunlarla hazırlanan teraryumlar, sevimli görünümleriyle gönülleri fethediyor.
+            <br>
+            <br>
+            Sevdiklerinize gördükleri ilk andan itibaren hayran kalacakları, stil sahibi butik çiçekler göndermek istiyorsanız, Bloom and Fresh’in profesyonel ellerde hayat bulan tasarım çiçeklerini gönül rahatlığıyla tercih edebilirsiniz. Özenli estetik düzenlemeleri ve tazelikleriyle klasik çiçek aranjmanlarından çok daha farklı bir noktada duran butik çiçek çeşitleri; doğum günlerinden yıl dönümlerine, Sevgililer Günü, Anneler Günü gibi özel günlerden yeni iş tebriklerine tüm değerli anlarınıza damga vuruyor. Sevdiklerinizi mutlu ve özel hissettirecek butik çiçek seçenekleri için hemen sipariş verebilir, hızlı teslimat avantajından faydalanarak son dakika hediye alışverişlerinizi mutlu sonla tamamlayabilirsiniz.
+    </div>
+
+    <div style="margin-top: 40px;padding-bottom: 5px;" ng-if="chosenTag.tags_name == 'Bebek Hediyeleri'">
+        <a id="buttonGoToTop">
+            <img style="width: 66px;margin-left: -8px;margin-top: -8px;"
+                 src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/round-expand_less-24px.svg">
+        </a>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Yeni doğmuş bir bebekten daha güzel bir haber olabilir mi? Peki, doğum haberini tebrik etmek için çiçek ve çikolatadan daha güzel bir ikili olabilir mi? Bu özel günde sevdiklerinizin mutluluğunu paylaşmak ve onları en özel şekilde tebrik etmek için Bloom and Fresh’in bebek hediyeleri arasından hemen seçim yapabilirsiniz!
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+        Ona En Güzel Çiçeklerle “Hoş Geldin!” Deyin
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Her biri özel anlamlar taşıyan çiçekler, yüzyıllardır insanların duygularını ifade ettikleri en özel armağanlar arasında. Dünyaya gözlerini açan sevimli bebeğin haberini aldıktan sonra yakınlarınızı tebrik etmek için siz de birbirinden zarif çiçekleri tercih edebilirsiniz. Hastaneye ya da evlerine yollayacağınız Bloom and Fresh çiçekler ile taze anne ve babaya hoş bir sürpriz yapabilirsiniz.
+            <br>
+            <br>
+            Bebek doğum hediyesi olarak farklı çiçekler tercih edilebiliyor. <a href="/orkide">Orkideler</a> ise en gözde doğum hediyelerinden biri olarak öne çıkıyor. Özellikle bebeğin cinsiyetine uygun olarak kız bebeklere pembe, erkek bebeklere de mavi renklerde sipariş edilebilen orkideler, asil görünümleri ile beğeni topluyor. Yeni bebek sahibi olan bu küçük ailenin evlerinde yetiştirmeye devam edip sizden bir anı olarak saklayabilecekleri orkideler ve diğer çiçek seçenekleri arasından seçim yapabilirsiniz. Bu mutlu günde sevdiklerinizin yanında olabilirsiniz.
+            <br>
+            <br>
+            Seçiminizi yaparken keyifli olsa da gerçekten zor da olan bu süreci en güçlü ve başarılı şekilde tamamlamış annenin en sevdiği çiçekleri göz önünde bulundurabilirsiniz. Ona minik bir jest yaparak ne kadar özel olduğunu hissettirebilirsiniz. Hemen çiçek sipariş ederek aynı gün teslimat ve dilediğiniz saatte teslimat gibi seçenekler ve avantajlardan faydalanabilirsiniz.
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+        Bu Tatlı Haberi En Leziz Bebek Çikolataları ile Kutlayın
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Yeni gelen bebeği hediyeler ile karşılamak her kültürün bir parçası. Bebek görme hediyesi olarak sipariş edeceğiniz bir bebek çikolata kutusu ile bu hediyeyi en tatlı ve en leziz halde sunabilirsiniz. <a href="/cikolata">Bebek çikolatası </a>çeşitleri sayesinde güzel dileklerinizi özel günlerin vazgeçilmez hediyesi ile iletebilirsiniz.
+            <br>
+            <br>
+            Bebek çikolatalarını sadece hediyelik olarak değil doğum odanıza gelen misafirlere ikram etmek için de sipariş edebilirsiniz. Hoş görünümleri ile beğeni toplayan bebek çikolata kutularını, hastane odasında hazırlayacağınız ve ikramlıkları yerleştireceğiniz masa ya da barın üzerine yerleştirebilirsiniz. Bir tatlı yerine geçebilecek bu ürünler, ikramlıkların yanında lezzetli ve şık bir alternatif olabilir.
+            <br>
+            <br>
+            Bloom and Fresh’in özel olarak hazırladığı bebek çikolata kutusu ve sepetlerinin içerisinde en kaliteli çikolatalar yer alıyor. Kutular ve sepetler özel olarak tasarlanarak bebek için hediyelikler haline getiriliyor. Sevimli desenlerin yer aldığı tasarımlar arasında kız ve erkek bebekler için hazırlanmış ürünler de bulunuyor. Böylece kız ya da erkek bebeğe özel bir tercihte bulunma imkanınız oluyor. Tasarımı ve içeriği ile en çok hoşunuza giden çikolata için hemen sipariş verebilirsiniz. Hediyenizi dilerseniz hastaneye ya da eve gönderebilir, dilerseniz de kendi adresinize söyleyerek ziyaret esnasında yanınızda götürebilirsiniz.
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+        Bebek Doğum Hediyesi İçin Bloom and Fresh Ayrıcalıklarından Yararlanın
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;margin-bottom: 40px;">
+            Hayatlarının belki de en mutlu gününde sevdiklerinizin yanında olmak için Bloom and Fresh’in bebek hediyeleri şık seçenekleri ile sizi bekliyor. Çeşitli çiçek ve bebek çikolatası fiyatları arasından bütçenize en uygun ürünleri değerlendirebilirsiniz. <a href="/buket-cicek">Çiçek</a> ya da çikolata siparişleriniz ile anne ve baba adaylarını mutlu etmek için yapmanız gereken tek şey ürününüzü ve gönderim bölgesini seçip “gönder” butonuna basmak! Duygularınızı en iyi şekilde anlatmak için hediyenizin yanına bir not da ekleyebilir, bu müjdeli haberin sizin için ne kadar önemli olduğunu hediyenizin yanında göndereceğiniz notunuz ile de gösterebilirsiniz.
+    </div>
+
+    <div style="margin-top: 40px;padding-bottom: 5px;" ng-if="chosenTag.tags_name == 'Geçmiş Olsun Çiçeği'">
+        <a id="buttonGoToTop">
+            <img style="width: 66px;margin-left: -8px;margin-top: -8px;"
+                 src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/round-expand_less-24px.svg">
+        </a>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Sevdikleriniz hasta olduklarında, kendilerini iyi hissetmediklerinde onlara “Geçmiş olsun!” demenin onlarca yolu var. Geçmiş olsun çiçeği göndermek ise kesinlikle bu yolların en güzeli. Özenle tasarlanmış butik çiçek ya da zevkli saksı çiçeği seçenekleri ile sevdiklerinizin kendilerini daha iyi hissetmelerini sağlayabilirsiniz. Bloom and Fresh’in birbirinden renkli geçmiş olsun çiçekleri ile en iyi dileklerinizi en zarif şekilde iletebilirsiniz. 
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+        Geçmiş Olsun Demenin En Zarif Yolu
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Kendisini iyi hissetmeyen, hastalıkla mücadele eden, küçük ya da belki de önemli bir operasyon geçirdiği için hastanede yatan tüm sevdiklerinizin gününü çiçeklerle aydınlatmak ister misiniz? Geçmiş olsun çiçekleri, sevdiklerinize onları düşündüğünüzü hatırlatan hoş bir jest olabilir ve onlara moral verebilir. Bloom and Fresh’in geçmiş olsun çiçeği seçkisinde uzman floral tasarımcılar tarafından hazırlanan butik çiçeklerin yanı sıra saksı çiçekleri de yer alıyor. “Geçmiş olsun çiçeği ne gönderilir?” sorusuna cevap arıyorsanız rengarenk buketleri ya da uzun ömürlü <a href="/saksi-cicekleri">saksı çiçeklerini</a> tercih edebilirsiniz. 
+            <br>
+            <br>
+            Herhangi bir nedenle hastanede kalması gereken yakınlarınızın kendilerini daha iyi hissetmelerine yardımcı olmak için onlara hastane çiçekleri gönderebilirsiniz. İyi dileklerinizi ve geçmiş olsun mesajlarınızı da özel notunuzla çiçeğinizle birlikte iletebilirsiniz. Bloom and Fresh’in taptaze çiçekleri siparişinizin ardından özenle hazırlanıyor ve istediğiniz notla birlikte sevdiklerinizin olduğu adrese hızla teslim ediliyor. Dilerseniz bu tatlı sürprizin yanında ağız tatlandıracak çikolata çeşitlerinden de ekleyebilirsiniz. Bunun için tek yapmanız gereken Bloom and Fresh’ten beğendiğiniz tasarımları seçmek ve geçmiş olsun çiçeği gönder butonuna tıklamak. 
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+        Çiçeklerin Dilinden Geçmiş Olsun Mesajları
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            İyi günde olduğu gibi kötü günde de sevdiklerinizin yanında olduğunuzu, onları düşündüğünüzü göstermek istiyor musunuz? O zaman onlara çiçek gönderin! Canlı renkleriyle neşe ve mutluluk veren bir çiçek aranjmanının ya da zarafetiyle göz zevkinin yanı sıra ruhu da okşayan bir saksı çiçeği, kaçan keyifleri anında yerine getirebilme gücüne sahip. Fiziksel olarak yanlarında olamasanız da online çiçek siparişi ile sevdiklerinizin yüzünü güldürebilir, onları düşündüğünüzü hatırlatabilirsiniz. Bloom and Fresh <a href="/kutu-cicek">butik çiçekleri</a> arasından burlapa sarılı buketleri ya da cam vazodaki aranjmanları seçebilirsiniz. 
+            <br>
+            <br>
+            Geçmiş olsun çiçeği tercihiniz uzun ömürlü saksı çiçeklerinden yanaysa Bloom and Fresh’te seçenekleriniz bir hayli fazla. Orkidelerin her durumda olduğu gibi geçmiş olsun dileklerinizi sevdiklerinize ulaştırma konusunda da özel bir yeri var. Dekoratif mermer ya da seramik saksılar içindeki farklı renklerdeki orkideler, sevdiklerinize sağlık dilemek için en zarif seçenekler arasında. Seramik saksıları içinde dekoratif bir görünüm sunan bonsai çeşitleri de incelikle düşünülmüş bir geçmiş olsun hediyesi olabilir. Sıra dışı bir seçenek arayışındaysanız bromelia ananas, hava bitkisi gibi görünümleriyle dikkat çeken saksı bitkilerine de yönelebilirsiniz. 
+              <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+        Ağız Tatlandıran Geçmiş Olsun Hediyeleri
+    </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;margin-bottom: 40px;">
+            Sevdiklerinize geçmiş olsun dileklerinizin yanında ağızlarını tatlandıracak sürprizler göndermek isterseniz Bloom and Fresh’in gurme atıştırmalıklar kutularını da inceleyebilirsiniz. Farklı boyutlu kutular içerisinde kahveden çaya, çikolatadan makarona damak tatlandıran gurme lezzetlerin bulunduğu kutular, sevdiklerinizin daha iyi hissetmesini garantiliyor. İçinde porselen kupa, French press gibi objelerin de yer aldığı kutular, uzun yıllar hafızalardan silinmeyecek bir geçmiş olsun hediyesi oluyor. 
+            Bloom and Fresh’in uzman floral tasarımcılarının elleriyle hazırladıkları taptaze çiçek buketleri, uzun ömürlü saksı çiçekleri ya da gurme <a href="/hediye-kutulari">hediye kutuları</a> arasından seçiminizi yaptıktan sonra iyi dileklerinizi ilettiğiniz özel notunuzu da ekleyebilir, siparişinizin en kısa zamanda sevdiklerinize ulaşmasını sağlayabilirsiniz. Sevdiklerinizi düşündüğünüzü gösteren bu güzel jest ile onların gününe neşe katabilir, iyileşme sürecinde kendilerini daha iyi hissetmelerine katkıda bulunabilirsiniz. 
+    </div>
+
+    <div style="margin-top: 40px;padding-bottom: 5px;" ng-if="chosenTag.tags_name == 'Kutuda Çiçek'">
+        <a id="buttonGoToTop">
+            <img style="width: 66px;margin-left: -8px;margin-top: -8px;"
+                 src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/round-expand_less-24px.svg">
+        </a>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Mis gibi kokuları ve şık görünümleriyle Bloom and Fresh’in tasarım kutu çiçekleri, girdiği her ortamı güzelleştirmeyi başarıyor. Dilerseniz evinizi renklendirmek, dilerseniz sevdiklerinizin özel günlerinde yanlarında olduğunuzu hissettirmek için Bloom and Fresh’in kutuda çiçek seçeneklerini inceleyebilirsiniz.
+        <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+        Özel Günlere Anlam Katan Kutu Çiçek Tasarımları
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;">
+            Doğum günü, yıl dönümü, <a href="/sevgililer-gunu-cicekleri">Sevgililer Günü</a> ya da nişan, söz gibi özel günlerde çiçek vermek, en güzel geleneklerden biri. Son yıllarda böylesine özel günlerde rengarenk buket çiçek aranjmanlarının yanı sıra kutu çiçek tasarımları da oldukça popüler. Bloom and Fresh’in floral tasarım ekibinin yetenekli ellerinden çıkan kutu çiçek modelleri arasından dilediğinizi seçebilir, yakınlarınızın en özel günlerinde onları yansıtan çiçek kutusu tasarımlarıyla yanlarında olabilirsiniz.
+            <br>
+            <br>
+            Bloom and Fresh’in temel floral tasarım prensipleri doğrultusunda tasarladığı aranjmanlar, birbirine uyumlu çiçek ve aksesuarlardan oluşuyor. Kutu çiçek modellerinde genellikle <a href="/solmayan-gul">gül</a> kullanan ekip, özenle bir araya getirdiği bu çiçekleri Bloom and Fresh’e özel hediye kutuları ya da ahşap kutular içerisinde gönderiyor. Bloom and Fresh arabalarına yüklenen kutu çiçekleriniz, en taze ve en güzel haliyle sahibine ulaştırılıyor. Üstelik işinizi şansa bırakmamak için Bloom and Fresh üzerinden sipariş vermeden önce kutu çiçeğinizin ulaşacağı yer ve saati belirleyebilir, sevdiklerinizin özel anlarına tam zamanında yetişebilirsiniz. Sevdiklerinizin özel günlerinde hangi çiçeklerle yanında olacağınızı seçmek için Bloom and Fresh’in kutu çiçeklerini inceleyebilir, çiçek kutusu fiyatları arasından bütçenize uygun olanı tercih edebilirsiniz.
+             <h2 style="font-family: 'Gotham Bold';text-align: center;
+    color: #3b454d;
+    font-weight: 300;
+        font-size: 24px;
+    letter-spacing: 2px;
+    margin-top: 40px;">
+        Her Mekana Uyum Sağlayan Kutu Çiçek Aranjmanları
+        </h2>
+        <p style="margin-left: auto;margin-right: auto;max-width: 1400px;color: #3b454d;font-size: 16px;font-family: 'Gotham Light';margin-top: 12px;font-weight: 700;    padding-left: 10px;
+    padding-right: 10px;text-align: center;margin-bottom: 40px;">
+            Günü iyi geçmeyen sevgilinizi, yeni yaşına giren annenizi, işinde terfi eden arkadaşınızı ve daha pek çok sevdiğinizi kutu çiçek aranjmanları ile mutlu edebilirsiniz. Ayrıca kutu çiçek tasarımları ile yalnızca sevdiklerinizi değil kendinizi de mutlu edebilirsiniz. Zarif Bloom and Fresh kutu çiçek tasarımları ile özellikle iç mekan dekorasyonunuza harika dokunuşlar yapabilir, alıştığınız iç mekana yeni bir soluk getirebilirsiniz.
+            <br>
+            <br>
+            İç mimari, genellikle içinde yaşadığımız veya çalıştığımız ortamların görsel ve fiziksel açıdan hem rahat hem de şık bir şekilde tasarlanması olarak tanımlanıyor. Aslında iç mekanları tasarlarken dış mekanlardan ilham alıyoruz. Ahşap mobilyalar, taş kaplamalar, hayvan desenli halılar ve benzeri tüm dekoratif malzemeler, doğanın iç mekanlara birer yansıması olarak düşünülebilir. İşte bu yüzden çiçekler, iç mekan dekorasyonunun olmazsa olmaz parçaları. Estetik olarak kattıkları değerin yanı sıra iç mekanlarda çiçek bulundurmak, o mekandaki toksinleri azaltmaya ve hava kalitesini artırmaya da yardımcı oluyor. Tüm bunların yanında sağladığı aromaterapik faydalar da cabası.
+            <br>
+            <br>
+            Ayrıca iç mekanlarda kullanabileceğiniz <a href="/saksi-cicekleri">saksı bitkilerinin</a> yanı sıra Bloom and Fresh üzerinden online çiçek siparişi vererek sahip olabileceğiniz tasarım çiçek kutuları ile de harika bir atmosfer yaratmanız mümkün. Siyah ya da beyaz odaklı salonlarınıza renk getirecek rengarenk kutu çiçekleri arasından tarzınıza uygun olanı seçebilir, salonunuza her adım attığınızda sizi mutlu edecek bir aranjman görmenin tadını çıkarabilirsiniz. Eğer renkli bir eviniz varsa pastel renkli çiçeklerle oluşturulan kutu çiçek aranjmanlarına göz gezdirebilir, ruhunuzu sakinleştirecek bir modeli hemen sipariş verebilirsiniz. Ayrıca Bloom and Fresh’in çiçek kutusu tasarımlarıyla ofis masalarınızı da güzelleştirmeniz mümkün. Her gün saatlerinizi geçirdiğiniz masanızı renklendirmek için birbirinden farklı tasarımlara hemen göz atabilirsiniz. Bloom and Fresh’in her siparişle birlikte gönderdiği Chrysal destek ile özenle hazırlanmış bu tasarımların daha uzun süre sizinle olmasını sağlayabilir, bu renkli görüntünün tadını daha uzun süre çıkarabilirsiniz.
+            <br>
+            <br>
+            Bloom and Fresh’in her tarza uygun floral tasarımları ile özel günlerinizi daha anlamlı kılabilir ya da iç mekanlarınıza modern dokunuşlar yapabilirsiniz. Size uygun Bloom and Fresh kutu çiçek modelini seçip kolaylıkla online çiçek siparişi verebilirsiniz.
+    </div>
+
+    <button class="hidden" id="tiggerButton" onclick="lazyLoad()"></button>
+</main>
+
+<bf-footer></bf-footer>
+
+<script type="text/javascript">
+
+if(  window.innerWidth  < 760 ){
+
+    var hiddenXS = document.getElementsByClassName('nonMobile');
+
+    if( hiddenXS.length > 0 ){
+
+        for(var i=0; i<hiddenXS.length; i++){
+            hiddenXS[i].src = '';
+        }
+    }
+    else{
+        setTimeout(function(){
+
+            var hiddenXS = document.getElementsByClassName('nonMobile');
+
+            if( hiddenXS.length > 0 ){
+
+                for(var i=0; i<hiddenXS.length; i++){
+                    hiddenXS[i].src = '';
+                }
+            }
+            else{
+                setTimeout(function(){
+
+                    var hiddenXS = document.getElementsByClassName('nonMobile');
+
+                    if( hiddenXS.length > 0 ){
+
+                        for(var i=0; i<hiddenXS.length; i++){
+                            hiddenXS[i].src = '';
+                        }
+                    }
+                    else{
+                        setTimeout(function(){
+
+                            var hiddenXS = document.getElementsByClassName('nonMobile');
+
+                            if( hiddenXS.length > 0 ){
+
+                                for(var i=0; i<hiddenXS.length; i++){
+                                    hiddenXS[i].src = '';
+                                }
+                            }
+                            else{
+                                setTimeout(function(){
+
+                                    var hiddenXS = document.getElementsByClassName('nonMobile');
+
+                                    if( hiddenXS.length > 0 ){
+
+                                        for(var i=0; i<hiddenXS.length; i++){
+                                            hiddenXS[i].src = '';
+                                        }
+                                    }
+                                    else{
+                                    }
+                                },500);
+                            }
+                        },500);
+                    }
+                },500);
+            }
+        },500);
+    }
+
+}
+else{
+
+}
+
+registerListener('load', setLazy);
+registerListener('load', lazyLoad);
+registerListener('scroll', lazyLoad);
+
+var lazy = [];
+lazy = document.getElementsByClassName('lazy');
+
+function setFirstPageVisible(tempArray){
+
+    if(  window.innerWidth  < 800 && tempArray[1].getAttribute('name') ){
+        tempArray[1].src = tempArray[1].getAttribute('name');
+        tempArray[1].src = tempArray[1].getAttribute('name');
+        tempArray[1].removeAttribute('name');
+    }
+    else{
+        tempArray[0].src = tempArray[0].getAttribute('name');
+        tempArray[0].src = tempArray[0].getAttribute('name');
+        tempArray[0].removeAttribute('name');
+
+        tempArray[2].src = tempArray[2].getAttribute('name');
+        tempArray[2].src = tempArray[2].getAttribute('name');
+        tempArray[2].removeAttribute('name');
+
+    }
+}
+
+
+$('#tiggerButton').click(function(){
+
+    setTimeout(function(){
+
+        lazyFooter = document.getElementsByClassName('lazyFooter');
+
+        lazy = document.getElementsByClassName('lazy');
+
+        if(  lazy.length == 0 ){
+            lazy = document.getElementsByClassName('lazy');
+        }
+
+
+        for(var i=0; i<lazy.length; i++){
+            if(isInViewport(lazy[i])){
+                if (lazy[i].getAttribute('name')){
+                    lazy[i].src = lazy[i].getAttribute('name');
+                    lazy[i].removeAttribute('name');
+                }
+            }
+        }
+
+        cleanLazy();
+    },300);
+
+
+});
+
+$(document).ready( function(){
+
+    setTimeout(
+            function()
+            {
+
+                if( $('#FirstHeaderId').position() ){
+
+                    var btn = $('#buttonGoToTop');
+
+                    $(window).scroll(function() {
+                        if ($(window).scrollTop() > $('#FirstHeaderId').position().top) {
+                            btn.addClass('show');
+                        } else {
+                            btn.removeClass('show');
+                        }
+                    });
+
+                    btn.on('click', function(e) {
+                        e.preventDefault();
+                        $('html, body').animate({scrollTop:0}, '300');
+                    });
+                }
+
+            }, 3000);
+
+
+    if(  window.innerWidth  < 760 ){
+
+        var hiddenXS = document.getElementsByClassName('nonMobile');
+
+        for(var i=0; i<hiddenXS.length; i++){
+            hiddenXS[i].src = '';
+        }
+    }
+    else{
+
+    }
+
+    setTimeout(function(){
+        if( lazy[0] ){
+            if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                setTimeout(function(){
+
+                    if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                        setTimeout(function(){
+
+                            if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                                setTimeout(function(){
+
+                                    if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                                    }
+                                    else{
+                                        setFirstPageVisible(lazy);
+                                    }
+
+                                }, 1000);
+                            }
+                            else{
+                                setFirstPageVisible(lazy);
+                            }
+
+                        }, 1000);
+                    }
+                    else{
+                        setFirstPageVisible(lazy);
+                    }
+
+
+                }, 1000);
+            }
+            else{
+                setFirstPageVisible(lazy);
+
+            }
+
+        }
+        else{
+            setTimeout(function(){
+
+                if( lazy[0] ){
+                    if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                        setTimeout(function(){
+
+                            if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                                setTimeout(function(){
+
+                                    if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                                        setTimeout(function(){
+
+                                            if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                                            }
+                                            else{
+                                                setFirstPageVisible(lazy);
+                                            }
+
+                                        }, 1000);
+                                    }
+                                    else{
+                                        setFirstPageVisible(lazy);
+                                    }
+
+                                }, 1000);
+                            }
+                            else{
+                                setFirstPageVisible(lazy);
+                            }
+
+
+                        }, 1000);
+                    }
+                    else{
+                        setFirstPageVisible(lazy);
+
+                    }
+
+                }
+                else{
+                    setTimeout(function(){
+
+                        if( lazy[0] ){
+                            if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                                setTimeout(function(){
+
+                                    if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                                        setTimeout(function(){
+
+                                            if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                                                setTimeout(function(){
+
+                                                    if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                                                    }
+                                                    else{
+                                                        setFirstPageVisible(lazy);
+                                                    }
+
+                                                }, 1000);
+                                            }
+                                            else{
+                                                setFirstPageVisible(lazy);
+                                            }
+
+                                        }, 1000);
+                                    }
+                                    else{
+                                        setFirstPageVisible(lazy);
+                                    }
+
+
+                                }, 1000);
+                            }
+                            else{
+                                setFirstPageVisible(lazy);
+                            }
+
+                        }
+                        else{
+
+                            lazy = document.getElementsByClassName('lazy');
+
+                            if( lazy[0] ){
+                                if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                                    setTimeout(function(){
+
+                                        if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                                            setTimeout(function(){
+
+                                                if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                                                    setTimeout(function(){
+
+                                                        if( lazy[0].getAttribute('name').includes('{{')  ){
+
+                                                        }
+                                                        else{
+                                                            setFirstPageVisible(lazy);
+                                                        }
+
+                                                    }, 1000);
+                                                }
+                                                else{
+                                                    setFirstPageVisible(lazy);
+                                                }
+
+                                            }, 1000);
+                                        }
+                                        else{
+                                            setFirstPageVisible(lazy);
+                                        }
+
+
+                                    }, 1000);
+                                }
+                                else{
+                                    setFirstPageVisible(lazy);
+                                }
+
+                            }
+                            else{
+
+                                lazy = document.getElementsByClassName('lazy');
+
+                            }
+
+                        }
+
+
+                    }, 1000);
+                }
+
+
+            }, 1000);
+        }
+
+
+    }, 1000);
+
+} );
+
+
+function setLazy(){
+    lazy = document.getElementsByClassName('lazy');
+
+}
+
+function lazyLoad(){
+
+    if(  lazy.length == 0 ){
+        lazy = document.getElementsByClassName('lazy');
+    }
+
+    for(var i=0; i<lazy.length; i++){
+        if(isInViewport(lazy[i])){
+            if (lazy[i].getAttribute('name')){
+                lazy[i].src = lazy[i].getAttribute('name');
+                lazy[i].removeAttribute('name');
+            }
+        }
+    }
+
+    cleanLazy();
+}
+
+function cleanLazy(){
+    lazy = Array.prototype.filter.call(lazy, function(l){ return l.getAttribute('name');});
+}
+
+function isInViewport(el){
+    var rect = el.getBoundingClientRect();
+
+    if( window.innerHeight + document.body.scrollTop > rect.top &&  rect.top != 0 ){
+        return 1;
+    }
+    else
+        return 0;
+
+    return (
+    rect.bottom >= 0 &&
+    rect.right >= 0 &&
+    rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.left <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+function registerListener(event, func) {
+    if (window.addEventListener) {
+        window.addEventListener(event, func)
+    } else {
+        window.attachEvent('on' + event, func)
+    }
+}
+
+</script>

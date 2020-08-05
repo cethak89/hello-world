@@ -1,0 +1,420 @@
+<!--<script src="https://ads.programattik.com/pixel?id=26&type=js"></script>-->
+<navbar-menu></navbar-menu>
+
+<main ng-app="purchaseSuccess" class="purchaseSuccess">
+<article class="container-fluid fixed-width">
+<header ng-controller="PurchaseMobileCtrl" style="border-bottom: 0px;" class="successMessageHeader row text-center">
+    <h1 class=""><b>{{::'CONGRATULATIONS' | translate}}</b></h1>
+    <small class="middleBrownText center-block" translate="CONGRATULATIONS_INFO">
+    </small>
+    <small ng-if="!isMobileExit()" style="z-index: 2;font-family: 'Gotham Bold';color: #3B454D;position: absolute;letter-spacing: 0.7px;margin-left: auto;margin-right: auto;left: 0;right: 0;" class="middleBrownText center-block" translate="CONGRATULATIONS_PHONE">
+    </small>
+    <form  class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="z-index: 2;padding-top: 61px;position: absolute;max-width: 525px;margin-left: auto;margin-right: auto;left: 0;right: 0;" name="mobileForm" ng-if="!isMobileExit()">
+        <fieldset class="phoneNumber field col-lg-10 col-md-10 col-sm-5 col-xs-10" style="margin-left: auto;margin-right: auto;float: none;">
+            <input style="width: 220px;height: 50px;font-size: 18px;border-radius: 24px;display: inline-table;
+                    letter-spacing: 2.5px;padding-left: 22px;color: #242B31;" class="form-control textField" ng-model="mobileObj.mobile" ui-mask="(999)-999-99-99"
+                   id="mobile" name="mobile" required/>
+            <button style=";width: 150px;display: inline;float: initial;font-size: 17px;height: 50px;" class="text-uppercase btn btn-default buttonStyle btn-bloomNfresh col-lg-10 col-md-10 col-sm-5 col-xs-10"
+                    ng-if="!isMobileEntered" ng-click="sendMobile()">
+                {{::'SAVE_BUTTON_TEXT' | translate}}
+            </button>
+            <button style="width: 150px;display: inline;float: initial;font-size: 17px;height: 50px;" type="button"
+                    class="text-uppercase buttonStyle disabled btn btn-success col-lg-10 col-md-10 col-sm-5 col-xs-10"
+                    ng-if="isMobileEntered">
+                {{::'SAVED_BUTTON_TEXT' | translate}}
+            </button>
+            <label class="error" for="mobile"
+                   ng-show="mobileForm.mobile.$touched && (mobileForm.mobile.$error.minlength || mobileForm.mobile.$error.mask )">{{::'PHONE_ERROR' | translate}}</label>
+            <label class="error" for="mobile"
+                   ng-show="(mobileForm.mobile.$touched && mobileForm.mobile.$error.required) || (mobileForm.mobile.$untouched && !mobileForm.mobile.$valid && isChecked)">{{::'PHONE_EMPTY_ERROR' | translate}}</label>
+            <label class="error col-lg-10 col-md-10 col-sm-12 col-xs-12 text-left">{{errorMessage}}</label>
+            <!--[if !IE]><!-->
+            <loader
+                    working="working"
+                    disable-background="true"
+                    template="2">
+            </loader>
+        </fieldset>
+        <!--<![endif]-->
+    </form>
+
+    <img class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="max-width: 440px;float:initial;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/backGround.jpg" alt="Satış işlemi başarılı. Çiçekler hazırlanıyor.">
+</header>
+
+<section class="panel">
+<section class="row checkoutInfo">
+    <section class="rowContainer col-lg-10 col-md-12 col-sm-12 col-xs-12">
+        <section class="flowerInfo infoContainer col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <figure class="col-lg-6 col-md-4 col-sm-4 col-xs-7">
+                <img style="width: 12em;float: right;" class="flowerImage" ng-src="{{purchaseInfo.flowerImage}}"/>
+            </figure>
+            <article class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <header class="col-lg-12 col-md-12 col-xs-12">
+                    <h3 style="margin-bottom: 0px;">{{purchaseInfo.flower_name}}</h3>
+                </header>
+
+                <strong class="col-lg-12 col-md-12 col-xs-12">
+                    {{purchaseInfo.price}} TL
+						<span class="lightBrownText">
+							({{::'TAX_INCLUDED' | translate}})
+						</span>
+                </strong>
+
+
+                <header ng-if="purchaseInfo.cup_status == 1" class="col-lg-12 col-md-12 col-xs-12">
+                    <h3 style="margin-bottom: 0px;">Cam Vazo</h3>
+                </header>
+
+                <strong ng-if="purchaseInfo.cup_status == 1" class="col-lg-12 col-md-12 col-xs-12">
+                    {{purchaseInfo.cup_price}} TL
+						<span class="lightBrownText">
+							({{::'TAX_INCLUDED' | translate}})
+						</span>
+                </strong>
+            </article>
+        </section>
+        <section style="min-height: 222px;" class="receiverInfo infoContainer col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <strong class="col-lg-3 col-md-3 col-sm-5 col-xs-6 pull-left">
+                {{::'LUCY_PERSON' | translate}}
+            </strong>
+
+					<span class="col-lg-9 col-md-7 col-sm-7 col-xs-6 middleBrownText" style="height: 35px;">
+						{{purchaseInfo.name}}
+					</span>
+            <strong class="col-lg-3 col-md-5 col-sm-5 col-xs-6">
+                İlk Gönderim Tarihi
+            </strong>
+
+					<span class="col-lg-9 col-md-7 col-sm-7 col-xs-6 pull-left middleBrownText">
+						{{receiveDate}} {{receiveTime}}
+					</span>
+
+            <strong class="col-lg-3 col-md-5 col-sm-5 col-xs-6">
+                Gönderim Sıklığı
+            </strong>
+
+					<span class="col-lg-9 col-md-7 col-sm-7 col-xs-6 pull-left middleBrownText">
+						{{purchaseInfo.freqName}}
+					</span>
+
+            <strong class="col-lg-3 col-md-5 col-sm-5 col-xs-6">
+                {{::'DELIVERY_ADDRESS' | translate}}
+            </strong>
+
+					<span class="col-lg-9 col-md-7 col-sm-7 col-xs-6 pull-left middleBrownText">
+						{{purchaseInfo.address}}
+					</span>
+
+            <strong class="col-lg-3 col-md-5 col-sm-5 col-xs-6 pull-left">
+                {{::'YOUR_NOTE' | translate}}
+            </strong>
+
+					<span class="senderNote col-lg-9 col-md-7 col-sm-7 col-xs-6 middleBrownText">
+						{{purchaseInfo.senderNote}}
+					</span>
+        </section>
+        <section ng-if="purchaseInfo.godiva_name" class="flowerInfo infoContainer col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <figure class="col-lg-6 col-md-4 col-sm-4 col-xs-7">
+                <img style="float: right;" class="flowerImage" ng-src="{{purchaseInfo.godiva_image}}"/>
+            </figure>
+            <article class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <header class="col-lg-12 col-md-12 col-xs-12">
+                    <h3>{{purchaseInfo.godiva_name}}</h3>
+                </header>
+
+                <p class="col-lg-12 col-md-12 col-xs-12 middleBrownText">
+                    {{purchaseInfo.godiva_desc}}
+                </p>
+
+                <strong class="col-lg-12 col-md-12 col-xs-12">
+                    {{purchaseInfo.godiva_sum_total | number :2}} TL
+						    <span class="lightBrownText">
+						    	({{::'TAX_INCLUDED' | translate}})
+						    </span>
+                    <iframe ng-src="{{priceForFrame}}" scrolling="no" frameborder="0" width="1" height="1"></iframe>
+                    <iframe ng-src="{{priceForFrameReklm}}" scrolling="no" frameborder="0" width="1" height="1"></iframe>
+                    <iframe ng-src="{{priceForFrameTicaretMag}}" scrolling="no" frameborder="0" width="1" height="1"></iframe>
+                    <iframe ng-src="{{url}}" scrolling="no" height="1" width="1" frameborder="0"></iframe>
+                </strong>
+            </article>
+        </section>
+    </section>
+</section>
+
+<section class="buttonSection col-lg-11 col-md-12 col-sm-12 col-xs-12 center-block">
+
+    <a id="billingInfoId1" style="line-height: 25px;" role="button" class="darkBlueText billingButton center-block text-center" ng-show='canEditBilling'>
+        {{purchaseInfo.id}} numaralı siparişine ait faturan, teslimatın ardından e-Fatura olarak {{purchaseInfo.email}} adresine gönderilecek. Kurumsal fatura için veya fatura bilgilerinde değişiklik yapmak istersen aşağıdaki alanı kullanabilirsin.
+    </a>
+
+    <a  id="billingInfoId2" style="line-height: 25px;display: none;" role="button" class="darkBlueText billingButton center-block text-center">
+        Fatura bilgilerin kaydedildi.
+    </a>
+
+</section>
+
+<section class="billingButtonSection row" ng-controller="PurchaseBillingCtrl">
+
+<form class="col-lg-11 col-md-12 col-sm-12 col-xs-12 billingSection center-block" name="invoiceForm"
+      ng-show='canEditBilling'>
+
+    <div class="radioButtons text-center center-block icheckField icheckRadio">
+        <input type="radio" class="purchasePersonalBilling" name="iCheck"> <label
+            class="lightBrownText not-error" ng-click="radioSelected('personal')">{{::'PERSONAL_INVOICE' | translate}}</label>
+        <input type="radio" class="purchaseCorporateBilling" name="iCheck"> <label
+            class="lightBrownText not-error" ng-click="radioSelected('corporate')">{{::'CORPORATE_INVOICE' | translate}}</label>
+    </div>
+
+    <fieldset class="invoiceForms" ng-show="billingSection === 1">
+
+        <div class="field col-lg-offset-2 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-11">
+								<span class="input input--akira"
+                                      ng-class='{"input--filled" : invoice.name !== undefined}'>
+									<input class="darkBlueText input__field input__field--akira" type="text"
+                                           ng-model="invoice.name" id="user_name" name="user_name"
+                                           ng-minlength="3"
+                                           maxlength="30" ng-model-options="{ updateOn: 'blur' }" required/>
+									<label class="input__label input__label--akira" for="user_name">
+										<span class="input__label-content input__label-content--akira">
+											<span class="error"
+                                                  ng-show="invoiceForm.user_name.$touched && invoiceForm.user_name.$error.minlength">{{::'INVOICE_NAME_ERROR' | translate}}</span>
+											<span class="error"
+                                                  ng-show="(invoiceForm.user_name.$touched && invoiceForm.user_name.$error.required) || (invoiceForm.user_name.$untouched && !invoiceForm.user_name.$valid && isChecked)">{{::'INVOICE_NAME_EMPTY_ERROR' | translate}}</span>
+											<span class="darkBlueText not-error"
+                                                  ng-show="invoiceForm.user_name.$valid || (invoiceForm.user_name.$untouched && !isChecked)">{{::'INVOICE_NAME' | translate}}*</span>
+										</span>
+                                    </label>
+								</span>
+        </div>
+        <div class="field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-11">
+								<span class="input input--akira"
+                                      ng-class='{"input--filled" : invoice.tc !== undefined}'>
+									<input class="darkBlueText input__field input__field--akira" type="text" required
+                                           ng-model="invoice.tc" id="tc_no" name="tc_no"
+                                           ng-minlength="11" ng-maxlength="11" maxlength="11"
+                                           maxlength="30" ng-model-options="{ updateOn: 'blur' }"/>
+									<label class="input__label input__label--akira" for="tc_no">
+										<span class="input__label-content input__label-content--akira">
+											<span class="error"
+                                                  ng-show="(invoiceForm.tc_no.$touched && invoiceForm.tc_no.$error.required) || (invoiceForm.tc_no.$untouched && !invoiceForm.tc_no.$valid && isChecked)">{{::'INVOICE_TCNO_EMPTY_ERROR' | translate}}</span>
+                                            <span class="error"
+                                                  ng-show="invoiceForm.tc_no.$touched && invoiceForm.tc_no.$error.minlength">TC 11 Haneli Olmalı</span>
+											<span class="darkBlueText not-error"
+                                                  ng-show="invoiceForm.tc_no.$valid || (invoiceForm.tc_no.$untouched && !isChecked)">{{::'INVOICE_TCNO' | translate}}</span>
+										</span>
+                                    </label>
+								</span>
+        </div>
+        <div class="field col-lg-offset-2 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-11">
+								<span class="input input--akira"
+                                      ng-class='{"input--filled" : invoice.small_city !== undefined}'>
+									<input class="darkBlueText input__field input__field--akira" type="text"
+                                           ng-model="invoice.small_city" id="small_city" name="small_city"
+                                           ng-minlength="3"
+                                           maxlength="30" ng-model-options="{ updateOn: 'blur' }" required/>
+									<label class="input__label input__label--akira" for="small_city">
+										<span class="input__label-content input__label-content--akira">
+											<span class="error"
+                                                  ng-show="invoiceForm.small_city.$touched && invoiceForm.small_city.$error.minlength">{{::'INVOICE_DISTRICT_ERROR' | translate}}</span>
+											<span class="error"
+                                                  ng-show="(invoiceForm.small_city.$touched && invoiceForm.small_city.$error.required) || (invoiceForm.small_city.$untouched && !invoiceForm.small_city.$valid && isChecked)">{{::'INVOICE_DISTRICT_EMPTY_ERROR' | translate}}</span>
+											<span class="darkBlueText not-error"
+                                                  ng-show="invoiceForm.small_city.$valid || (invoiceForm.small_city.$untouched && !isChecked)">{{::'INVOICE_DISTRICT' | translate}}*</span>
+										</span>
+                                    </label>
+								</span>
+        </div>
+        <div class="field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-11">
+								<span class="input input--akira"
+                                      ng-class='{"input--filled" : invoice.city !== undefined}'>
+									<input class="darkBlueText input__field input__field--akira" type="text"
+                                           ng-model="invoice.city" id="billingCity" name="city" ng-minlength="3"
+                                           maxlength="30" ng-model-options="{ updateOn: 'blur' }" required/>
+									<label class="input__label input__label--akira" for="billingCity">
+										<span class="input__label-content input__label-content--akira">
+											<span class="error"
+                                                  ng-show="invoiceForm.city.$touched && invoiceForm.city.$error.minlength">{{::'INVOICE_CITY_ERROR' | translate}}</span>
+											<span class="error"
+                                                  ng-show="(invoiceForm.city.$touched && invoiceForm.city.$error.required) || (invoiceForm.city.$untouched && !invoiceForm.city.$valid && isChecked)">{{::'INVOICE_CITY_EMPTY_ERROR' | translate}}</span>
+											<span class="darkBlueText not-error"
+                                                  ng-show="invoiceForm.city.$valid || (invoiceForm.city.$untouched && !isChecked)">{{::'INVOICE_CITY' | translate}}*</span>
+										</span>
+                                    </label>
+								</span>
+        </div>
+
+        <address
+                class="col-lg-offset-2 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-11">
+            <label class="darkBlueText error pull-left" for="personalAddress"
+                   ng-show="(invoiceForm.personal_address.$touched && invoiceForm.personal_address.$error.required) || (invoiceForm.personal_address.$untouched && !invoiceForm.personal_address.$valid && isChecked)">{{::'INVOICE_ADDRESS_EMPTY_ERROR' | translate}}</label>
+            <label class="darkBlueText not-error pull-left" for="personalAddress"
+                   ng-show="invoiceForm.personal_address.$valid || (invoiceForm.personal_address.$untouched && !isChecked)">{{::'INVOICE_ADDRESS' | translate}}*</label>
+            <textarea class="textField darkBlueText form-control" rows="3"
+                      ng-model="invoice.personal_address" id="personalAddress" name="personal_address"
+                      ng-model-options="{ updateOn: 'blur' }" maxlength="150" required></textarea>
+        </address>
+    </fieldset>
+
+    <fieldset class="invoiceForms" ng-show="billingSection === 2">
+
+        <div class="field col-lg-offset-2 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-11">
+								<span class="input input--akira"
+                                      ng-class='{"input--filled" : invoice.company !== undefined}'>
+									<input class="darkBlueText input__field input__field--akira" type="text"
+                                           ng-model="invoice.company" id="company" name="company"
+                                           ng-model-options="{ updateOn: 'blur' }" maxlength="50" required/>
+									<label class="input__label input__label--akira" for="company">
+										<span class="input__label-content input__label-content--akira">
+											<span class="error"
+                                                  ng-show="(invoiceForm.company.$touched && invoiceForm.company.$error.required) || (invoiceForm.company.$untouched && !invoiceForm.company.$valid && isChecked)">{{::'INVOICE_CORPORATE_NAME_EMPTY_ERROR' | translate}}</span>
+											<span class="darkBlueText not-error"
+                                                  ng-show="invoiceForm.company.$valid || (invoiceForm.company.$untouched && !isChecked)">{{::'INVOICE_CORPORATE_NAME' | translate}}*</span>
+										</span>
+                                    </label>
+								</span>
+        </div>
+
+        <address
+                class="col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-11">
+            <label class="darkBlueText error pull-left" for="corporateAddress"
+                   ng-show="(invoiceForm.company_address.$touched && invoiceForm.company_address.$error.required) || (invoiceForm.company_address.$untouched && !invoiceForm.company_address.$valid && isChecked)">{{::'INVOICE_ADDRESS_EMPTY_ERROR' | translate}}</label>
+            <label class="darkBlueText not-error pull-left" for="corporateAddress"
+                   ng-show="invoiceForm.company_address.$valid || (invoiceForm.company_address.$untouched && !isChecked)">{{::'INVOICE_ADDRESS' | translate}}*</label>
+            <textarea class="textField darkBlueText form-control" rows="2"
+                      ng-model="invoice.billing_address" id="corporateAddress" name="company_address"
+                      ng-model-options="{ updateOn: 'blur' }" maxlength="150" required></textarea>
+        </address>
+
+        <div class="field col-lg-offset-2 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-11">
+								<span class="input input--akira"
+                                      ng-class='{"input--filled" : invoice.tax_office !== undefined}'>
+									<input class="darkBlueText input__field input__field--akira" type="text"
+                                           ng-model="invoice.tax_office" id="tax_office" name="tax_office"
+                                           ng-minlength="3" ng-model-options="{ updateOn: 'blur' }" maxlength="30"
+                                           required/>
+									<label class="input__label input__label--akira" for="tax_office">
+										<span class="input__label-content input__label-content--akira">
+											<span class="error"
+                                                  ng-show="invoiceForm.tax_office.$touched && (invoiceForm.tax_office.$error.minlength)">{{::'INVOICE_TAX_OFFICE_ERROR' | translate}}</span>
+											<span class="error"
+                                                  ng-show="(invoiceForm.tax_office.$touched && invoiceForm.tax_office.$error.required) || (invoiceForm.tax_office.$untouched && !invoiceForm.tax_office.$valid && isChecked)">{{::'INVOICE_TAX_OFFICE_EMPTY_ERROR' | translate}}</span>
+											<span class="darkBlueText not-error"
+                                                  ng-show="invoiceForm.tax_office.$valid || (invoiceForm.tax_office.$untouched && !isChecked)">{{::'INVOICE_TAX_OFFICE' | translate}}*</span>
+										</span>
+                                    </label>
+								</span>
+        </div>
+
+        <div class="field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-11">
+								<span class="input input--akira"
+                                      ng-class='{"input--filled" : invoice.tax_no !== undefined}'>
+									<!--<input class="darkBlueText input__field input__field--akira" type="text"
+                                           ng-model="invoice.tax_no" id="tax_no" name="tax_no" ng-minlength="10" ng-maxlength="10" maxlength="10"
+                                           maxlength="30" ng-pattern="/^[0-9 ]+$/"
+                                           ng-model-options="{ updateOn: 'blur' }" required/>-->
+                                    <input id="billingIdJ" class="darkBlueText input__field input__field--akira" type="text"
+                                           ng-model="invoice.tax_no" id="tax_no" name="tax_no" required
+                                           ng-minlength="10" ng-maxlength="10" maxlength="15"
+                                           onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                                           maxlength="30" ng-model-options="{ updateOn: 'blur' }"/>
+									<label class="input__label input__label--akira" for="tax_no">
+										<span class="input__label-content input__label-content--akira">
+											<span class="error"
+                                                  ng-show="invoiceForm.tax_no.$touched && invoiceForm.tax_no.$error.minlength">{{::'INVOICE_TAX_NO_ERROR' | translate}}</span>
+											<span class="error"
+                                                  ng-show="(invoiceForm.tax_no.$touched && invoiceForm.tax_no.$error.required) || (invoiceForm.tax_no.$untouched && !invoiceForm.tax_no.$valid && isChecked)">{{::'INVOICE_TAX_NO_EMPTY_ERROR' | translate}}</span>
+											<span class="darkBlueText not-error"
+                                                  ng-show="invoiceForm.tax_no.$valid || (invoiceForm.tax_no.$untouched && !isChecked)">{{::'INVOICE_TAX_NO' | translate}}*</span>
+										</span>
+                                    </label>
+								</span>
+        </div>
+    </fieldset>
+
+    <p class="infoText col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+        * {{::'FORM_CAUTION_TEXT' | translate}}
+    </p>
+
+    <label class="error col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">{{errorMessage}}</label>
+
+    <button type="button" ng-if="!processSuccess"
+            class="buttonStyle btn-bloomNfresh btn btn-default center-block col-lg-5 col-md-5 col-sm-5 col-xs-11"
+            ng-click="sendBillingInfo()">
+        {{::'INVOICE_SUBMIT_BUTTON' | translate}}
+    </button>
+
+    <button class="buttonStyle btn-success btn btn-default center-block col-lg-5 col-md-5 col-sm-5 col-xs-11 disabled"
+            ng-if="processSuccess"> {{::'INVOICE_SUCCESS_BUTTON' | translate}}
+    </button>
+
+    <!--[if !IE]><!-->
+    <loader
+            working="working"
+            disable-background="true"
+            template="2">
+    </loader>
+
+    <!--<![endif]-->
+</form>
+</section>
+</section>
+
+</article>
+</main>
+<script>
+    $('#billingIdJ').change(function() {
+        $(this).val($(this).val().replace(/\s/g,""));
+    });
+</script>
+<bf-footer></bf-footer>
+<!-- <script type="text/javascript">
+    $( document ).ready(function() {
+        setTimeout(
+                function()
+                {
+                    $tempAmount = $('#flowerPriceJs').val();
+                    if($tempAmount){
+                        $tempAmount = $tempAmount.replace(",", ".");
+                        $tempId = $('#flowerIdJs').val();
+                        //console.log($(location.search).attr('pathname'));
+                        $tempLocation = location.search.split("=")[1];
+                        //var basket = {
+                        //    products: [
+                        //        { identifier: $tempId, amount: $tempAmount, currency: 'TRY', quantity: 1 }
+                        //    ],
+                        //    transaction : $tempLocation,
+                        //    amount: $tempAmount,
+                        //    currency: 'TRY'
+                        //};
+                        //console.log(basket);
+                        sociomantic.sonar.adv['bloomandfresh-tr'].clear();
+                        window.basket = {
+                            products: [{ identifier: $tempId, amount: $tempAmount, currency: 'TRY', quantity: 1 }],
+                            transaction: $tempLocation,
+                            amount: $tempAmount,
+                            currency: 'TRY'
+                        };
+                        sociomantic.sonar.adv['bloomandfresh-tr'].track();
+                    }
+                },
+                2000
+        );
+    });
+</script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        setTimeout(
+                function()
+                {
+                    (function(){
+                        var s   = document.createElement('script');
+                        var x   = document.getElementsByTagName('script')[0];
+                        s.type  = 'text/javascript';
+                        s.async = true;
+                        s.src   = ('https:'==document.location.protocol?'https://':'http://')
+                        + 'eu-sonar.sociomantic.com/js/2010-07-01/adpan/bloomandfresh-tr';
+                        x.parentNode.insertBefore( s, x );
+                    })();
+                }, 1000);
+    });
+</script> -->

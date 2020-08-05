@@ -1,0 +1,57 @@
+<section class="overlay" ng-class="{open: isMenuOpen()}">
+    <!-- closeButton -->
+    <div class="col-lg-6 col-md-6 col-sm-11 col-xs-11" style="position: absolute;z-index: 100;padding-right: 0px;">
+        <button style="width: 50px;height: 50px;margin-right: 15px;margin-top: 15px;border: none;color: #fff;background: #242b31;z-index: 100;float: right;" type="button" class="closeButton btn btn-default btn-lg col-lg-offset-6 col-md-offset-6 col-sm-offset-11 col-xs-offset-10" aria-label="Left Align" ng-click="setMenuVisibility(0)">
+            <span style="font-size: 1.3em;" class="ion-android-close" aria-hidden="true"></span>
+        </button>
+    </div>
+
+	<nav style="text-align: center;padding-left: 15px;padding-right: 15px;padding-top: 15px;padding-bottom: 15px;" class="overlayMenu panel col-lg-6 col-md-6 col-sm-12 col-xs-11">
+		<ul style="height: 100%;right: auto;float: none;margin-bottom: 0px;width: 100%;margin: 0;">
+			<li>
+				<img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/logos/bloomandfresh-logo3-v2.png" alt="{{::'LANDING_IMG_ALT' | translate}}">
+			</li>
+			<li>
+                <a ui-sref="landing()" title="{{::'LANDING_URL_TITLE' | translate}}" ng-click="setMenuVisibility(false)" ng-if="checkLandingUrl('tr')"> <b class="text-uppercase darkBlueText mainPage">{{'LANDING_NAME' | translate}}</b> </a>
+                <a ui-sref="landing-en()" title="{{::'LANDING_URL_TITLE' | translate}}" ng-click="setMenuVisibility(false)" ng-if="checkLandingUrl('en')"> <b class="text-uppercase darkBlueText mainPage">{{'LANDING_NAME' | translate}}</b> </a>
+			</li>
+            <li>
+                <a target="_blank" hreflang="{{::'HREFLANG' | translate}}" title="Bloom And Fresh - Cicekler"> <b class="text-uppercase darkBlueText blog">ÇİÇEKLER</b>  </a>
+            </li>
+            <li>
+                <a href="https://bloomandfresh.com/buket-cicek" target="_blank" hreflang="{{::'HREFLANG' | translate}}" title="Bloom And Fresh - Blog"> <b class="darkBlueText blog">Buket Çiçekler</b>  </a>
+            </li>
+            <li>
+                <a href="https://bloomandfresh.com/vazoda-cicek" target="_blank" hreflang="{{::'HREFLANG' | translate}}" title="Bloom And Fresh - Blog"> <b class="darkBlueText blog">Vazo / Masaüstü</b>  </a>
+            </li>
+            <li>
+                <a href="https://bloomandfresh.com/orkide" target="_blank" hreflang="{{::'HREFLANG' | translate}}" title="Bloom And Fresh - Blog"> <b class="darkBlueText blog">Orkide</b>  </a>
+            </li>
+            <li>
+                <a href="https://bloomandfresh.com/teraryum-sukulent-kaktus" target="_blank" hreflang="{{::'HREFLANG' | translate}}" title="Bloom And Fresh - Blog"> <b class="darkBlueText blog">Teraryum / Sukulent</b>  </a>
+            </li>
+            <li>
+                <a href="https://bloomandfresh.com/saksi-cicekleri" target="_blank" hreflang="{{::'HREFLANG' | translate}}" title="Bloom And Fresh - Blog"> <b class="darkBlueText blog">Saksılı Çiçekler</b>  </a>
+            </li>
+            <li>
+                <a ui-sref="flowers({tagUrl: 'cikolata'})" href="/cikolata"  ng-click="setMenuVisibility(false)" title="Çikolatalar"> <b class="darkBlueText text-uppercase flowers">ÇİKOLATA & MAKARON</b>  </a>
+            </li>
+            <li>
+                <a href="https://bloomandfresh.com/hediye-kutulari" target="_blank" hreflang="{{::'HREFLANG' | translate}}" title="Bloom And Fresh - Blog"> <b class="darkBlueText blog">HEDİYE KUTULARI</b>  </a>
+            </li>
+            <li ng-show="ifUserCompany()">
+                <img ng-if="!companyOrElse" src="{{loggedUser.logo_img}}" style="width: 45px;position: relative;top: 20%;/* padding-bottom: 20px; */" class="ng-scope">
+                <a href="/company-user-sales"  hreflang="{{::'HREFLANG' | translate}}" ng-click="setMenuVisibility(false)" title="Şirket Siparişleri"><b class="text-uppercase darkBlueText contactUs"> Şirket Siparişleri </b></a>
+            </li>
+			<li>
+				<a ui-sref="aboutUs({baseUrl: '{{::'ABOUT_US_URL' | translate}}'})" hreflang="{{::'HREFLANG' | translate}}" ng-click="setMenuVisibility(false)" title="{{::'ABOUT_US_URL_TITLE' | translate}}"> <b class="text-uppercase darkBlueText aboutUs">{{'ABOUT_US_NAME' | translate}}</b> </a>
+			</li>
+			<li>
+				<a ui-sref="how({baseUrl: '{{::'HOW_URL' | translate}}'})" hreflang="{{::'HREFLANG' | translate}}" ng-click="setMenuVisibility(false)" title="{{::'HOW_URL_TITLE' | translate}}"><b class="text-uppercase darkBlueText how"> {{'HOW_NAME' | translate}}</b></a>
+			</li>
+			<li>
+				<a ui-sref="contactUs({baseUrl: '{{::'CONTACT_US_URL' | translate}}'})" hreflang="{{::'HREFLANG' | translate}}" ng-click="setMenuVisibility(false)" title="{{::'CONTACT_US_TITLE' | translate}}"><b class="text-uppercase darkBlueText contactUs"> {{'CONTACT_HEADER' | translate}}</b></a>
+			</li>
+		</ul>
+	</nav>
+</section>

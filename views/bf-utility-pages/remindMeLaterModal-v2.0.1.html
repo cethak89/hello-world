@@ -1,0 +1,38 @@
+<div class="modal-header">
+	<h4 class="modal-title text-center header">{{::'REMIND_ME_HEADER' | translate}}</h4>
+</div>
+<div class="modal-body row" stop-event="touchend">
+	<form class="pull-left" name="remindMeForm">
+        <fieldset class="col-sm-12 col-xs-12">
+            <p class="lightBrownText" style="font-family: 'Bodoni Italic'; font-size: 16px;">
+                {{::'REMIND_ME_TEXT' | translate : reminder}}
+            </p>
+        </fieldset>
+
+		<fieldset class="text-center col-sm-12 col-xs-12">
+			<div class="inputContainer center-block" ng-class="{'has-success': isSuccess}">
+				<span class="input input--akira input--filled" ng-class='{"input--filled" : reminder.mail  !== undefined }'>
+                    <input class="lightBrownText input__field input__field--akira" type="email" ng-model="reminder.mail" id="reminderMail" name="reminderMail" maxlength="60"
+                           ng-minlength="3" ng-pattern="/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/" required/>
+					<label class="input__label input__label--akira" for="reminderMail">
+						<span class="input__label-content input__label-content--akira">
+							<span class="error" ng-show="remindMeForm.reminderMail.$touched && (remindMeForm.reminderMail.$error.email || remindMeForm.reminderMail.$error.pattern)">{{::'EMAIL_ERROR' | translate}}</span>
+							<span class="error"
+                                  ng-show="(remindMeForm.reminderMail.$touched && remindMeForm.reminderMail.$error.required) || (remindMeForm.reminderMail.$untouched && isChecked)">{{::'EMAIL_EMPTY_ERROR' | translate}}</span>
+							<span class="lightBrownText not-error" ng-show="remindMeForm.reminderMail.$valid || (remindMeForm.reminderMail.$untouched && !isChecked)">{{::'EMAIL_TEXT' | translate}}</span>
+						</span>
+                    </label>
+				</span>
+                <span class="help-block" ng-show="isSuccess">{{::'REMINDER_SUCCESS_MESSAGE' | translate: reminder}}</span>
+			</div>
+		</fieldset>
+
+		<label class="error col-sm-12 col-xs-12 text-center">
+			{{errorMessage}}
+		</label>
+	</form>
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-primary" ng-click="saveReminder()"> {{::'SAVE_BUTTON_TEXT' | translate}} </button>
+</div>

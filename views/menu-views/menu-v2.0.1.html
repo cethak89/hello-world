@@ -1,0 +1,56 @@
+<header class="otherPages">
+	<left-hidden-menu></left-hidden-menu>
+
+	<right-menus></right-menus>
+
+    <mega-drop-down class="otherPageDropDown"></mega-drop-down>
+
+	<nav class="navbar navbar-default">
+		<section style="background-color: white;" class="container-fluid">
+			<ul class="nav navbar-nav navbar-left pull-left">
+				<li>
+					<button type="button" class="secretMenu btn btn-default btn-lg" aria-label="Left Align" ng-click="setMenuVisibility(1)">
+						<span class="glyphicon ion-navicon lightBrownText" aria-hidden="true"></span>
+					</button>
+				</li>
+			</ul>
+
+			<ul class="nav navbar-nav navbar-right pull-right">
+				<li ng-show="isUserLogin() === false">
+					<button type="button" class="signIn btn btn-default btn-lg pull-right" aria-label="Right Align" ng-click="setSignSection('giris')">
+						<span class="signInIcon signInBrownIcon lightBrownText" aria-hidden="true"></span>
+					</button>
+				</li>
+				<li ng-show="isUserLogin()">
+					<button type="button" class="signIn btn btn-default btn-lg pull-right" aria-label="Right Align" ng-click="setSignSection('profil')">
+						<span class="userNameFirstChar text-uppercase darkBlueText"> <b>{{ loggedUser.name[0] }}</b> </span>
+					</button>
+				</li>
+			</ul>
+            <ul ng-if="checkCompanyUser() > 0 && companyStatus"  style="margin-top: 15px;" class="ribbonMenuThree pull-right">
+                <li class="flagImagesContainer">
+                    <img ng-click="goLandingFromCompany()" src="{{loggedUser.logo_img}}" style="width: 45px;padding-bottom: 20px;">
+                    <a href="" ng-click="goLandingFromCompany()" class="flagUrl text-uppercase"><b style="font-size: 8px;color:#3b454d;">{{loggedUser.company_name}}</b></a>
+                </li>
+            </ul>
+			<a class="center-block" ui-sref="landing()" title="{{::'LANDING_URL_TITLE' | translate}}" ng-if="checkLandingUrl('tr')">
+				<img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/logos/bloomandfresh_logo_brown.svg" alt="{{::'LANDING_IMG_ALT' | translate}}">
+			</a>
+            <a class="center-block" ui-sref="landing-en()" title="{{::'LANDING_URL_TITLE' | translate}}" ng-if="checkLandingUrl('en')">
+                <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/logos/bloomandfresh_logo_brown.svg" alt="{{::'LANDING_IMG_ALT' | translate}}">
+            </a>
+            <figure style="visibility: hidden;top: 30px;" class="ribbonMenuFive">
+                <span ng-if="menuElement.open_style && menuElement.order == 1" ng-click="setDropDown()" target="_blank" href="{{menuElement.url}}" ng-repeat="menuElement in upMenu" ng-style="{ 'left' : '{{menuElement.left_perc}}' }"  style=" cursor: pointer ;position: absolute;color: #816A4A;font-family: 'Bodoni Italic';font-size: 24px;text-shadow: 0px 0px 1px #8e7758, 0px 0px 2px #8e7758;top: -6px;">{{menuElement.name}}</span>
+                <span ng-if="!menuElement.open_style && menuElement.order == 1" ng-click="setDropDown()" href="{{menuElement.url}}" ng-repeat="menuElement in upMenu" ng-style="{ 'left' : '{{menuElement.left_perc}}' }"  style=" cursor: pointer ; position: absolute;color: #816A4A;font-family: 'Bodoni Italic';font-size: 24px;text-shadow: 0px 0px 1px #8e7758, 0px 0px 2px #8e7758;top: -6px;">{{menuElement.name}}</span>
+                <a ng-if="menuElement.open_style && menuElement.order != 1 " target="_blank" href="{{menuElement.url}}" ng-repeat="menuElement in upMenu" ng-style="{ 'left' : '{{menuElement.left_perc}}' }"  style=" position: absolute;font-family: 'Gotham Light';font-size: 18px;color: #816A4A;">{{menuElement.name}}</a>
+                <a ng-if="!menuElement.open_style && menuElement.order != 1 " href="{{menuElement.url}}" ng-repeat="menuElement in upMenu" ng-style="{ 'left' : '{{menuElement.left_perc}}' }"  style=" position: absolute;font-family: 'Gotham Light';font-size: 18px;color: #816A4A;">{{menuElement.name}}</a>
+                <ui-select id="ribbonCity" style="z-index: 100;position: absolute;width: 120px;right: 95px;font-size: 14px;margin-bottom: 0px;top: -17px;" ng-model="$root.mainCitySelected" theme="selectize" class="ribbonCity" ng-change="setCity($root.mainCitySelected)">
+                    <ui-select-match style="z-index: 100;" placeholder="İl Seçimi"  allow-clear="true">{{selectedCity.name}}</ui-select-match>
+                    <ui-select-choices style="z-index: 100;" repeat="city in cities | filter: $select.search">
+                        <span ng-bind-html="city.name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+            </figure>
+		</section>
+	</nav>
+</header>

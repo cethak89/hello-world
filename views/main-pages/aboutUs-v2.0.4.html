@@ -1,0 +1,285 @@
+<navbar-menu></navbar-menu>
+
+<main class="aboutUs">
+<div style="width: 100%;height: 60px;border-bottom: 1px solid #e7e7e7;background-color: white;">
+    <figure style="padding-top: 18px;position: inherit;" class="">
+        <a class="breadPadding" href="/" style="padding-left: 30px;font-family: 'Gotham Light';font-size: 18px;color: rgb(129, 106, 74);" class="ng-binding ng-scope">Anasayfa</a>
+        <img class="breadPadding" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/arrow_breadCrum.jpg" style="padding-left: 15px;padding-bottom: 4px;padding-right: 15px;">
+        <a class="breadPadding" href="/hakkimizda" style="font-weight: 700;font-family: 'Gotham Light';font-size: 18px;color: #3b454d;" class="ng-binding ng-scope">Hakkımızda</a>
+    </figure>
+</div>
+    <section class="jumbotron center-block bloomNFresh-jumbotron container-fluid">
+        <h3 class="jumbotronText whiteText text-center center-block" translate="ABOUT_US_HEADER_2"></h3>
+        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/aboutUsImages/aboutUsFlower-1.png" class="center-block">
+    </section>
+    <section class="teamSection  container-fluid">
+        <header class="teamSectionHeader">
+            <h2 class="center-block darkBlueText text-uppercase"> {{::'DREAM_TEAM' | translate}} </h2>
+
+            <small class="center-block text-center lightBrownText col-lg-8 col-md-8 col-sm-10 col-xs-11">
+                {{::'TEAM_SECTION_TEXT' | translate}}
+            </small>
+        </header>
+        <article class="teamMembers col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ul class="membersContainer">
+                <li ng-repeat="person in people" class="memberContainer col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <figure>
+                        <img src="{{person.image_url}}"
+                             class="memberImg center-block">
+                        <figcaption>
+                            <strong class="memberName lightBrownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {{person.name}}</strong>
+                            <small class="memberPosition darkBlueText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {{person.tittre}}
+                            </small>
+                        </figcaption>
+                    </figure>
+                    <footer class="memberSocials col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="socialContainer center-block col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <a href="{{person.linked_url}}" target="_blank">
+                                <span class="linkedin ion-social-linkedin-outline lightBrownText"></span>
+                            </a>
+                        </div>
+                    </footer>
+                </li>
+                <!--
+                <li class="memberContainer col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <figure>
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/aboutUsImages/fatih.jpg"
+                             class="memberImg center-block">
+                        <figcaption>
+                            <strong class="memberName lightBrownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                Fatih Çalkan</strong>
+                            <small class="memberPosition darkBlueText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {{::'TEAM_POSITION_CEO' | translate}}
+                            </small>
+                        </figcaption>
+                    </figure>
+                    <footer class="memberSocials col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="socialContainer center-block col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <a href="https://tr.linkedin.com/in/fatihcalkan/tr" target="_blank"><span
+                                    class="linkedin ion-social-linkedin-outline lightBrownText"></span></a>
+                        </div>
+                    </footer>
+                </li>
+                <li class="memberContainer col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <figure>
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/aboutUsImages/murat.jpg"
+                             class="memberImg center-block">
+                        <figcaption>
+                            <strong class="memberName lightBrownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                Murat H. Susanlı</strong>
+                            <small class="memberPosition darkBlueText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {{::'TEAM_POSITION_MANAGER' | translate}}
+                            </small>
+                        </figcaption>
+                    </figure>
+                    <footer class="memberSocials col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="socialContainer center-block col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <a href="https://www.linkedin.com/in/msusanli/tr" target="_blank"><span
+                                    class="linkedin ion-social-linkedin-outline lightBrownText"></span></a>
+                        </div>
+                    </footer>
+                </li>
+                <li class="memberContainer col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <figure>
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/aboutUsImages/sibel.jpg"
+                             class="memberImg center-block">
+                        <figcaption>
+                            <strong class="memberName lightBrownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                Sibel Aydın</strong>
+                            <small class="memberPosition darkBlueText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               {{::'TEAM_POSITION_FLOWER_DESIGN_1' | translate}}
+                            </small>
+                        </figcaption>
+                    </figure>
+                    <footer class="memberSocials col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="socialContainer center-block col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <a href="https://tr.linkedin.com/pub/sibel-aydın/52/66b/8b4" target="_blank"><span
+                                    class="linkedin ion-social-linkedin-outline lightBrownText"></span></a>
+                        </div>
+                    </footer>
+                </li>
+                <li class="memberContainer col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <figure>
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/aboutUsImages/arzu.jpg"
+                             class="memberImg center-block">
+                        <figcaption>
+                            <strong class="memberName lightBrownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                Arzu Keleş</strong>
+                            <small class="memberPosition darkBlueText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                               {{::'TEAM_POSITION_FLOWER_DESIGN_2' | translate}}
+                            </small>
+                        </figcaption>
+                    </figure>
+                    <footer class="memberSocials col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="socialContainer center-block col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <a href="https://tr.linkedin.com/pub/arzu-keleş/25/5a4/952/tr" target="_blank"><span
+                                    class="linkedin ion-social-linkedin-outline lightBrownText"></span></a>
+                        </div>
+                    </footer>
+                </li>
+                <li class="memberContainer col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <figure>
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/aboutUsImages/begum.jpg"
+                             class="memberImg center-block">
+                        <figcaption>
+                            <strong class="memberName lightBrownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                Begüm Balcıoğlu</strong>
+                            <small class="memberPosition darkBlueText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {{::'TEAM_POSITION_FLOWER_DESIGN_2' | translate}}
+                            </small>
+                        </figcaption>
+                    </figure>
+                    <footer class="memberSocials col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="socialContainer center-block col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <a href="" target="_blank"><span
+                                    class="linkedin ion-social-linkedin-outline lightBrownText"></span></a>
+                        </div>
+                    </footer>
+                </li>
+                <li class="memberContainer col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <figure>
+                        <img src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/profile_photo/yesim.jpg" class="memberImg center-block">
+                        <figcaption>
+                            <strong class="memberName lightBrownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">Yeşim Çelik</strong>
+                            <small class="memberPosition darkBlueText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {{::'TEAM_POSITION_FLOWER_DESIGN_2' | translate}}
+                            </small>
+                        </figcaption>
+                    </figure>
+                    <footer class="memberSocials col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="socialContainer center-block col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <a href="" target="_blank"><span
+                                    class="linkedin ion-social-linkedin-outline lightBrownText"></span></a>
+                        </div>
+                    </footer>
+                </li>
+                <li class="memberContainer col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <figure>
+                        <img src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/profile_photo/hakan_cetin.jpg"
+                             class="memberImg center-block">
+                        <figcaption>
+                            <strong class="memberName lightBrownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                Hakan Çetin</strong>
+                            <small class="memberPosition darkBlueText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {{::'TEAM_POSITION_NERDS' | translate}}
+                            </small>
+                        </figcaption>
+                    </figure>
+                    <footer class="memberSocials col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="socialContainer center-block col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <a href="https://tr.linkedin.com/in/hakancetin" target="_blank"><span
+                                    class="linkedin ion-social-linkedin-outline lightBrownText"></span></a>
+                        </div>
+                    </footer>
+                </li>
+                <li class="memberContainer col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <figure>
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/aboutUsImages/irem.jpg"
+                             class="memberImg center-block">
+                        <figcaption>
+                            <strong class="memberName lightBrownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                İrem Gülsün Erçakar</strong>
+                            <small class="memberPosition darkBlueText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {{::'CUSTOMER_RELATIONS' | translate}}
+                            </small>
+                        </figcaption>
+                    </figure>
+                    <footer class="memberSocials col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="socialContainer center-block col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <a href="" target="_blank"><span
+                                    class="linkedin ion-social-linkedin-outline lightBrownText"></span></a>
+                        </div>
+                    </footer>
+                </li>
+                <li class="memberContainer col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <figure>
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/aboutUsImages/suayp.jpg"
+                             class="memberImg center-block">
+                        <figcaption>
+                            <strong class="memberName lightBrownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">Şuayp
+                                Kamer</strong>
+                            <small class="memberPosition darkBlueText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {{::'TEAM_POSITION_OPERATION' | translate}}
+                            </small>
+                        </figcaption>
+                    </figure>
+                    <footer class="memberSocials col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="socialContainer center-block col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <a href="" target="_blank"><span
+                                    class="linkedin ion-social-linkedin-outline lightBrownText"></span></a>
+                        </div>
+                    </footer>
+                </li>
+                <li class="memberContainer col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <figure>
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/aboutUsImages/mesut.jpg" class="memberImg center-block">
+                        <figcaption>
+                            <strong class="memberName lightBrownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">Mesut
+                                Özkul</strong>
+                            <small class="memberPosition darkBlueText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {{::'TEAM_POSITION_OPERATION' | translate}}
+                            </small>
+                        </figcaption>
+                    </figure>
+                    <footer class="memberSocials col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="socialContainer center-block col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <a href="" target="_blank"><span
+                                    class="linkedin ion-social-linkedin-outline lightBrownText"></span></a>
+                        </div>
+                    </footer>
+                </li>
+                <li class="memberContainer col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <figure>
+                        <img src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/profile_photo/turgay.jpg" class="memberImg center-block">
+                        <figcaption>
+                            <strong class="memberName lightBrownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">Turgay Pelit</strong>
+                            <small class="memberPosition darkBlueText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {{::'TEAM_POSITION_OPERATION' | translate}}
+                            </small>
+                        </figcaption>
+                    </figure>
+                    <footer class="memberSocials col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="socialContainer center-block col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <a href="" target="_blank"><span
+                                    class="linkedin ion-social-linkedin-outline lightBrownText"></span></a>
+                        </div>
+                    </footer>
+                </li>
+                <li class="memberContainer col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                    <figure>
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/aboutUsImages/sinan.jpg" class="memberImg center-block">
+                        <figcaption>
+                            <strong class="memberName lightBrownText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">Sinan
+                                Kamer</strong>
+                            <small class="memberPosition darkBlueText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                {{::'TEAM_POSITION_OPERATION' | translate}}
+                            </small>
+                        </figcaption>
+                    </figure>
+                    <footer class="memberSocials col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="socialContainer center-block col-lg-3 col-md-3 col-sm-3 col-xs-4">
+                            <a href="" target="_blank"><span
+                                    class="linkedin ion-social-linkedin-outline lightBrownText"></span></a>
+                        </div>
+                    </footer>
+                </li>-->
+            </ul>
+        </article>
+    </section>
+
+    <section class="container-fluid">
+        <footer class="moreQuestion col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<span class="footerLink darkBlueText pull-right">
+				{{::'FOR_MORE_INFORMATION_CONTACT_US' | translate}} <a
+                    class="contactUsButton ion-chevron-right lightBrownText" role="button" ui-sref="contactUs({baseUrl : '{{'CONTACT_US_URL' | translate}}'})"
+                    title="Bloom And Fresh Bize Ulaş"></a>
+			</span>
+        </footer>
+    </section>
+
+
+</main>
+
+<bf-footer></bf-footer>

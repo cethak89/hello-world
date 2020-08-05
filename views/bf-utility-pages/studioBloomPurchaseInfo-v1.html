@@ -1,0 +1,30 @@
+<aside class="rightPurchaseInfo col-lg-3 col-md-3 col-sm-3 hidden-xs">
+
+    <section class="flowerInfoContainer notUserContacts">
+        <figure class="col-lg-5 col-md-7 col-sm-12 center-block">
+            <img class="flower-image" ng-src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/logo/s.bloom6.svg"/>
+        </figure>
+        <article class="flowerNameAndDescription col-lg-7 col-md-12 col-sm-12">
+            <header class="col-lg-12 col-md-12 col-sm-12">
+                <h3>{{flower.name}}</h3>
+            </header>
+
+            <p class="col-lg-12 col-md-12 hidden-sm middleBrownText">
+                {{flower.landing_page_desc}}
+            </p>
+        </article>
+    </section>
+
+    <section class="priceInfo infoSection">
+        <table class="table">
+            <tr>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">{{::'PRICE_HEADER' | translate}}</strong></td>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{flower.price}} TL + {{::'TAX' | translate}}</td>
+            </tr>
+            <tr>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">{{::'TOTAL_PRICE_HEADER_2' | translate}}</strong></td>
+                <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{flower.newPrice}} TL ({{::'TAX_INCLUDED' | translate}})</td>
+            </tr>
+        </table>
+    </section>
+</aside>

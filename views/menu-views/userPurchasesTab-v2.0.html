@@ -1,0 +1,65 @@
+<table class="table" ng-if="isPurchasesExist()">
+	<thead>
+		<tr>
+			<th class="col-lg-3 col-md-3 col-sm-3 col-xs-3 lightBrownText">{{::'PURCHASE_TAB_FLOWER' | translate}}</th>
+			<th class="col-lg-2 col-md-2 col-sm-2 hidden-xs lightBrownText">{{::'PURCHASE_TAB_RECEIVER' | translate}}</th>
+			<th class="col-lg-3 col-md-3 col-sm-3 col-xs-3 lightBrownText">{{::'PURCHASE_TAB_WHEN' | translate}}</th>
+            <th style="min-width: 57px;" class="col-lg-1 col-md-1 col-sm-1 col-xs-1 lightBrownText text-center">Takip No</th>
+			<th class="col-lg-2 col-md-2 col-sm-2 col-xs-2 lightBrownText text-center">{{::'PURCHASE_TAB_STATUS' | translate}}</th>
+        </tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="purchase in purchases">
+			<td class="flowerInfo">
+				<img ng-src="{{::purchase.MainImage}}">
+				<dl>
+					<dt>{{::purchase.name}}</dt>
+				</dl>
+			</td>
+			<td class="receiverInfo text-capitalize hidden-xs">
+				<dl>
+					<dt>{{::purchase.customer_name}} {{purchase.customer_surname}}</dt>
+				</dl>
+			</td>
+			<td class="receiveDate">
+				<dl>
+					<dt><span ng-if="purchase.ups == 1">Kargolama Tarihi: </span>{{::getDate(purchase.wanted_delivery_date)}}</dt>
+					<dt ng-if="purchase.ups == 0">{{::getTime(purchase.wanted_delivery_date, purchase.wanted_delivery_date_end)}}</dt>
+				</dl>
+			</td>
+            <td class="receiverInfo text-capitalize hidden-xs">
+                <dl>
+                    <dt>{{purchase.ShipmentNo}}</dt>
+                </dl>
+            </td>
+			<td class="receiveStatus">
+				<figure class="receiveStatusContainer">
+					<img class="receiveStatusImg center-block" ng-if="purchase.status !== '3'" ng-src="images/purchaseStatus/status{{purchase.status}}.svg">
+					<img class="receiveStatusImg center-block" ng-if="purchase.status === '3'" ng-src="images/purchaseStatus/status{{purchase.status}}.svg"
+					     tooltip-placement="left" tooltip-html-unsafe="
+					     <h4 class='tooltipHeader'>{{::'DELIVERY_DATE_HEADER' | translate}}</h4>
+					     <p class='tooltipContext'>{{getDate(purchase.delivery_date)}} <br/> {{getTime(purchase.delivery_date)}} </p>">
+
+					<figcaption class="receiveStatusText text-center"><b>{{getPurchaseStatusText(purchase.status)}}</b></figcaption>
+				</figure>
+			</td>
+		</tr>
+        <tr>
+            <td colspan="5">
+                <span style="font-family: 'Gotham Light';line-height: 20px;color: #242b31;">Kargolu siparişlerine takip numaranı kullanarak <a target="_blank" href="https://www.ups.com/track?loc=tr_TR&requester=MB/">buradan</a> ulaşabilirsin.</span>
+            </td>
+        </tr>
+	</tbody>
+</table>
+<section class="purchaseNotExist" ng-if="!isPurchasesExist()">
+	<p class="lightBrownText">
+		{{::'NOT_PURCHASED_YET' | translate}}
+	</p>
+
+	<button class="btn-bloomNfresh btn btn-default text-uppercase" ui-sref="landing({baseUrl: ''})" ng-click="setSignSection('')"> {{::'NOT_PURCHASED_YET_BUTTON' | translate}}</button>
+
+	<section class="profileBNFLogo">
+		<img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/logos/bloomandfresh-logo-4-v2.png">
+	</section>
+
+</section>

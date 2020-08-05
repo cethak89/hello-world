@@ -1,0 +1,195 @@
+<script>
+    (function () {
+        // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+        if (!String.prototype.trim) {
+            (function () {
+                // Make sure we trim BOM and NBSP
+                var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+                String.prototype.trim = function () {
+                    return this.replace(rtrim, '');
+                };
+            })();
+        }
+        [].slice.call(document.querySelectorAll('input.input__field')).forEach(function (inputEl) {
+            // in case the input is already filled..
+            if (inputEl.value.trim() !== '') {
+                classie.add(inputEl.parentNode, 'input--filled');
+            }
+            // events:
+            inputEl.addEventListener('focus', onInputFocus);
+            inputEl.addEventListener('blur', onInputBlur);
+        });
+        function onInputFocus(ev) {
+            classie.add(ev.target.parentNode, 'input--filled');
+        }
+
+        function onInputBlur(ev) {
+            if (ev.target.value.trim() === '') {
+                classie.remove(ev.target.parentNode, 'input--filled');
+            }
+        }
+    })();
+</script>
+
+<navbar-menu class="ribbonPurchase"></navbar-menu>
+
+<main ng-app="purchase" class="purchase">
+
+<section class="container-fluid">
+<header class="row">
+    <ul id="ulBar" class="col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+        <li class="col-lg-4 col-md-4 col-sm-4 col-xs-4 active barPoint">
+            <dl>
+                <dd class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 1</dd>
+                <dt class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"><a ui-sref="purchaseProcess({baseUrl:'{{::'CHECKOUT_URL' | translate }}', purchaseStep:'{{::'CHECKOUT_URL_SENDER' | translate}}'})" class="text-uppercase"> Çiçek ve Zaman</a></dt>
+            </dl>
+        </li>
+        <li class="col-lg-4 col-md-4 col-sm-4 col-xs-4 barPoint" ng-class="{active: isActive(2)}">
+            <dl>
+                <dd class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 2</dd>
+                <dt class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"><a ui-sref="purchaseProcess({baseUrl:'{{::'CHECKOUT_URL' | translate }}', purchaseStep:'{{::'CHECKOUT_URL_NOT' | translate}}'})" class="text-uppercase"> Alıcı Bilgileri </a></dt>
+            </dl>
+        </li>
+        <li class="col-lg-4 col-md-4 col-sm-4 col-xs-4 barPoint" ng-class="{active:isActive(3)}">
+            <dl>
+                <dd ng-if="crossSellActive" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 4</dd>
+                <dd ng-if="!crossSellActive" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 3</dd>
+                <dt class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"><a ui-sref="purchaseProcess({baseUrl:'{{::'CHECKOUT_URL' | translate }}', purchaseStep:'{{::'CHECKOUT_URL_PAYMENT' | translate}}'})" class="text-uppercase"> {{::'PAYMENT_HEADER' | translate}} </a></dt>
+            </dl>
+        </li>
+    </ul>
+</header>
+
+<form id="receiver" name="receiverForm" class="fixed-width row form-horizontal" novalidate>
+<section class="sectionReceiver col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <header class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <h2 class="text-center"><b>Hangi Çiçek? Ne Sıklıkta?</b></h2>
+    </header>
+
+    <fieldset style="text-align: center;" class="userInfo col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div ng-repeat="product in products" style="padding-left: 8px;display: inline-table;" class="col-md-4 col-sm-12">
+
+            <img class="midSubsSelectedFlower" ng-if="selectedFlower.id == product.id" ng-click="selectProduct(product);" style="border: 2px solid #8a7454;max-width: 380px;" src="{{product.photo_url}}">
+            <img class="midSubsSelectedFlower" ng-if="selectedFlower.id != product.id" ng-click="selectProduct(product);" style="max-width: 380px;" src="{{product.photo_url}}">
+            <figcaption style="position: absolute;z-index: 2;font-size: 18px;font-family: 'Bodoni Italic';padding: 0 .4em .4em;margin-top: -40px;width: 100%;"  class="subsMidFlowerPrice flowerPrice col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center darkBlueText" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                <!--<span itemprop="price"> {{ flower.price + " TL" }} </span>
+                <span class="flowerTax"> + {{::'TAX'| translate}}</span>-->
+                <span style="font-size: 17px; font-family: 'Gotham Bold';color: #8a7454;" itemprop="price">{{product.name}}</span>
+                <span style="font-weight: 800;padding-left: 12px;" itemprop="price"> {{product.price}} TL </span>
+                <span style="font-size: 13px;color: #a59b8f;font-family: 'Gotham Book';vertical-align: middle;" class="flowerTax"> + KDV</span>
+            </figcaption>
+        </div>
+        <fieldset style="padding-top: 35px;margin-top: 25px;border-top: 1px solid #e8dfd6;" class="receiveDate col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div style="margin-left: auto;margin-right: auto;display: inline-table;float: none;padding-right: 15px;" class="receiveDatePicker field col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <label class="error" ng-show="isChecked && (receiver.date === undefined || receiver.date === null)">{{::'DELIVERY_DATE_EMPTY_ERROR' | translate}}</label>
+                <ui-select ng-model="selectedFreq" theme="selectize" class="hidden-sm hidden-xs" ng-change="setFreq(selectedFreq)">
+                    <ui-select-match placeholder="Teslim Sıklığı Seç"  allow-clear="true">{{selectedFreq.name}}</ui-select-match>
+                    <ui-select-choices repeat="date in subsFreq | filter: $select.search">
+                        <span ng-bind-html="date.name | highlight: $select.search"></span>
+                    </ui-select-choices>
+                </ui-select>
+
+                <select class="mobilDropdownSelect hidden-lg hidden-md  col-xs-12" ng-model="$root.subsFreqSelected" ng-options="date.name for date in subsFreq">
+                    <option value="date.name">{{$root.subsFreqSelected.name}}</option>
+                </select>
+            </div>
+            <div style="margin-left: auto;margin-right: auto;display: inline-table;float: none;padding-right: 15px;" class="field receiveTimePicker col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <label class="error" ng-show="isChecked && (receiver.time === undefined || receiver.time === null)">{{::'DELIVERY_TIME_EMPTY_ERROR' | translate}}</label>
+                <ui-select ng-model="selectedFirstTime" theme="selectize" class="hidden-sm hidden-xs" ng-change="setFirst(selectedFirstTime)">
+                    <ui-select-match placeholder="İlk Teslim Gününü Seç" allow-clear="true">{{selectedFirstTime.dayName}}</ui-select-match>
+                    <ui-select-choices repeat="time in subsFirst">
+                        <span ng-bind-html="time.dayName"></span>
+                    </ui-select-choices>
+                </ui-select>
+
+                <select class="mobilDropdownSelect hidden-lg hidden-md  col-xs-12" ng-model="selectedFirstTime" ng-options="time.dayName for time in subsFirst">
+                    <option value="">{{::'DELIVERY_TIME_TEXT' | translate}}*</option>
+                </select>
+            </div>
+            <div style="margin-left: auto;margin-right: auto;display: inline-table;float: none;padding-right: 15px;" class="field receiveTimePicker col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <label class="error" ng-show="isChecked && (receiver.time === undefined || receiver.time === null)">{{::'DELIVERY_TIME_EMPTY_ERROR' | translate}}</label>
+                <ui-select ng-model="selectedHour" theme="selectize" class="hidden-sm hidden-xs" ng-change="setHour(selectedHour)">
+                    <ui-select-match placeholder="Teslim Saati Seç" allow-clear="true">{{selectedHour.hourName}}</ui-select-match>
+                    <ui-select-choices repeat="time in subsHour">
+                        <span ng-bind-html="time.hourName"></span>
+                    </ui-select-choices>
+                </ui-select>
+
+                <select class="mobilDropdownSelect hidden-lg hidden-md  col-xs-12" ng-model="selectedHour" ng-options="time.hourName for time in subsHour">
+                    <option value="">{{::'DELIVERY_TIME_TEXT' | translate}}*</option>
+                </select>
+            </div>
+        </fieldset>
+
+        <fieldset style="padding-top: 15px;margin-top: 25px;border-top: 1px solid #e8dfd6;" class="receiveDate col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <section style="padding-left: 13%;" class="checkbox icheckField contracts lightBrownText col-lg-12 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-12 text-center">
+                <label id="labelId"  style="float: left;text-align: left;padding-top: 16px;width: 475px;padding-left: 0px;" class="not-error">
+                    <input ng-click="changeSubsExtra();" ng-model="subsExtra" type="checkbox" class="contactCheckbox">
+                    <span style="font-size: 15px;font-family: 'Gotham Book';color: #8a7454;">Çiçeğim sunulduğu vazoyla gelsin.</span>
+                    <span ng-if="selectedFlower" style="font-size: 15px;font-family: 'Bodoni Italic';color: #242b31;font-weight: 800;">({{selectedFlower.side_price}} TL + KDV eklenir)</span>
+                </label>
+                <a href="/abonelik-2">
+                    <button style="max-width: 280px;" id="submitButton"  type="submit" class="purchaseProgressButton purchaseCompleteButton btn btn-default center-block col-lg-4 col-md-6 col-sm-12 col-xs-12"> <b class="text-uppercase">Sonraki Adım Alıcı Bilgileri</b></button>
+                </a>
+                </section>
+        </fieldset>
+
+    </fieldset>
+
+</section>
+
+<!--[if !IE]><!-->
+<loader
+        working="initUserWorking"
+        disable-background="true"
+        template="2">
+</loader>
+
+<!--<![endif]-->
+</form>
+
+</section>
+</main>
+
+<bf-footer class="hidden-xs"></bf-footer>
+<!-- <script type="text/javascript">
+    $( document ).ready(function() {
+        setTimeout(
+                function()
+                {
+                    (function(){
+                        var s   = document.createElement('script');
+                        var x   = document.getElementsByTagName('script')[0];
+                        s.type  = 'text/javascript';
+                        s.async = true;
+                        s.src   = ('https:'==document.location.protocol?'https://':'http://')
+                        + 'eu-sonar.sociomantic.com/js/2010-07-01/adpan/bloomandfresh-tr';
+                        x.parentNode.insertBefore( s, x );
+                    })();
+                }, 1000);
+    });
+</script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        setTimeout(
+                function()
+                {
+                    $tempAmount = $('#flowerPriceJs').text().split(" ")[0];
+                    if($tempAmount){
+                        $tempAmount.replace(",", ".");
+                        $tempId = $('#product_id').val();
+                        //var basket = {
+                        //    products: [
+                        //        { identifier: $tempId, amount: $tempAmount, currency: 'TRY', quantity: 1 }
+                        //    ]
+                        //};
+                        sociomantic.sonar.adv['bloomandfresh-tr'].clear();
+
+                        window.basket = {
+                            products: [{ identifier: $tempId, amount: $tempAmount, currency: 'TRY', quantity: 1 }]
+                        };
+                        sociomantic.sonar.adv['bloomandfresh-tr'].track();
+                    }
+                }, 2000);
+    });
+</script>-->

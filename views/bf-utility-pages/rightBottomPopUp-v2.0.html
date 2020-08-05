@@ -1,0 +1,91 @@
+<section class="popUp popUpLanding hidden-sm hidden-xs" ng-class="{open: popUpOpen}">
+<!--<section class="popUp popUpLanding hidden-sm hidden-xs" ng-class="{open: popUpOpen}">-->
+    <form class="container-fluid" ng-if="popOfType == 'login'">
+        <button type="button" class="btn btn-danger" ng-click="popUpClose()">X</button>
+        <fieldset class="panel text-center">
+            <h3 class="text-uppercase col-lg-12 col-md-12 col-sm-12 col-xs-12 darkBlueText"><b>{{::'IS_NOT_REGISTERED' | translate}}</b></h3>
+
+            <figure class="promoImg">
+                <img ng-src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/10_indirim.png" alt="ilk kayıt indirimi">
+                <figcaption class="darkBlueText"><strong>{{::'REGISTRATION_DISCOUNT_HEADER' | translate}} </strong></figcaption>
+            </figure>
+
+            <p class="lightBrownText changeSectionExplanation">
+                {{::'REGISTRATION_DISCOUNT_INFO' | translate}}
+            </p>
+
+            <button class="btn text-uppercase darkBlueText" ng-click="setSignSection('kayit')"><b>{{::'SIGN_UP' | translate}}</b></button>
+            <button class="btn text-uppercase darkBlueText fbButton" ng-click="facebookLogin()"><b>{{::'CONNECT_WITH_FB_2' | translate}}</b></button>
+        </fieldset>
+    </form>
+    <form class="container-fluid" ng-if="popOfType == 'newsletter' && popUpOpen" style="bottom: 0;">
+        <button type="button" class="btn btn-danger" ng-click="popUpClose()">X</button>
+        <fieldset class="panel text-center">
+            <h3 style="letter-spacing: 0px;" class="text-uppercase col-lg-12 col-md-12 col-sm-12 col-xs-12 darkBlueText"><b>FIRSATLARDAN HABERDAR OLMAK İSTER MİSİN?</b></h3>
+
+            <figure class="promoImg">
+                <img style="margin-bottom: 10px;" ng-src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/bnfLogo9491.png" alt="Bloom And Fresh Logo">
+            </figure>
+
+            <p class="lightBrownText changeSectionExplanation">
+                Bloom and Fresh ile ilgili haber ve fırsatları e-posta olarak almak istiyorum.
+            </p>
+
+            <button style="height: 40px;padding-bottom: 4px;min-width: 120px;margin-right: 8px;" ng-click="submitNewsletterResponse('1')"
+                    class="btn text-uppercase darkBlueText"><b>EVET</b></button>
+            <button style="width: 120px;height: 40px;padding-bottom: 4px;min-width: 120px;margin-left: 8px;" ng-click="submitNewsletterResponse('0')"
+                    class="btn text-uppercase darkBlueText fbButton"><b>HAYIR</b></button>
+        </fieldset>
+    </form>
+    <form class="container-fluid" ng-if="popOfType == 'sales' && popUpOpen" style="bottom: 0;">
+        <button type="button" class="btn btn-danger" ng-click="popUpClose()">X</button>
+        <fieldset class="panel text-center">
+            <h3 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 darkBlueText"><b>Güncel Siparişlerin</b></h3>
+            <table class="table">
+                <thead>
+                <tr style="font-family: 'Bodoni Italic';font-size: 13px;">
+                    <th class="col-lg-3 col-md-3 col-sm-3 col-xs-3 lightBrownText">Ürün</th>
+                    <th class="col-lg-3 col-md-2 col-sm-2 hidden-xs lightBrownText">Kime</th>
+                    <th class="col-lg-4 col-md-2 col-sm-2 hidden-xs lightBrownText">Teslim Bilgisi</th>
+                    <th class="col-lg-2 col-md-2 col-sm-2 col-xs-2 lightBrownText text-center">Durumu</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr style="font-size: 12px;font-family: 'Gotham Light';line-height: 20px;color: #242b31;" ng-repeat="dailySale in dailySales">
+                    <td style="border-bottom: 1px solid #ddd;border-top: none;padding-top: 17px;" class="flowerInfo">
+                        <dl style="margin-top: 13px;margin-bottom: 7px;">
+                            <dt>{{dailySale.name}} <span ng-if="dailySale.extraProduct" ><br>,{{dailySale.extraProduct}}</span></dt>
+                        </dl>
+                    </td>
+                    <td style="border-bottom: 1px solid #ddd;border-top: none;padding-top: 17px;"  class="receiverInfo text-capitalize hidden-xs">
+                        <dl style="margin-top: 13px;margin-bottom: 7px;">
+                            <dt>{{dailySale.customer_name}} {{dailySale.customer_surname}}</dt>
+                        </dl>
+                    </td>
+                    <td style="border-bottom: 1px solid #ddd;border-top: none;padding-top: 17px;"  class="receiverInfo text-capitalize hidden-xs">
+                        <dl style="margin-top: 13px;margin-bottom: 7px;">
+                            <dt ng-if="dailySale.status == 3 ">{{getDateOnlyTime(dailySale.delivery_date)}} - {{dailySale.picker}}</dt>
+                        </dl>
+                    </td>
+                    <td style="border-bottom: 1px solid #ddd;border-top: none;" class="receiveStatus">
+                        <figure class="receiveStatusContainer">
+                            <img style="height: 40px;" class="receiveStatusImg center-block" ng-if="dailySale.status !== '3'" ng-src="images/purchaseStatus/status{{dailySale.status}}.svg">
+                            <img style="height: 40px;" class="receiveStatusImg center-block" ng-if="dailySale.status === '3'" ng-src="images/purchaseStatus/status{{dailySale.status}}.svg"
+                                 tooltip-placement="left" tooltip-html-unsafe="
+					     <h4 class='tooltipHeader'>{{::'DELIVERY_DATE_HEADER' | translate}}</h4>
+					     <p class='tooltipContext'>{{getDate(dailySale.delivery_date)}} <br/> {{getTime(dailySale.delivery_date)}} </p>">
+
+                            <figcaption style="font-family: 'Bodoni Italic';font-size: 13px;padding-left: 7px;" class="receiveStatusText text-center"><b>{{getPurchaseStatusText(dailySale.status)}}</b></figcaption>
+                        </figure>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <section style="margin-bottom: 5px;" class="saleDetailPopUp checkbox lightBrownText text-left">
+                <label class="saleDetailPopUpLabel" style="font-family: 'Bodoni Italic';font-size: 16px;padding-bottom: 2px;padding-left: 10px;">
+                    <input style="margin-right: 5px;" type="checkbox" class="newsletterCheckbox" > Sipariş durumunu bir daha burada gösterme!
+                </label>
+            </section>
+        </fieldset>
+    </form>
+</section>

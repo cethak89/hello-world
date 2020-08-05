@@ -1,0 +1,1124 @@
+<script>
+    (function () {
+        // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+        if (!String.prototype.trim) {
+            (function () {
+                // Make sure we trim BOM and NBSP
+                var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+                String.prototype.trim = function () {
+                    return this.replace(rtrim, '');
+                };
+            })();
+        }
+        [].slice.call(document.querySelectorAll('input.input__field')).forEach(function (inputEl) {
+            // in case the input is already filled..
+            if (inputEl.value.trim() !== '') {
+                classie.add(inputEl.parentNode, 'input--filled');
+            }
+            // events:
+            inputEl.addEventListener('focus', onInputFocus);
+            inputEl.addEventListener('blur', onInputBlur);
+        });
+        function onInputFocus(ev) {
+            classie.add(ev.target.parentNode, 'input--filled');
+        }
+
+        function onInputBlur(ev) {
+            if (ev.target.value.trim() === '') {
+                classie.remove(ev.target.parentNode, 'input--filled');
+            }
+        }
+    })();
+</script>
+
+<navbar-menu class="ribbonPurchase"></navbar-menu>
+
+<main ng-app="purchase" class="purchase">
+
+	<section class="container-fluid">
+		<header class="row">
+			<ul id="ulBar" class="col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+				<li class="col-lg-4 col-md-4 col-sm-4 col-xs-4 active barPoint">
+					<dl>
+						<dd class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 1</dd>
+						<dt class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"><a ui-sref="purchaseProcess({baseUrl:'{{::'CHECKOUT_URL' | translate }}', purchaseStep:'{{::'CHECKOUT_URL_SENDER' | translate}}'})" class="text-uppercase"> {{::'RECEIVER_NAME_HEADER' | translate}} </a></dt>
+					</dl>
+				</li>
+				<li class="col-lg-4 col-md-4 col-sm-4 col-xs-4 barPoint" ng-class="{active: isActive(2)}">
+					<dl>
+						<dd class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 2</dd>
+						<dt class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"><a ui-sref="purchaseProcess({baseUrl:'{{::'CHECKOUT_URL' | translate }}', purchaseStep:'{{::'CHECKOUT_URL_NOT' | translate}}'})" class="text-uppercase"> {{::'NOTE_HEADER' | translate}} </a></dt>
+					</dl>
+				</li>
+                <li class="col-lg-4 col-md-4 col-sm-4 col-xs-4 hidden barPoint" ng-class="{active: isActive(2.5)}">
+                    <dl>
+                        <dd class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 3</dd>
+                        <dt class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"><a ui-sref="purchaseProcess({baseUrl:'{{::'CHECKOUT_URL' | translate }}', purchaseStep:'tat-kat'})" class="text-uppercase"> Tat Kat </a></dt>
+                    </dl>
+                </li>
+				<li class="col-lg-4 col-md-4 col-sm-4 col-xs-4 barPoint" ng-class="{active:isActive(3)}">
+					<dl>
+						<dd ng-if="crossSellActive" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 4</dd>
+                        <dd ng-if="!crossSellActive" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 3</dd>
+						<dt class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"><a ui-sref="purchaseProcess({baseUrl:'{{::'CHECKOUT_URL' | translate }}', purchaseStep:'{{::'CHECKOUT_URL_PAYMENT' | translate}}'})" class="text-uppercase"> {{::'PAYMENT_HEADER' | translate}} </a></dt>
+					</dl>
+				</li>
+			</ul>
+		</header>
+
+        <form ng-show="isSection(2.5)" id="cikolat" ng-controller="PaymentCtrl" name="receiverFormCikolat" class="fixed-width row form-horizontal" novalidate>
+            <section class="cikolatSection sectionReceiver col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                <header style="border-bottom: none;" class="col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+                    <h2 style="font-size: 25px;" class="cikolatHeader text-center"><b>Çiçeğinin yanına Çikolata eklemek ister misin?</b></h2>
+                </header>
+                <fieldset class="cikolatSection userInfo col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+                    <div ng-repeat="productCrossSell in crossSell" style="padding-right: 8px;padding-left: 8px;padding-bottom: 8px;min-height: 260px;" class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-6 col-sm-offset-0 col-sm-12 col-xs-12">
+                        <div style="background-color: white;height: inherit;border: 1px solid #e0dedc;display: flex;min-height: 260px;">
+                            <div style="max-height: 260px;padding-left: 0px;padding-right: 0px;" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <img style="max-height: 260px;padding-left: 0px;padding-right: 0px;width: 100%;" ng-src="{{productCrossSell.image}}"/>
+                            </div>
+                            <div style="" class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <h2 style="font-size: 16px;font-family:'Gotham Bold';padding-top: 8px;" class="flowerBlogHeader cikolatH2 lightBrownText ng-binding">{{productCrossSell.name}}</h2>
+                                <p style="padding-top: 3px;font-size: 13px;color: #796c5c" class="middleBrownText">
+                                    {{productCrossSell.desc}}
+                                </p>
+                                <figcaption style="position: absolute;bottom: 80px;padding-left: 0px;" class="cikolatFig flowerPrice col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center darkBlueText ng-scope" >
+                                    <span style="font-family: 'Bodoni Italic';font-size: 18px;font-weight: bold;float: left;" class="ng-binding"> {{productCrossSell.price | number :2}} TL </span>
+                                    <span style="float: left;font-size: 15px;padding-left: 9px;color: #a59b8f;font-family: 'Gotham Book'font-size: 18px;" class="flowerTax ng-binding"> + KDV</span>
+                                </figcaption>
+                                <a ng-click="addProduct(productCrossSell.id);" ng-if="productCrossSell.id != selectedCrossSell"
+                                   style="font-weight: 700;padding-top: 4px;width: 140px;height: 30px;float: left;position: absolute;bottom: 35px;left: 8px;" role="button" class="text-uppercase purchaseProgressButton cikolatButton center-block btn btn-default">
+                                    Ekle
+                                </a>
+                                <a ng-click="removeProduct();" ng-if="productCrossSell.id == selectedCrossSell" style="font-weight: 700;padding-top: 4px;background-color: #816a4a; width: 140px;height: 30px;float: left;position: absolute;bottom: 35px;left: 8px;" role="button" class="text-uppercase purchaseProgressButton cikolatButton center-block btn btn-default">
+                                    Çıkar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+                    <a id="goShop" role="button" ng-click="goCheckOutFromCrossSell()"
+                       class="purchaseProgressButton center-block btn btn-default col-lg-5 col-md-5 col-sm-12 col-xs-12"><b class="text-uppercase">{{::'NOTE_BUTTON_TEXT' | translate}}</b></a>
+                </fieldset>
+
+                <!--[if !IE]><!-->
+                <loader
+                        working="initUserWorking"
+                        disable-background="true"
+                        template="2">
+                </loader>
+
+            </section>
+
+            <!--<![endif]-->
+            <purchase-info flower="flower" campaign="chosenCampaign" note="note" receiver="receiver"  section="section" ></purchase-info>
+        </form>
+
+        <form ng-show="isSection(1)" id="receiver" name="receiverForm" class="fixed-width row form-horizontal" novalidate>
+			<section class="sectionReceiver col-lg-9 col-md-9 col-sm-9 col-xs-12">
+				<header class="col-lg-offset-1 col-lg-11 col-md-offset-1 col-md-11 col-sm-12 col-xs-12">
+					<h2 class="text-center"><b>{{flower.name}} {{::'RECEIVER_NAME_HEADER_2' | translate}}</b></h2>
+				</header>
+
+				<top-slider class="selectionSection row hidden-sm hidden-xs" ng-if="isUserLogin() && userContacts.length > 0">
+					<table class="sliderContainer col-lg-offset-1 col-lg-11 col-md-offset-1 col-md-11 col-sm-offset-1 col-sm-11">
+						<tbody>
+						<tr>
+							<td class="sliderHeader lightBrownText col-lg-1 col-md-1 col-sm-1">{{::'CONTACTS' | translate}}</td>
+							<td class="carousel-left col-lg-1 col-md-1 col-sm-1">
+								<button type="button" ng-click="move('left')"><span class="ion-ios-arrow-left carousel-icon lightBrownText"></span></button>
+							</td>
+							<td class="sliderMembers col-lg-10 col-md-10 col-sm-10">
+								<ul class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+									<li class="col-lg-3 col-md-3 col-sm-6 sliderMemberContainer" ng-repeat="contact in userContacts" ng-show="canShow($index)"
+										ng-click="newContactSelected(contact);" ng-class="{active: contact.isActive}">
+										<figure class="imgContainer">
+											<img class="memberIcon" ng-src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/contact-icons/bloomandfresh-contact-icon-{{contact.icon_id}}.svg">
+										</figure>
+										<figcaption class="contactInfo">
+											<dl class="contactNameSurname lightBrownText">
+												<dt class="contactName text-capitalize">{{contact.name}}</dt>
+											</dl>
+										</figcaption>
+									</li>
+								</ul>
+							</td>
+							<td class="carousel-right col-lg-1 col-md-1 col-sm-1">
+								<button type="button" ng-click="move('right',userContacts)"><span class="ion-ios-arrow-right carousel-icon lightBrownText"></span></button>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</top-slider>
+
+				<label class="mobilDropdown hidden-lg hidden-md col-sm-offset-1 col-sm-11 col-xs-offset-0 col-xs-12 not-error" ng-if="isUserLogin() && userContacts.length > 0">
+					<p class="not-error lightBrownText mobilDropdownText">
+                        {{::'CONTACTS' | translate}}
+					</p>
+					<select class="mobilDropdownSelect col-xs-12" ng-model="selectedContact" ng-options="contact.name for contact in userContacts" ng-change="newContactSelected(selectedContact)">
+						<option value="">{{::'CONTACTS_DROPDOWN_TEXT' | translate}}</option>
+					</select>
+				</label>
+
+				<fieldset class="userInfo col-lg-offset-1 col-lg-11 col-md-offset-1 col-md-11 col-sm-12 col-xs-12" ng-show="!checkUserLoggedIn()">
+					<div class="userName field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+						<span class="input input--akira" ng-class='{"input--filled" : sender.name !== undefined}'>
+							<input class="darkBlueText input__field input__field--akira text-capitalize" type="text" ng-model="sender.name" id="senderName" name="name" ng-minlength="2" maxlength="30" tabindex="1"
+								   ng-pattern="/^[a-zA-ZŞşÇçığĞİüÜÖö ]*$/" ng-model-options="{ updateOn: 'change' }" required/>
+							<label class="input__label input__label--akira" for="senderName">
+								<span class="input__label-content input__label-content--akira">
+									<span class="error" ng-show="receiverForm.name.$touched && (receiverForm.name.$error.minlength || receiverForm.name.$error.pattern)">{{::'SENDER_NAME_ERROR' | translate}}</span>
+									<span class="error" ng-show="(receiverForm.name.$touched && receiverForm.name.$error.required) || (receiverForm.name.$untouched && !receiverForm.name.$valid && isChecked)">{{::'SENDER_NAME_EMPTY_ERROR' | translate}}</span>
+									<span class="lightBrownText not-error" ng-show="receiverForm.name.$valid || (receiverForm.name.$untouched && !isChecked)">{{::'SENDER_NAME_TEXT' | translate}}*</span>
+								</span>
+							</label>
+						</span>
+					</div>
+
+                    <div class="userMail field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+				        <span class="input input--akira" ng-class='{"input--filled" : sender.email !== undefined}'>
+					        <input class="darkBlueText input__field input__field--akira" type="email" ng-model="sender.email"
+                               id="senderEmail" name="mail" maxlength="60" tabindex="2"
+                               ng-minlength="3"
+                               ng-pattern="/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/" required/>
+                            <label class="input__label input__label--akira" for="senderEmail">
+                                <span class="input__label-content input__label-content--akira">
+                                    <span class="error"
+                                          ng-show="receiverForm.mail.$touched && (receiverForm.mail.$error.email || receiverForm.mail.$error.pattern)">{{::'SENDER_EMAIL_ERROR' | translate}}</span>
+                                    <span class="error"
+                                          ng-show="(receiverForm.mail.$touched && receiverForm.mail.$error.required) || (receiverForm.mail.$untouched && isChecked)">{{::'SENDER_EMAIL_EMPTY_ERROR' | translate}}</span>
+                                    <span class="lightBrownText not-error"
+                                          ng-show="receiverForm.mail.$valid || (receiverForm.mail.$untouched && !isChecked)">{{::'SENDER_EMAIL_TEXT' | translate}}*</span>
+                                </span>
+                            </label>
+				        </span>
+                    </div>
+				</fieldset>
+
+				<fieldset class="receiverInfo col-lg-offset-1 col-lg-11 col-md-offset-1 col-md-11 col-sm-12 col-xs-12">
+
+					<div class="receiverName field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+					    <span class="input input--akira" ng-class='{"input--filled" : (receiver.name)}'>
+					    	<input class="darkBlueText input__field input__field--akira text-capitalize" type="text" id="contact_name" name="contact_name"
+					    		   ng-model-options="{ updateOn: 'blur' }" tabindex="3" ng-model="receiver.name" ng-minlength="2" ng-pattern="/^[a-zA-ZŞşÇçığĞİüÜÖö ]*$/" maxlength="30" required/>
+					    	<label class="input__label input__label--akira" for="contact_name">
+					    		<span class="input__label-content input__label-content--akira">
+					    			<span class="error" ng-show="receiverForm.contact_name.$touched && (receiverForm.contact_name.$error.minlength || receiverForm.contact_name.$error.pattern)">{{::'RECEIVER_NAME_ERROR' | translate}}</span>
+					    			<span class="error"
+					    				  ng-show="(receiverForm.contact_name.$touched && receiverForm.contact_name.$error.required) || (receiverForm.contact_name.$untouched && !receiverForm.contact_name.$valid && isChecked)">{{::'RECEIVER_NAME_EMPTY_ERROR' | translate}}</span>
+					    			<span style="letter-spacing: -1px;font-size: 17px;line-height: 28px;" class="lightBrownText not-error" ng-show="receiverForm.contact_name.$valid || (receiverForm.contact_name.$untouched && !isChecked)">Alıcı Adı Soyadı(Not zarfının üzerine yazılacak)*</span>
+					    		</span>
+					    	</label>
+					    </span>
+					</div>
+
+					<div class="receiverNumber field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+						<span class="input input--akira" ng-class='{"input--filled" : (receiver.phoneNumber)}'>
+						    <input class="darkBlueText input__field input__field--akira" ng-model="receiver.phoneNumber"
+						       ui-mask="(999)-999-99-99" ng-model-options="{ updateOn: 'blur' }" id="contact_mobile"
+						       placeholder="." ui-mask-placeholder type="tel"
+						       name="contact_mobile" tabindex="4" required/>
+						    <label class="input__label input__label--akira" for="contact_mobile">
+						    	<span class="input__label-content input__label-content--akira">
+						    		<span class="error"
+						    			  ng-show="receiverForm.contact_mobile.$touched && (receiverForm.contact_mobile.$error.minlength || receiverForm.contact_mobile.$error.mask)">{{::'RECEIVER_PHONE_ERROR' | translate}}</span>
+						    		<span class="error"
+						    			  ng-show="(receiverForm.contact_mobile.$touched && receiverForm.contact_mobile.$error.required) || (receiverForm.contact_mobile.$untouched && !receiverForm.contact_mobile.$valid && isChecked)">{{::'RECEIVER_PHONE_EMPTY_ERROR' | translate}}</span>
+						    		<span class="lightBrownText not-error"
+						    			  ng-show="receiverForm.contact_mobile.$valid || (receiverForm.contact_mobile.$untouched && !isChecked)">{{::'RECEIVER_PHONE_TEXT' | translate}}*</span>
+						    	</span>
+						    </label>
+						</span>
+					</div>
+
+                    <div class="sendingDistrictField field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+                        <label class="lightBrownText not-error" ng-hide="isChecked && flower.sendingDistrict === undefined"> {{::'SENDING_DISTRICT_DROPDOWN_TEXT' | translate}}* </label>
+                        <label class="error" ng-show="isChecked && flower.sendingDistrict === undefined">{{::'SENDING_DISTRICT_DROPDOWN_ERROR' | translate}}</label>
+                        <ui-select ng-model="flower.sendingDistrict" theme="selectize" class="hidden-sm hidden-xs" ng-change="setDistrict(flower.sendingDistrict)">
+                            <ui-select-match placeholder="Gönderim Bölgesini Seç">{{flower.sendingDistrict.district}}</ui-select-match>
+                            <ui-select-choices repeat="district in districts | filter: $select.search">
+                                <span ng-bind-html="district.district | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <select class="mobilDropdownSelect hidden-lg hidden-md  col-xs-12" ng-change="setDistrict(flower.sendingDistrict)" ng-model="flower.sendingDistrict" ng-options="district.district for district in districts track by district.district">
+                            <option value="district.district">{{flower.sendingDistrict.district}}</option>
+                        </select>
+                    </div>
+
+					<address class="col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+						<label class="error" for="contact_address" ng-show="receiverForm.contact_address.$touched && receiverForm.contact_address.$error.minlength">{{::'RECEIVER_ADDRESS_ERROR' | translate}}</label>
+						<label class="lightBrownText error" for="contact_address"
+							   ng-show="(receiverForm.contact_address.$touched && receiverForm.contact_address.$error.required) || (receiverForm.contact_address.$untouched && !receiverForm.contact_address.$valid && isChecked)">{{::'RECEIVER_ADDRESS_EMPTY_ERROR' | translate}}</label>
+						<label class="lightBrownText not-error" for="contact_address" ng-show="receiverForm.contact_address.$valid || (receiverForm.contact_address.$untouched && !isChecked)">{{::'RECEIVER_ADDRESS_TEXT' | translate}}*</label>
+						<textarea class="lightBrownText font-bodoni-italic textField form-control" rows="3" tabindex="5" id="contact_address" name="contact_address" ng-minlength="10" placeholder="{{::'RECEIVER_ADDRESS_PLACEHOLDER' | translate}}"
+								  ng-model="receiver.address" maxlength="150" required></textarea>
+					</address>
+				</fieldset>
+
+				<fieldset class="receiveDate col-lg-offset-1 col-lg-11 col-md-offset-1 col-md-11 col-sm-12 col-xs-12">
+					<div ng-if="!sendingCargo && !cargoError" class="receiveDatePicker field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+						<label class="lightBrownText not-error" ng-hide="isChecked && (receiver.date === undefined || receiver.date === null)"> {{::'DELIVERY_DATE_TEXT' | translate}}* </label>
+						<label class="error" ng-show="isChecked && (receiver.date === undefined || receiver.date === null)">{{::'DELIVERY_DATE_EMPTY_ERROR' | translate}}</label>
+						<ui-select ng-model="receiver.date" theme="selectize" class="hidden-sm hidden-xs" ng-change="dateChanged()">
+							<ui-select-match placeholder="Gönderim Tarihi" allow-clear="true">{{receiver.date.display_date}}</ui-select-match>
+							<ui-select-choices repeat="date in receiverDates | filter: $select.search">
+								<span ng-bind-html="date.display_date | highlight: $select.search"></span>
+							</ui-select-choices>
+						</ui-select>
+
+						<select class="mobilDropdownSelect hidden-lg hidden-md  col-xs-12" ng-model="receiver.date" ng-change="dateChanged()" ng-options="date.display_date for date in receiverDates">
+							<option value="">{{::'DELIVERY_DATE_TEXT' | translate}}*</option>
+						</select>
+					</div>
+					<div ng-if="!sendingCargo && !cargoError" class="field receiveTimePicker col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+						<label class="lightBrownText not-error" ng-hide="isChecked && (receiver.time === undefined || receiver.time === null)"> {{::'DELIVERY_TIME_TEXT' | translate}}* </label>
+						<label class="error" ng-show="isChecked && (receiver.time === undefined || receiver.time === null)">{{::'DELIVERY_TIME_EMPTY_ERROR' | translate}}</label>
+						<ui-select ng-model="receiver.time" ng-disabled="isDateNotSelected" theme="selectize" class="hidden-sm hidden-xs">
+							<ui-select-match placeholder="Gönderim Saati" allow-clear="true">{{receiver.time.timeStep}}</ui-select-match>
+							<ui-select-choices repeat="time in receiverTimes">
+								<span ng-bind-html="time.timeStep"></span>
+							</ui-select-choices>
+						</ui-select>
+
+						<select class="mobilDropdownSelect hidden-lg hidden-md  col-xs-12" ng-model="receiver.time" ng-options="time.timeStep for time in receiverTimes">
+							<option value="">{{::'DELIVERY_TIME_TEXT' | translate}}*</option>
+						</select>
+					</div>
+
+                    <p ng-if="!sendingCargo  && !cargoError" class="infoText col-lg-offset-7 col-lg-5 col-md-offset-7 col-md-5 col-sm-offset-7 col-sm-5 col-xs-12">
+                        * {{::'FORM_CAUTION_TEXT' | translate}}
+                    </p>
+
+                    <p ng-if="sendingCargo || cargoError" style="font-size: 20px;text-align: center;" class="infoText col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        {{receiver.date.display_date}} kargoya verilir.
+                    </p>
+				</fieldset>
+
+				<fieldset class="footerButtons col-lg-offset-1 col-lg-11 col-md-offset-1 col-md-11 col-sm-offset-1 col-sm-11 col-xs-12" ng-class="{newContactAdded:isNewContact}" ng-controller="ContactCtrl">
+                    <div class="text-center col-lg-4 col-lg-offset-7 col-md-5 col-md-offset-7 col-sm-5 col-sm-offset-7 col-xs-12" ng-if="isChecked">
+                        <label class="error">{{serverError}}</label>
+                    </div>
+
+                    <button type="button" class="btn-add btn btn-default btn-lg col-lg-offset-1 col-lg-1 col-md-offset-1 col-md-1 col-sm-1 col-xs-3" ng-class="{error:isErrorHappened, disabled:isNewContact}" ng-click="setContactAdding()"
+							ng-if="isUserLogin() && receiver.contact_id === undefined">
+						<span ng-if="!isNewContact" class="middleBrownText ion-android-add" aria-hidden="true" ng-class="{error:isErrorHappened}"></span>
+						<span ng-if="isNewContact" class="lightGreenText ion-checkmark" aria-hidden="true" ng-class="{error:isErrorHappened}"></span>
+					</button>
+
+					<span class="addContactText middleBrownText col-lg-3 col-md-3 col-sm-3 col-xs-9" ng-if="isUserLogin() && receiver.contact_id === undefined" ng-class="{error:isErrorHappened}">
+						{{newContactText}}
+					</span>
+
+					<div class="field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-4 col-sm-5 col-sm-offset-1 hidden-xs" ng-if="!isUserLogin() || receiver.contact_id !== undefined">
+
+					</div>
+                    <div class="text-center col-lg-12 col-md-5 col-sm-5 col-xs-12" ng-if="cargoError">
+                        <label class="error">Bu ürünün seçmiş olduğunuz gönderim bölgesine gönderimi yapılamamaktadır.</label>
+                    </div>
+					<a ng-if="!cargoError" role="button" ng-click="checkReceiver();" class="purchaseProgressButton btn btn-default col-lg-offset-1 col-lg-5 col-md-offset-0 col-md-5 col-sm-offset-0 col-sm-6  col-xs-12"
+					   ng-class="{userNotLogin:(!isUserLogin() || receiver.contact_id !== undefined)}">
+						<b class="text-uppercase">{{::'RECEIVER_BUTTON_TEXT' | translate}}</b>
+					</a>
+
+				</fieldset>
+			</section>
+
+			<!--[if !IE]><!-->
+			<loader
+					working="initUserWorking"
+					disable-background="true"
+					template="2">
+			</loader>
+
+			<!--<![endif]-->
+			<purchase-info flower="flower" campaign="chosenCampaign" section="section"></purchase-info>
+		</form>
+
+		<form ng-show="isSection(2)" id="noteForm" name="noteForm" class="fixed-width row form-horizontal" ng-controller="PurchaseNoteCtrl" novalidate>
+			<section class="sectionNote col-lg-9 col-md-9 col-sm-9 col-xs-12">
+				<header class="col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+					<h2 class="text-center"><b>{{::'NOTE_HEADER_2' | translate}}</b></h2>
+				</header>
+
+				<section class="cardSection col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+                    <label style="width: 575px;margin-left: auto;margin-right: auto;display: block;font-family: 'Bodoni Italic';font-weight: 400;display: block;font-size: 15px;">Zarfın üzerinde görünecek olan alıcı ad-soyadı</label>
+                    <label style="width: 575px;margin-left: auto;margin-right: auto;display: block;font-family: 'Gotham Bold';font-weight: 500;">Alıcı Ad Soyad: Sn. <span>{{receiver.name}}</span></label>
+                    <fieldset class="noteField center-block hidden-sm hidden-xs">
+						<section class="noteReceiver col-lg-3 col-md-3 col-sm-3 col-xs-3">
+							<div class="receiverContainer col-lg-12 col-md-12 col-sm-12">
+								<img class="center-block" src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/number1.png" alt="alıcının adı">
+								<label for="customer_receiver_name" class="receiverName" style="font-family: 'BrandkeyHand Bold';top: 43px;font-size: 18px;"
+									   ng-if="(note.customer_receiver_name === undefined || note.customer_receiver_name === '') && !note.receiver.isfocused">Örn. Sevgili Scarlett...</label>
+								<input style="font-family: 'BrandkeyHand Bold';" class="form-control text-capitalize textField text-center" type="text" ng-model="note.customer_receiver_name" id="customer_receiver_name" name="customer_receiver_name"
+									   autocomplete="off" maxlength="30" tabindex="1"
+									   ng-init="note.receiver.isfocused = false" ng-focus="note.receiver.isfocused = true" ng-blur="note.receiver.isfocused = false"/>
+							</div>
+						</section>
+						<section class="note col-lg-4 col-md-4 col-sm-4 col-xs-4">
+							<div class="noteContainer col-lg-12 col-md-12 col-sm-12">
+								<img class="center-block" src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/number2.png" alt="notun">
+								<label for="customer_note" class="userNote" style="font-family: 'BrandkeyHand Bold';font-size: 24px;margin-left: 34px;margin-top: 8px;"
+									   ng-if="(note.card_message === undefined || note.card_message === '') && !note.note.isfocused"> Notunu <br> Buraya  Yaz </label>
+								<textarea style="font-family: 'BrandkeyHand Bold';" class="form-control textField text-center" ng-model="note.card_message" rows="4" id="customer_note" maxlength="160" tabindex="2"
+                                          ng-init="note.note.isfocused = false" ng-focus="note.note.isfocused = true" ng-blur="note.note.isfocused = false"></textarea>
+							</div>
+							<div class="senderContainer col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								<img class="center-block" src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/number3.png" alt="gönderenin adı">
+								<label for="customer_sender_name" style="font-family: 'BrandkeyHand Bold';top: 35px;"
+									   ng-if="(note.customer_sender_name === undefined || note.customer_sender_name === '') && !note.sender.isfocused"> Gönderen Adı </label>
+								<input class="form-control text-capitalize text-center" type="text" ng-model="note.customer_sender_name" id="customer_sender_name" name="customer_sender_name" tabindex="3"
+									   autocomplete="off" maxlength="30" style="font-family: 'BrandkeyHand Bold';padding-top: 5px;"
+									   ng-init="note.sender.isfocused = false"  ng-focus="note.sender.isfocused = true" ng-blur="note.sender.isfocused = false"/>
+							</div>
+						</section>
+					</fieldset>
+					<fieldset class="mobilNoteField hidden-lg hidden-md">
+
+						<div class="field col-md-12 col-xs-12">
+							<span class="input input--akira" ng-class='{"input--filled" : note.customer_receiver_name !== undefined}'>
+								<input style="font-family: 'BrandkeyHand Bold';" class="lightBrownText text-capitalize textField input__field input__field--akira" type="text" ng-model="note.customer_receiver_name" name="customer_receiver_name" id="customer_receiver" maxlength="30"/>
+								<label class="input__label input__label--akira text-center" for="customer_receiver_name">
+									<span class="input__label-content input__label-content--akira">
+										<span class="lightBrownText not-error">Örn. Sevgili Scarlett...</span>
+									</span>
+								</label>
+							</span>
+						</div>
+
+						<div class="field col-md-12 col-xs-12">
+							<span class="input input--akira" ng-class='{"input--filled" : note.customer_sender_name !== undefined}'>
+								<input style="font-family: 'BrandkeyHand Bold';" class="lightBrownText textField text-capitalize input__field input__field--akira text-center" type="text" ng-model="note.customer_sender_name" name="customer_sender_name" id="customer_sender" maxlength="30"/>
+								<label class="input__label input__label--akira text-center" for="customer_sender_name">
+									<span class="input__label-content input__label-content--akira">
+										<span class="lightBrownText not-error">{{::'NOTE_SENDER_NAME_TEXT' | translate}}</span>
+									</span>
+								</label>
+							</span>
+						</div>
+
+						<div class="field col-md-12 col-xs-12 text-center">
+							<label class="lightBrownText not-error " for="receiverAddress" ng-show="note.card_message !== undefined">{{::'NOTE_TEXT' | translate}}</label>
+							<textarea style="font-family: 'BrandkeyHand Bold';" class="form-control textField" ng-model="note.card_message" id="note" maxlength="160" rows="5" placeholder="Notunu Buraya Yaz"
+									  ng-class='{ "note-empty" : note.card_message === undefined}'></textarea>
+						</div>
+					</fieldset>
+                    <p style=" font-size: 15px; font-family: 'Bodoni Italic';" class="infoText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        *Not kartının dışında Sn. {{receiver.name}} içerisinde de bu sayfada yazdığın not görüntülenecektir. Lütfen doğru olduğundan emin ol! <br>
+                        *Notun ekranda görünen hali ile iletilecektir, lütfen doğru olduğundan emin ol!
+                    </p>
+                </section>
+
+                <label class="error text-center col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">{{serverError}}</label>
+
+				<fieldset class="col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+					<a role="button" ng-click="goToPurchase()" ng-if="!crossSellActive"
+					   class="purchaseProgressButton center-block btn btn-default col-lg-5 col-md-5 col-sm-12 col-xs-12"><b class="text-uppercase">{{::'NOTE_BUTTON_TEXT' | translate}}</b></a>
+                    <a role="button" ng-click="goToPurchase()" ng-if="crossSellActive"
+                       class="purchaseProgressButton center-block btn btn-default col-lg-5 col-md-5 col-sm-12 col-xs-12"><b class="text-uppercase">SONRAKİ ADIM: TAT KAT</b></a>
+
+                </fieldset>
+
+				<!--[if !IE]><!-->
+				<loader
+						working="working"
+						disable-background="true"
+						template="2">
+				</loader>
+
+				<!--<![endif]-->
+			</section>
+			<purchase-info flower="flower" campaign="chosenCampaign" receiver="receiver" section="section"></purchase-info>
+
+		</form>
+
+		<form ng-show="isSection(3)" id="payment" name="paymentForm" class="fixed-width row form-horizontal" method="post" novalidate action="https://everybloom.com/sales-without-secure"> <!-- action="https://everybloom.com/submit-sale" -->
+        	<section class="sectionPayment col-lg-9 col-md-9 col-sm-9 col-xs-12" ng-controller="PaymentCtrl">
+                <header class="col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+                    <h2 class="text-center"><b>{{::'PAYMENT_HEADER_2' | translate}}</b></h2>
+                </header>
+                <p class="hidden-lg hidden-md col-sm-12 col-xs-12" style="font-size: 14px;font-family: 'Gotham Light';line-height: 20px;vertical-align: middle;
+                                text-align: center;margin-bottom: 0px;margin-top: 10px;" ng-if="flower.product_type != 1">
+                    Çiçek dışı marka ortaklıkları, çikolata, gıda, hediye vb. siparişlerinde Bloom and Fresh veya ortaklık/kampanya kuponları ve indirimleri uygulanamamaktadır.
+                </p>
+                <top-slider class="selectionSection row hidden-sm hidden-xs" ng-if=" isUserLogin() ">
+                    <table class="sliderContainer col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12">
+                        <tbody>
+                        <tr>
+                            <td class="sliderHeader lightBrownText col-lg-1 col-md-1 col-sm-1">{{::'REGISTERED_COUPONS' | translate}}</td>
+                            <td class="carousel-left col-lg-1">
+                                <button type="button" ng-click="move('left')"><span class="ion-ios-arrow-left carousel-icon lightBrownText"></span></button>
+                            </td>
+                            <td class="sliderMembers col-lg-10 col-md-10 col-sm-10">
+                                <ul ng-if="flower.product_type == 1" class="col-lg-12 col-md-12 col-sm-12">
+                                    <li class="col-lg-3 col-md-3 col-sm-6 sliderMemberContainer" ng-repeat="campaign in userCampaigns" ng-show="canShow($index)"
+                                        ng-click="useCampaign(campaign)" ng-class="{active: campaign.isActive}" ng-if=" (campaign.special_type == 0 && flower.product_type == 1) || campaign.special_type == 1  " >
+                                        <figure class="imgContainer">
+                                            <img class="memberIcon" ng-src="{{campaign.image_type}}">
+                                        </figure>
+                                        <figcaption class="contactInfo">
+                                            <dl class="contactNameSurname lightBrownText">
+                                                <dt class="contactName">{{campaign.name}}</dt>
+                                            </dl>
+                                        </figcaption>
+                                    </li>
+                                    <li class="col-lg-3 col-md-3 col-sm-6 sliderMemberContainer pull-right" >
+                                        <a style="padding: 6px;" role="button" class="btn-add btn btn-default btn-lg addCampaignButton" ng-click="openModel('addCampaign')">
+                                            <img class="middleBrownText" style="width: 20px;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/plus_image.svg">
+                                        </a>
+                                        <figcaption class="contactInfo" ng-click="openModel('addCampaign')">
+                                            <dl class="contactNameSurname lightBrownText">
+                                                <dt class="contactName"> {{::'ADD_COUPON_TEXT' | translate}} </dt>
+                                            </dl>
+                                        </figcaption>
+                                    </li>
+                                </ul>
+                                <p style="font-size: 14px;font-family: 'Gotham Light';line-height: 20px;vertical-align: middle;
+                                text-align: center;margin-bottom: 0px" ng-if="flower.product_type != 1">
+                                    Çiçek dışı marka ortaklıkları, çikolata, gıda, hediye vb. siparişlerinde Bloom and Fresh veya ortaklık/kampanya kuponları ve indirimleri uygulanamamaktadır.
+                                </p>
+                            </td>
+                            <td class="carousel-right col-lg-1 col-md-1 col-sm-1">
+                                <button type="button" ng-click="move('right',userCampaigns)"><span class="ion-ios-arrow-right carousel-icon lightBrownText"></span></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </top-slider>
+
+                <label class="mobilDropdown mobilDropdownForCoupons center-block hidden-lg hidden-md col-sm-12 col-xs-12 not-error" ng-if="isUserLogin() && userCampaigns.length > 0  && flower.product_type == 1 ">
+                    <p class="lightBrownText mobilDropdownText text-center">
+                        {{::'REGISTERED_COUPONS' | translate}}
+                        <a role="button" class="btn-add btn btn-default btn-lg addCampaignButton" ng-click="openModel('addCampaign')" style="width: 25px;height: 27px;margin-left: 14px;padding: 0px;">
+                            <img class="middleBrownText" style="width: 13px;margin-bottom: 5px;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/plus_image.svg">
+                        </a>
+                    </p>
+                    <select class="mobilDropdownSelect col-sm-offset-3 col-sm-7 col-xs-11" ng-model="payment.selectedCoupon" ng-options="campaign.name for campaign in userCampaigns " ng-change="useCampaign(payment.selectedCoupon)">
+                        <option value="">{{::'REGISTERED_COUPONS_DROPDOWN_TEXT' |translate}}</option>
+                    </select>
+                </label>
+
+                <fieldset class="col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+                    <label class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">{{::'PRICE_HEADER' | translate}}</label>
+
+                    <div class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                        <strong class="totalPayment">
+                            {{flower.price | number :2}} TL
+                            <span ng-if="flower.product_type == 2">
+                                + {{::'KDV_8' | translate}}
+                            </span>
+                            <span ng-if="flower.product_type == 1 || flower.product_type == 3">
+                                + {{::'KDV_18' | translate}}
+                            </span>
+                        </strong>
+                    </div>
+
+                    <label class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName" ng-if="chosenCampaign && chosenCampaign.type == 2 && flower.product_type == 1">{{::'DISCOUNTED_PRICE_HEADER' | translate}} (%{{chosenCampaign.value}})</label>
+                    <label class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName" ng-if="chosenCampaign && chosenCampaign.type == 1">{{::'DISCOUNTED_PRICE_HEADER' | translate}} (-{{chosenCampaign.value}} TL)</label>
+                    <div class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo" ng-if=" (chosenCampaign && flower.product_type == 1) || (chosenCampaign.special_type == 1 && (flower.product_type == 2 || flower.product_type == 3  ) ) ">
+                        <strong class="totalPayment">
+                            {{flower.priceWithDiscount | number :2}} TL
+                            <span ng-if="flower.product_type == 2 && chosenCampaign.special_type == 0 ">
+                                + {{::'KDV_8' | translate}}
+                            </span>
+                            <span ng-if="flower.product_type == 2 && chosenCampaign.special_type == 1 ">
+                                (KDV Dahil)
+                            </span>
+                            <span ng-if="(flower.product_type == 1  || flower.product_type == 3)  && chosenCampaign.special_type == 0 ">
+                                + {{::'KDV_18' | translate}}
+                            </span>
+                            <span ng-if="(flower.product_type == 1  || flower.product_type == 3)  && chosenCampaign.special_type == 1 ">
+                                (KDV Dahil)
+                            </span>
+                        </strong>
+                    </div>
+
+                    <label ng-if="chosenCrossProduct" class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">Fiyat(Çikolata)</label>
+
+                    <div ng-if="chosenCrossProduct" class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                        <strong class="totalPayment">
+                            {{chosenCrossProduct.price | number :2}} TL
+                            <span>
+                                + {{::'KDV_8' | translate}}
+                            </span>
+                        </strong>
+                    </div>
+
+                    <label ng-if="chosenCrossProduct.couponForCrossSell != 0 && chosenCrossProduct" class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">{{::'DISCOUNTED_PRICE_HEADER' | translate}} (-{{chosenCampaign.value}} TL)</label>
+
+                    <div class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo" ng-if="chosenCrossProduct.couponForCrossSell != 0 && chosenCrossProduct">
+                        <strong class="totalPayment">
+                            {{chosenCrossProduct.crossSellPriceWithCoupon | number :2}} TL
+                            <span ng-if="chosenCampaign.special_type == 0">
+                                + {{::'KDV_8' | translate}}
+                            </span>
+                            <span ng-if="chosenCampaign.special_type == 1">
+                                (KDV Dahil)
+                            </span>
+                        </strong>
+                    </div>
+
+                    <label ng-if="!chosenCrossProduct" class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">{{::'TOTAL_PRICE_HEADER' | translate}}</label>
+
+                    <div ng-if="!chosenCrossProduct" class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                        <strong class="totalPayment" ng-if="chosenCampaign.special_type == 0 || !chosenCampaign || userCampaigns.length == 0 || !isUserLogin() || chosenCampaign.length == 0 ">
+                            <span style="font-family: 'Gotham Bold';">{{flower.newPrice | number :2}} TL</span>
+                            <span>
+                                ({{::'TAX_INCLUDED' | translate}})
+                            </span>
+                        </strong>
+                        <strong class="totalPayment" ng-if="chosenCampaign.special_type == 1">
+                            {{flower.priceWithDiscount | number :2}}
+                            <span>
+                                ({{::'TAX_INCLUDED' | translate}})
+                            </span>
+                        </strong>
+                    </div>
+
+                    <label ng-if="chosenCrossProduct" class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">{{::'TOTAL_PRICE_HEADER' | translate}}</label>
+
+                    <div ng-if="chosenCrossProduct" class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                        <strong class="totalPayment">
+                            {{ getAllMoney() }} TL
+                            <span>
+                                ({{::'TAX_INCLUDED' | translate}})
+                            </span>
+                        </strong>
+                    </div>
+
+                    <!-- !-->
+
+                    <label style="padding-left: 0px;" ng-if="!chosenCrossProduct && tempStringTroyRoot" class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">TROY İndirimiyle Ödenecek Tutar</label>
+
+                    <div ng-if="!chosenCrossProduct && tempStringTroyRoot" class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                        <strong class="totalPayment" ng-if="chosenCampaign.special_type == 0 || !chosenCampaign || userCampaigns.length == 0 || !isUserLogin() || chosenCampaign.length == 0 ">
+                            <span ng-if="tempStringTroyRoot" style="font-family: 'Gotham Bold';">{{ showPriceWithTroy() }} TL</span>
+                            <span>
+                                ({{::'TAX_INCLUDED' | translate}})
+                                <span style="font-weight: bold;font-style: italic;">
+                                    {{tempStringTroyRoot}}
+                                </span>
+                            </span>
+                        </strong>
+                        <strong class="totalPayment" ng-if="chosenCampaign.special_type == 1 && tempStringTroyRoot">
+                            {{flower.priceWithDiscount | number :2}} TL
+                            <span>
+                                ({{::'TAX_INCLUDED' | translate}})
+                                <span style="font-weight: bold;font-style: italic;">
+                                    {{tempStringTroyRoot}}
+                                </span>
+                            </span>
+                        </strong>
+                    </div>
+
+                    <label style="padding-left: 0px;" ng-if="chosenCrossProduct && tempStringTroyRoot" class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">TROY İndirimiyle Ödenecek Tutar</label>
+
+                    <div ng-if="chosenCrossProduct && tempStringTroyRoot" class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                        <strong ng-if="tempStringTroyRoot" class="totalPayment">
+                            {{ getAllMoneyWithTroy() }} TL
+                            <span>
+                                ({{::'TAX_INCLUDED' | translate}})
+                                {{tempStringTroyRoot}}
+                            </span>
+                        </strong>
+                    </div>
+
+                </fieldset>
+
+                <fieldset class="paymentInfo col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+
+                    <label id="checkIf" ng-hide="hideCreditCard()" class="col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentCardNumber">{{::'CREDIT_CARD_HEADER' | translate}}</label>
+
+                    <div ng-hide="hideCreditCard()"  class="paymentCardNumber field col-lg-5 col-md-5 col-sm-6 col-xs-12">
+                        <input type="tel" class="form-control" ng-model="payment.cardNumber" id="paymentCardNumber" name="card_no" maxlength="19" minlength="7"
+                               autocomplete="off" required/>
+                    </div>
+
+                    <label ng-hide="hideCreditCard()"  class="col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentCardExpirationDate">{{::'EXPIRE_DATE_HEADER' | translate}}</label>
+
+                    <div ng-hide="hideCreditCard()" class="paymentCardExpirationDay smallField col-lg-2 col-md-3 col-sm-3 col-xs-6">
+                        <ui-select ng-model="payment.expirationMonth" theme="selectize" class="hidden-sm hidden-xs">
+                            <ui-select-match>{{payment.expirationMonth}}</ui-select-match>
+                            <ui-select-choices repeat="expirationMonth in expirationMonths | filter: $select.search">
+                                <span ng-bind-html="expirationMonth | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <select class="mobilDropdownSelect hidden-lg hidden-md col-sm-12 col-xs-12" ng-model="payment.expirationMonth" ng-options="expirationMonth for expirationMonth in expirationMonths track by expirationMonth" required>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <div ng-hide="hideCreditCard()"  class="paymentCardExpirationYear smallField col-lg-2 col-md-3 col-sm-3 col-xs-6">
+                        <ui-select ng-model="payment.expirationYear" theme="selectize" class="hidden-sm hidden-xs">
+                            <ui-select-match>{{payment.expirationYear}}</ui-select-match>
+                            <ui-select-choices repeat="expirationYear in expirationYears | filter: $select.search">
+                                <span ng-bind-html="expirationYear | highlight: $select.search"></span>
+                            </ui-select-choices>
+                        </ui-select>
+
+                        <select class="mobilDropdownSelect hidden-lg hidden-md col-sm-12 col-xs-12" ng-model="payment.expirationYear" ng-options="expirationYear for expirationYear in expirationYears" required>
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <label ng-hide="hideCreditCard()"  class="col-lg-offset-3 col-lg-3 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentCCVNumber">CVC</label>
+
+                    <div style="margin-right: 10px;padding-right: 0px;" ng-hide="hideCreditCard()"  class="paymentCVCNumber smallField col-lg-2 col-md-3 col-sm-3 col-xs-12">
+                        <input class="form-control" ng-model="payment.cvcNumber" id="paymentCCVNumber" type="tel" name="card_cvv" ng-minlength="3" required onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                               payments-validate="cvc" payments-format="cvc" ng-maxlength="4" maxlength="4" autocomplete="off"/>
+                    </div>
+
+                    <a ng-hide=" hideCreditCard() "  style="width: 20px;padding: 0px;margin-top: 13px;" type="button" class="cardSecurity btn btn-default lightBrownText col-lg-2 col-md-3 col-sm-3" tooltip-placement="right" tooltip-html-unsafe="{{cvcInfo}}">
+                        <img class="hidden-xs " style="width: 18px;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/vectorpaint.svg">
+                    </a>
+
+                    <section ng-hide=" hideCreditCard() " style="padding-left: 13%;padding-top: 20px;float: left" id="checkBoxDiv" class="checkbox icheckField lightBrownText col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-10 text-center">
+                        <label id="3Dcheck" style="float: left" class="not-error">
+                            <input type="checkbox" id="3dSecureCheck" class="contactCheckbox"> 3D Secure ile ödemek istiyorum.
+                            <a style="width: 20px;color: #8D7758;" type="button" tooltip-placement="right" tooltip-html-unsafe="3D Secure, internet üzerinden kredi kartı ve banka kartıyla yapılan alışveriş işlemlerinin güvenliğinin artırılması için Visa ve MasterCard tarafından geliştirilmiş bir sistemdir. 3D secure ile ödeme yapabilmek için kredi kartınızın 3D secure işlemlere açık olması gerekmektedir. Bankamatik kartı ile sadece 3D secure işlemler yapılabilir.">
+                                <img style="width: 16px;vertical-align: sub;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/vectorpaint.svg">
+                            </a>
+                        </label>
+                    </section>
+
+                    <section style="padding-left: 13%;" class="checkbox icheckField contracts lightBrownText col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-12 text-center">
+                        <label style="float: left;text-align: left;" class="not-error">
+                            <input type="checkbox" class="contactCheckbox">
+                            <a ng-click="openModel('preinformForm')">{{::'PREINFORMING_LINK' | translate}}</a> {{::'CONJUNCTION_LINKS' | translate}}
+                            <a ng-click="openModel('longDistancePurchaseContract')">{{::'LONG_DISTINCE_PURCHASE_LINK' | translate}}</a> {{::'LINKS_END' | translate}}
+                        </label>
+                    </section>
+
+                    <label class="contractsError text-center col-lg-12 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-12 error text-left">{{serverError}}</label>
+
+                    <section class="buttonSection col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                        <button id="submitButton"  type="submit" onclick="return purchaseCheck()"
+                                class="purchaseProgressButton purchaseCompleteButton btn btn-default center-block col-lg-5 col-md-6 col-sm-12 col-xs-12"> <b class="text-uppercase">{{::'PAYMENT_BUTTON_TEXT' | translate}}</b></button>
+                    </section>
+
+                </fieldset>
+
+                <fieldset class="creditCardLogos col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+                    <p class="infoText text-center col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        *{{::'INVOICE_INFO_TEXT' | translate}}
+                    </p>
+
+                    <div style="text-align: center;" class="cardLogos col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/card-icons/masterCard_logo-1.png" style="width: 60px;height: 40px;margin-right: 10px;">
+                        <img src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/icons/card-icons/visaCard_logo-1.png" style="width: 84px;height: 27px;margin-right: 20px;">
+                        <img src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/isbank_logo.png" style="width: 104px;margin-right: 10px;">
+
+                        <img src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/Troy-Logo_small.png" style="width: 80px;">
+                        <!--<span class="logo comodoSecure"></span>
+
+                        <div style="margin-left: 108px;" class="cards">
+
+                            <span class="logo mastercard"></span>
+                            <span class="logo visa"></span>
+                            <span class="logo garantiPost"></span>
+                        </div>-->
+                    </div>
+
+                    <!--<div class="cards col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <ul class="center-block flexContainer cardLogos">
+                            <li class="flexableItem"><span class="logo mastercard"></span></li>
+                            <li class="flexableItem visaContainer"><span class="logo visa"></span></li>
+                            <li class="flexableItem"><span class="logo garantiPost"></span></li>
+                        </ul>
+                    </div>-->
+                </fieldset>
+
+                <input id="3Dcheckbox" type="hidden" value="0"/>
+                <input name="card_month" type="hidden" value="{{payment.expirationMonth}}"/>
+                <input name="card_year" type="hidden" value="{{payment.expirationYear}}"/>
+                <input name="sale_number" type="hidden" value="{{receiver.saleNumber}}"/>
+                <input id="product_id" name="product_id" type="hidden" value="{{flower.id}}"/>
+                <input name="cross_sell" type="hidden" value="{{chosenCrossProduct.id}}">
+                <input name="mail" type="hidden" value="{{sender.email}}"/>
+                <input name="user_id" type="hidden" value="{{sender.id}}"/>
+                <input ng-if="isUserLogin()" name="access_token" type="hidden" value="{{sender.access_token}}">
+                <input ng-if="chosenCampaign.id !== undefined" name="coupon_id" type="hidden" value="{{chosenCampaign.id}}">
+            </section>
+            <purchase-info flower="flower" campaign="chosenCampaign" receiver="receiver" note="note" section="section"></purchase-info>
+
+        </form>
+
+        <form ng-show="isSection(4)" id="paymentForCompany" name="paymentFormCompany" class="fixed-width row form-horizontal" method="post" novalidate action="https://everybloom.com/submit-company-sale"> <!-- action="https://everybloom.com/submit-company-sale" -->
+            <section class="sectionPayment col-lg-9 col-md-9 col-sm-9 col-xs-12" ng-controller="PaymentCtrl">
+                <header class="col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+                    <h2 class="text-center"><b>{{::'PAYMENT_HEADER_2' | translate}}</b></h2>
+                </header>
+
+                <top-slider class="selectionSection row hidden-sm hidden-xs" ng-if="isUserLogin() && flower.company_product == 0 && flower.product_type == 1 ">
+                    <table class="sliderContainer col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12">
+                        <tbody>
+                        <tr>
+                            <td class="sliderHeader lightBrownText col-lg-1 col-md-1 col-sm-1">{{::'REGISTERED_COUPONS' | translate}}</td>
+                            <td class="carousel-left col-lg-1">
+                                <button type="button" ng-click="move('left')"><span class="ion-ios-arrow-left carousel-icon lightBrownText"></span></button>
+                            </td>
+                            <td class="sliderMembers col-lg-10 col-md-10 col-sm-10">
+                                <ul class="col-lg-12 col-md-12 col-sm-12">
+                                    <li class="col-lg-3 col-md-3 col-sm-6 sliderMemberContainer" ng-repeat="campaign in userCampaigns" ng-show="canShow($index)"
+                                        ng-click="useCampaign(campaign)" ng-class="{active: campaign.isActive}">
+                                        <figure class="imgContainer">
+                                            <img class="memberIcon" ng-src="{{campaign.image_type}}">
+                                        </figure>
+                                        <figcaption class="contactInfo">
+                                            <dl class="contactNameSurname lightBrownText">
+                                                <dt class="contactName">{{campaign.name}}</dt>
+                                            </dl>
+                                        </figcaption>
+                                    </li>
+                                    <li class="col-lg-3 col-md-3 col-sm-6 sliderMemberContainer pull-right" >
+                                        <a style="padding: 6px;" role="button" class="btn-add btn btn-default btn-lg addCampaignButton" ng-click="openModel('addCampaign')">
+                                            <img class="middleBrownText" style="width: 20px;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/plus_image.svg">
+                                        </a>
+                                        <figcaption class="contactInfo" ng-click="openModel('addCampaign')">
+                                            <dl class="contactNameSurname lightBrownText">
+                                                <dt class="contactName"> {{::'ADD_COUPON_TEXT' | translate}} </dt>
+                                            </dl>
+                                        </figcaption>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="carousel-right col-lg-1 col-md-1 col-sm-1">
+                                <button type="button" ng-click="move('right',userCampaigns)"><span class="ion-ios-arrow-right carousel-icon lightBrownText"></span></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </top-slider>
+
+                <label class="mobilDropdown mobilDropdownForCoupons center-block hidden-lg hidden-md col-sm-12 col-xs-12 not-error" ng-if="isUserLogin() && userCampaigns.length > 0">
+                    <p class="lightBrownText mobilDropdownText text-center">
+                        {{::'REGISTERED_COUPONS' | translate}}
+                    </p>
+                    <select class="mobilDropdownSelect col-sm-offset-3 col-sm-7 col-xs-11" ng-model="payment.selectedCoupon" ng-options="campaign.name for campaign in userCampaigns " ng-change="useCampaign(payment.selectedCoupon)">
+                        <option value="">{{::'REGISTERED_COUPONS_DROPDOWN_TEXT' |translate}}</option>
+                    </select>
+                </label>
+
+                <fieldset class="col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+                    <label class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">{{::'PRICE_HEADER' | translate}}</label>
+
+                    <div class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                        <strong class="totalPayment">
+                            {{flower.price | number :2}} TL
+                            <span>
+                                + {{::'KDV_18' | translate}}
+                            </span>
+                        </strong>
+                    </div>
+
+                    <label class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName" ng-if="chosenCampaign && chosenCampaign.type == 2 && flower.product_type == 1">{{::'DISCOUNTED_PRICE_HEADER' | translate}} (%{{chosenCampaign.value}} )</label>
+                    <label class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName" ng-if="chosenCampaign && chosenCampaign.type == 1">{{::'DISCOUNTED_PRICE_HEADER' | translate}} ({{chosenCampaign.value}} TL )</label>
+                    <div class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo" ng-if="chosenCampaign.id !== undefined">
+                        <strong class="totalPayment">
+                            {{flower.priceWithDiscount | number :2}} TL
+                            <span>
+                                + {{::'KDV_18' | translate}}
+                            </span>
+                        </strong>
+                    </div>
+
+                    <label ng-if="chosenCrossProduct" class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">Fiyat(Çikolata)</label>
+
+                    <div ng-if="chosenCrossProduct" class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                        <strong class="totalPayment">
+                            {{chosenCrossProduct.price | number :2}} TL
+                            <span>
+                                + {{::'KDV_8' | translate}}
+                            </span>
+                        </strong>
+                    </div>
+
+                    <label ng-if="!chosenCrossProduct" class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">{{::'TOTAL_PRICE_HEADER' | translate}}</label>
+
+                    <div ng-if="!chosenCrossProduct" class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                        <strong class="totalPayment">
+                            {{flower.newPrice | number :2}} TL
+                            <span>
+                                ({{::'TAX_INCLUDED' | translate}})
+                            </span>
+                        </strong>
+                    </div>
+
+                    <label ng-if="chosenCrossProduct" class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">{{::'TOTAL_PRICE_HEADER' | translate}}</label>
+
+                    <div ng-if="chosenCrossProduct" class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                        <strong class="totalPayment">
+                            {{ getAllMoney() }} TL
+                            <span>
+                                ({{::'TAX_INCLUDED' | translate}})
+                            </span>
+                        </strong>
+                    </div>
+
+                </fieldset>
+
+                <fieldset class="paymentInfo col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+
+                    <label class="col-lg-offset-2 col-lg-8 col-md-offset-1 col-md-8 col-sm-offset-0 col-sm-12 col-xs-12 lightBrownText text-center">{{loggedUser.company_name}} adına çiçek siparişi veriyorsunuz. <br> Ay sonunda bu ay içinde verdiğiniz siparişler için <br> tek bir fatura düzenlenecektir. </label>
+
+                </fieldset>
+
+                <fieldset class="paymentInfo col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+
+                    <label class="contractsError text-center col-lg-12 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-12 error text-left">{{serverError}}</label>
+
+                    <section class="buttonSection col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                        <button type="submit"
+                                class="purchaseProgressButton purchaseCompleteButton btn btn-default center-block col-lg-5 col-md-6 col-sm-12 col-xs-12"> <b class="text-uppercase">İşlemi Tamamla</b></button>
+                    </section>
+
+                </fieldset>
+
+                <input name="card_month" type="hidden" value="{{payment.expirationMonth}}"/>
+                <input name="card_year" type="hidden" value="{{payment.expirationYear}}"/>
+                <input name="sale_number" type="hidden" value="{{receiver.saleNumber}}"/>
+                <input name="product_id" type="hidden" value="{{flower.id}}">
+                <input name="cross_sell" type="hidden" value="{{chosenCrossProduct.id}}">
+                <input name="mail" type="hidden" value="{{sender.email}}"/>
+                <input name="user_id" type="hidden" value="{{sender.id}}"/>
+                <input ng-if="isUserLogin()" name="access_token" type="hidden" value="{{sender.access_token}}">
+                <input ng-if="chosenCampaign.id !== undefined" name="coupon_id" type="hidden" value="{{chosenCampaign.id}}">
+            </section>
+            <purchase-info flower="flower" campaign="chosenCampaign" receiver="receiver" note="note" section="section"></purchase-info>
+
+        </form>
+
+        <!-- <form ng-show="isSection(5)" id="paymentForCompany1" name="paymentFormCompany1" class="fixed-width row form-horizontal" method="post" novalidate action="https://everybloom.com/submit-company-sale">
+            <section class="sectionPayment col-lg-9 col-md-9 col-sm-9 col-xs-12" ng-controller="PaymentCtrl">
+                <header class="col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+                    <h2 class="text-center"><b>{{::'PAYMENT_HEADER_2' | translate}}</b></h2>
+                </header>
+
+                <top-slider class="selectionSection row hidden-sm hidden-xs" ng-if="isUserLogin()">
+                    <table class="sliderContainer col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12">
+                        <tbody>
+                        <tr>
+                            <td class="sliderHeader lightBrownText col-lg-1 col-md-1 col-sm-1">{{::'REGISTERED_COUPONS' | translate}}</td>
+                            <td class="carousel-left col-lg-1">
+                                <button type="button" ng-click="move('left')"><span class="ion-ios-arrow-left carousel-icon lightBrownText"></span></button>
+                            </td>
+                            <td class="sliderMembers col-lg-10 col-md-10 col-sm-10">
+                                <ul class="col-lg-12 col-md-12 col-sm-12">
+                                    <li class="col-lg-3 col-md-3 col-sm-6 sliderMemberContainer" ng-repeat="campaign in userCampaigns" ng-show="canShow($index)"
+                                        ng-click="useCampaign(campaign)" ng-class="{active: campaign.isActive}">
+                                        <figure class="imgContainer">
+                                            <img class="memberIcon" ng-src="{{campaign.image_type}}">
+                                        </figure>
+                                        <figcaption class="contactInfo">
+                                            <dl class="contactNameSurname lightBrownText">
+                                                <dt class="contactName">{{campaign.name}}</dt>
+                                            </dl>
+                                        </figcaption>
+                                    </li>
+                                    <li class="col-lg-3 col-md-3 col-sm-6 sliderMemberContainer pull-right" >
+                                        <a role="button" class="btn-add btn btn-default btn-lg addCampaignButton" ng-click="openModel('addCampaign')">
+                                            <span class="middleBrownText glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                        </a>
+                                        <figcaption class="contactInfo" ng-click="openModel('addCampaign')">
+                                            <dl class="contactNameSurname lightBrownText">
+                                                <dt class="contactName"> {{::'ADD_COUPON_TEXT' | translate}} </dt>
+                                            </dl>
+                                        </figcaption>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="carousel-right col-lg-1 col-md-1 col-sm-1">
+                                <button type="button" ng-click="move('right',userCampaigns)"><span class="ion-ios-arrow-right carousel-icon lightBrownText"></span></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </top-slider>
+
+                <label class="mobilDropdown mobilDropdownForCoupons center-block hidden-lg hidden-md col-sm-12 col-xs-12 not-error" ng-if="isUserLogin() && userCampaigns.length > 0">
+                    <p class="lightBrownText mobilDropdownText text-center">
+                        {{::'REGISTERED_COUPONS' | translate}}
+                    </p>
+                    <select class="mobilDropdownSelect col-sm-offset-3 col-sm-7 col-xs-11" ng-model="payment.selectedCoupon" ng-options="campaign.name for campaign in userCampaigns " ng-change="useCampaign(payment.selectedCoupon)">
+                        <option value="">{{::'REGISTERED_COUPONS_DROPDOWN_TEXT' |translate}}</option>
+                    </select>
+                </label>
+
+                <fieldset class="col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+                    <label class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">{{::'PRICE_HEADER' | translate}}</label>
+
+                    <div class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                        <strong class="totalPayment">
+                            {{flower.price | number :2}} TL
+							<span>
+								+ {{::'TAX' | translate}}
+							</span>
+                        </strong>
+                    </div>
+
+                    <label class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName" ng-if="chosenCampaign">{{::'DISCOUNTED_PRICE_HEADER' | translate}} (%{{chosenCampaign.value}})</label>
+
+                    <div class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo" ng-if="chosenCampaign">
+                        <strong class="totalPayment">
+                            {{flower.priceWithDiscount | number :2}} TL
+							<span>
+								+ {{::'TAX' | translate}}
+							</span>
+                        </strong>
+                    </div>
+
+                    <label class="totalPaymentText col-lg-offset-2 col-lg-4 col-md-offset-1 col-md-4 col-sm-offset-0 col-sm-6 col-xs-12 lightBrownText text-right" for="paymentName">{{::'TOTAL_PRICE_HEADER' | translate}}</label>
+
+                    <div class="col-lg-offset-0 col-lg-6 col-md-offset-0 col-md-7 col-sm-offset-0 col-sm-6 col-xs-offset-0 col-xs-12 totalPaymentInfo">
+                        <strong class="totalPayment">
+                            {{flower.newPrice | number :2}} TL
+							<span>
+								({{::'TAX_INCLUDED' | translate}})
+							</span>
+                        </strong>
+                    </div>
+
+                </fieldset>
+
+                <fieldset style="border: black;
+                                border-width: 2px;
+                                border-style: solid;"
+                          class="paymentInfo col-lg-offset-1 col-lg-11 col-md-offset-0 col-md-12 col-sm-12 col-xs-12">
+
+                    <label style="line-height: 23px;" class="col-lg-offset-2 col-lg-8 col-md-offset-1 col-md-8 col-sm-offset-0 col-sm-12 col-xs-12 lightBrownText text-center">
+                        Ülke genelinde yaşanan siber saldırıdan ödeme partnerimiz
+                        <br>
+                         olan Garanti Bankası Ödeme Sistemleri de maalesef etkilenmektedir.
+                        <br>
+                        <br>
+                        Geçici olarak kredi kartı ile sipariş alamıyoruz. <br>
+                        İsterseniz siparişinizi EFT/Havale yoluyla tamamlayabilirsiniz. <br>
+                        {{flower.newPrice | number :2}} TL tutarı aşağıdaki IBAN numaralarına gönderdikten sonra
+                        <br>
+                        0212 212 0 282’den bizimle iletişime geçebilirsiniz.
+                        <br><br>
+                        Alıcı adı: IF Girişim ve Teknoloji A.Ş. <br>
+                        - Garanti Bankası IBAN: TR57 0006 2000 4590 0006 2938 64
+                        <br>
+                        -Yapı Kredi IBAN: TR6200 0670 1000 0000 9374 9288
+                    </label>
+                </fieldset>
+
+                <input name="card_month" type="hidden" value="{{payment.expirationMonth}}"/>
+                <input name="card_year" type="hidden" value="{{payment.expirationYear}}"/>
+                <input name="sale_number" type="hidden" value="{{receiver.saleNumber}}"/>
+                <input name="product_id" type="hidden" value="{{flower.id}}"/>
+                <input name="mail" type="hidden" value="{{sender.email}}"/>
+                <input name="user_id" type="hidden" value="{{sender.id}}"/>
+                <input ng-if="isUserLogin()" name="access_token" type="hidden" value="{{sender.access_token}}">
+                <input ng-if="chosenCampaign.id !== undefined" name="coupon_id" type="hidden" value="{{chosenCampaign.id}}">
+            </section>
+            <purchase-info flower="flower" campaign="chosenCampaign" receiver="receiver" note="note" section="section"></purchase-info>
+        </form> -->
+    </section>
+</main>
+
+<bf-footer class="hidden-xs"></bf-footer>
+
+<script type="text/javascript">
+
+    $( document ).ready(function() {
+
+        /*var ranges = [
+            '\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
+            '\ud83d[\udc00-\ude4f]', // U+1F400 to U+1F64F
+            '\ud83d[\ude80-\udeff]' // U+1F680 to U+1F6FF
+        ];
+        var regex = /(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|\ud83c[\ude32-\ude3a]|\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])/g;
+
+        //return string.replace(regex, '');
+
+        $('#customer_note').change(function(){
+            var str = $('#customer_note').val();
+
+            str = str.replace(regex, '');
+            $('#customer_note').val(str);
+        });
+
+        $('#note').change(function(){
+            var str = $('#note').val();
+
+            str = str.replace(regex, '');
+            $('#note').val(str);
+        });
+
+        $('#customer_receiver').change(function(){
+            var str = $('#customer_receiver').val();
+
+            str = str.replace(regex, '');
+            $('#customer_receiver').val(str);
+        });
+
+        $('#customer_receiver_name').change(function(){
+            var str = $('#customer_receiver_name').val();
+
+            str = str.replace(regex, '');
+            $('#customer_receiver_name').val(str);
+        });
+
+        $('#customer_sender_name').change(function(){
+
+            var str = $('#customer_sender_name').val();
+
+            str = str.replace(regex, '');
+            $('#customer_sender_name').val(str);
+        });
+
+        $('#customer_sender').change(function(){
+
+            var str = $('#customer_sender').val();
+
+            str = str.replace(regex, '');
+            $('#customer_sender').val(str);
+        });*/
+    });
+
+</script>
+
+<!-- <script type="text/javascript">
+    $( document ).ready(function() {
+        setTimeout(
+                function()
+                {
+                    (function(){
+                        var s   = document.createElement('script');
+                        var x   = document.getElementsByTagName('script')[0];
+                        s.type  = 'text/javascript';
+                        s.async = true;
+                        s.src   = ('https:'==document.location.protocol?'https://':'http://')
+                        + 'eu-sonar.sociomantic.com/js/2010-07-01/adpan/bloomandfresh-tr';
+                        x.parentNode.insertBefore( s, x );
+                    })();
+                }, 1000);
+    });
+</script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        setTimeout(
+                function()
+                {
+                    $tempAmount = $('#flowerPriceJs').text().split(" ")[0];
+                    if($tempAmount){
+                        $tempAmount.replace(",", ".");
+                        $tempId = $('#product_id').val();
+                        //var basket = {
+                        //    products: [
+                        //        { identifier: $tempId, amount: $tempAmount, currency: 'TRY', quantity: 1 }
+                        //    ]
+                        //};
+                        sociomantic.sonar.adv['bloomandfresh-tr'].clear();
+
+                        window.basket = {
+                            products: [{ identifier: $tempId, amount: $tempAmount, currency: 'TRY', quantity: 1 }]
+                        };
+                        sociomantic.sonar.adv['bloomandfresh-tr'].track();
+                    }
+                }, 2000);
+    });
+</script> -->

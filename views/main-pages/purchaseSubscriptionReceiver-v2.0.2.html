@@ -1,0 +1,288 @@
+<script>
+    (function () {
+        // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+        if (!String.prototype.trim) {
+            (function () {
+                // Make sure we trim BOM and NBSP
+                var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+                String.prototype.trim = function () {
+                    return this.replace(rtrim, '');
+                };
+            })();
+        }
+        [].slice.call(document.querySelectorAll('input.input__field')).forEach(function (inputEl) {
+            // in case the input is already filled..
+            if (inputEl.value.trim() !== '') {
+                classie.add(inputEl.parentNode, 'input--filled');
+            }
+            // events:
+            inputEl.addEventListener('focus', onInputFocus);
+            inputEl.addEventListener('blur', onInputBlur);
+        });
+        function onInputFocus(ev) {
+            classie.add(ev.target.parentNode, 'input--filled');
+        }
+
+        function onInputBlur(ev) {
+            if (ev.target.value.trim() === '') {
+                classie.remove(ev.target.parentNode, 'input--filled');
+            }
+        }
+    })();
+</script>
+
+<navbar-menu class="ribbonPurchase"></navbar-menu>
+
+<main ng-app="subscriptionReceiver" class="purchase">
+
+    <section class="container-fluid">
+        <header class="row">
+            <ul id="ulBar" class="col-lg-offset-2 col-lg-8 col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10 col-xs-12">
+                <li class="col-lg-4 col-md-4 col-sm-4 col-xs-4 active barPoint ">
+                    <dl>
+                        <dd class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 1</dd>
+                        <dt class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"><a href="/abonelik-1" class="text-uppercase"> Çiçek ve Zaman</a></dt>
+                    </dl>
+                </li>
+                <li class="col-lg-4 col-md-4 col-sm-4 col-xs-4 barPoint active" >
+                    <dl>
+                        <dd class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 2</dd>
+                        <dt class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"><a href="/abonelik-2" class="text-uppercase"> Alıcı Bilgileri </a></dt>
+                    </dl>
+                </li>
+                <li class="col-lg-4 col-md-4 col-sm-4 col-xs-4 barPoint">
+                    <dl>
+                        <dd class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"> 3</dd>
+                        <dt class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center"><a class="text-uppercase"> {{::'PAYMENT_HEADER' | translate}} </a></dt>
+                    </dl>
+                </li>
+            </ul>
+        </header>
+
+        <form id="receiver" name="receiverForm" class="fixed-width row form-horizontal" novalidate>
+        <section class="sectionReceiver col-lg-9 col-md-9 col-sm-9 col-xs-12">
+            <header class="col-lg-offset-1 col-lg-11 col-md-offset-1 col-md-11 col-sm-12 col-xs-12">
+                <h2 class="text-center"><b>Alıcı Bilgileri</b></h2>
+            </header>
+
+            <fieldset class="receiverInfo col-lg-offset-1 col-lg-11 col-md-offset-1 col-md-11 col-sm-12 col-xs-12">
+
+                <div class="receiverName field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+				    <span class="input input--akira" ng-class='{"input--filled" : ($root.name)}'>
+				    	<input class="darkBlueText input__field input__field--akira text-capitalize" type="text" id="contact_name" name="contact_name"
+                               ng-model-options="{ updateOn: 'blur' }" tabindex="3" ng-model="$root.name" ng-minlength="2" ng-pattern="/^[a-zA-ZŞşÇçığĞİüÜÖö ]*$/" maxlength="30" required/>
+				    	<label class="input__label input__label--akira" for="contact_name">
+				    		<span class="input__label-content input__label-content--akira">
+				    			<span class="error" ng-show="receiverForm.contact_name.$touched && (receiverForm.contact_name.$error.minlength || receiverForm.contact_name.$error.pattern)">{{::'RECEIVER_NAME_ERROR' | translate}}</span>
+				    			<span class="error"
+                                      ng-show="(receiverForm.contact_name.$touched && receiverForm.contact_name.$error.required) || (receiverForm.contact_name.$untouched && !receiverForm.contact_name.$valid && isChecked)">{{::'RECEIVER_NAME_EMPTY_ERROR' | translate}}</span>
+				    			<span class="lightBrownText not-error" ng-show="receiverForm.contact_name.$valid || (receiverForm.contact_name.$untouched && !isChecked)">{{::'RECEIVER_NAME_TEXT' | translate}}*</span>
+				    		</span>
+                        </label>
+				    </span>
+                </div>
+
+                <div class="receiverNumber field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+				    <span class="input input--akira" ng-class='{"input--filled" : ($root.phoneNumber)}'>
+				    		<input class="darkBlueText input__field input__field--akira" ng-model="$root.phoneNumber"
+                                   ui-mask="(999)-999-99-99" ng-model-options="{ updateOn: 'blur' }" id="contact_mobile"
+                                   placeholder="." ui-mask-placeholder type="tel"
+                                   name="contact_mobile" tabindex="4" required/>
+				    		<label style="color: red" class="input__label input__label--akira" for="contact_mobile">
+				    			<span class="input__label-content input__label-content--akira">
+				    				<span class="error"
+                                          ng-show="receiverForm.contact_mobile.$touched && (receiverForm.contact_mobile.$error.minlength || receiverForm.contact_mobile.$error.mask)">{{::'RECEIVER_PHONE_ERROR' | translate}}</span>
+				    				<span class="error"
+                                          ng-show="(receiverForm.contact_mobile.$touched && receiverForm.contact_mobile.$error.required) || (receiverForm.contact_mobile.$untouched && !receiverForm.contact_mobile.$valid && isChecked)">{{::'RECEIVER_PHONE_EMPTY_ERROR' | translate}}</span>
+				    				<span class="lightBrownText not-error"
+                                          ng-show="receiverForm.contact_mobile.$valid || (receiverForm.contact_mobile.$untouched && !isChecked)">{{::'RECEIVER_PHONE_TEXT' | translate}}*</span>
+				    			</span>
+                            </label>
+				    </span>
+                </div>
+
+                <div class="sendingDistrictField field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+                    <label class="error" ng-show="isChecked && $root.sendingDistrict === undefined">{{::'SENDING_DISTRICT_DROPDOWN_ERROR' | translate}}</label>
+                    <ui-select ng-model="$root.sendingDistrict" theme="selectize" class="hidden-sm hidden-xs" ng-change="">
+                        <ui-select-match placeholder="Gönderim Bölgesini Seç">{{$root.sendingDistrict.district}}</ui-select-match>
+                        <ui-select-choices repeat="district in districts | filter: $select.search">
+                            <span ng-bind-html="district.district | highlight: $select.search"></span>
+                        </ui-select-choices>
+                    </ui-select>
+
+                    <select class="mobilDropdownSelect hidden-lg hidden-md  col-xs-12" ng-change="" ng-model="$root.sendingDistrict" ng-options="district.district for district in districts track by district.district">
+                        <option value="district.district">{{$root.sendingDistrict}}</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <fieldset class="receiveDate col-lg-offset-1 col-lg-11 col-md-offset-1 col-md-11 col-sm-12 col-xs-12">
+                <address class="col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+                    <label class="error" for="contact_address" ng-show="receiverForm.contact_address.$touched && receiverForm.contact_address.$error.minlength">{{::'RECEIVER_ADDRESS_ERROR' | translate}}</label>
+                    <label class="lightBrownText error" for="contact_address"
+                           ng-show="(receiverForm.contact_address.$touched && receiverForm.contact_address.$error.required) || (receiverForm.contact_address.$untouched && !receiverForm.contact_address.$valid && isChecked)">{{::'RECEIVER_ADDRESS_EMPTY_ERROR' | translate}}</label>
+                    <textarea class="lightBrownText font-bodoni-italic textField form-control" rows="3" tabindex="5" id="contact_address" name="contact_address" ng-minlength="10" placeholder="Gönderilecek Adres"
+                              ng-model="$root.address" maxlength="150" required></textarea>
+                </address>
+
+                <address class="col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-5 col-sm-offset-1 col-sm-5 col-xs-12">
+                        <textarea class="lightBrownText font-bodoni-italic textField form-control" rows="3" tabindex="5" id="contact_note" name="contact_note" ng-minlength="10" placeholder="Teslimat Notu"
+                                  ng-model="$root.note" maxlength="150" required></textarea>
+                    </address>
+            </fieldset>
+
+            <fieldset class="footerButtons col-lg-offset-1 col-lg-11 col-md-offset-1 col-md-11 col-sm-offset-1 col-sm-11 col-xs-12" ng-class="{newContactAdded:isNewContact}" ng-controller="ContactCtrl">
+                <div class="text-center col-lg-4 col-lg-offset-7 col-md-5 col-md-offset-7 col-sm-5 col-sm-offset-7 col-xs-12" ng-if="isChecked">
+                    <label class="error">{{serverError}}</label>
+                </div>
+
+                <div class="field col-lg-offset-1 col-lg-5 col-md-offset-1 col-md-4 col-sm-5 col-sm-offset-1 hidden-xs" ng-if="!isUserLogin() || receiver.contact_id !== undefined">
+
+                </div>
+                <a style="float: right;" role="button" ng-click="checkReceiverSubs()" class="purchaseProgressButton btn btn-default col-lg-offset-1 col-lg-5 col-md-offset-0 col-md-5 col-sm-offset-0 col-sm-6  col-xs-12"
+                   ng-class="{userNotLogin:(!isUserLogin() || receiver.contact_id !== undefined)}">
+                    <b class="text-uppercase">{{::'RECEIVER_BUTTON_TEXT' | translate}}</b>
+                </a>
+            </fieldset>
+        </section>
+
+        <!--[if !IE]><!-->
+        <loader
+                working="initUserWorking"
+                disable-background="true"
+                template="2">
+        </loader>
+
+        <!--<![endif]-->
+            <aside class="rightPurchaseInfo col-lg-3 col-md-3 col-sm-3 hidden-xs">
+                <section class="flowerInfoContainer notUserContacts">
+                    <figure class="col-lg-5 col-md-7 col-sm-12 center-block">
+                        <img class="flower-image" ng-src="{{selectedFlower.photo_url}}"/>
+                    </figure>
+                    <article class="flowerNameAndDescription col-lg-7 col-md-12 col-sm-12">
+                        <header class="col-lg-12 col-md-12 col-sm-12">
+                            <h3 style="font-size: 17px; font-family: 'Gotham Bold';color: #8a7454;margin-bottom: 0px;">{{selectedFlower.name}}</h3>
+                        </header>
+
+                        <p style="font-size: 18px;font-family: 'Bodoni Italic';color: #3b454d;" class="col-lg-12 col-md-12 hidden-sm middleBrownText">
+                            {{selectedFlower.price}} TL <span style="font-size: 13px;color: #a59b8f;font-family: 'Gotham Book';vertical-align: middle;">+KDV</span>
+                        </p>
+                        <header ng-if="subsExtra" class="col-lg-12 col-md-12 col-sm-12">
+                            <h3 style="margin-top: 5px;font-size: 17px; font-family: 'Gotham Bold';color: #8a7454;margin-bottom: 0px;">Cam Vazo</h3>
+                        </header>
+
+                        <p ng-if="subsExtra" style="font-size: 18px;font-family: 'Bodoni Italic';color: #3b454d;" class="col-lg-12 col-md-12 hidden-sm middleBrownText">
+                            {{selectedFlower.side_price}} TL <span style="font-size: 13px;color: #a59b8f;font-family: 'Gotham Book';vertical-align: middle;">+KDV</span>
+                        </p>
+                    </article>
+                </section>
+
+                <section class="priceInfo infoSection">
+                    <table class="table">
+                        <tr>
+                            <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">Toplam Fiyat</strong></td>
+                            <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{totalPrice}} TL + KDV</td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">İlk Gönderim</strong></td>
+                            <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{subsFirstDaySelected.dayName}} {{subsHourSelected.hourName}}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-6 col-md-6 col-sm-6 text-center"><strong class="header">Gönderim Sıklığı</strong></td>
+                            <td class="col-lg-6 col-md-6 col-sm-6 text-center middleBrownText infoText">{{subsFreqSelected.name}}</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section style="margin-top: 0px;" ng-if="showCrossSellProduct()" class="flowerInfoContainer notUserContacts">
+                    <figure class="col-lg-5 col-md-7 col-sm-12 center-block">
+                        <img class="flower-image" ng-src="{{selectedCrossSell.image}}"/>
+                    </figure>
+                    <article class="flowerNameAndDescription col-lg-7 col-md-12 col-sm-12">
+                        <image src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/removeButton.jpg" ng-show="showRemoveButton()" ng-click="removeCrossSell();" style="float: right;padding-right: 10px;padding-top: 10px;cursor: pointer;" />
+                        <header class="col-lg-12 col-md-12 col-sm-12">
+                            <h3 style="margin-top: 10px;">{{selectedCrossSell.name}}</h3>
+                        </header>
+
+                        <p class="col-lg-12 col-md-12 hidden-sm middleBrownText">
+                            {{selectedCrossSell.desc}}
+                        </p>
+                    </article>
+                </section>
+
+                <section class="receiverInfo infoSection" ng-show="isInfoShowable(2)">
+                    <table class="table">
+                        <tr>
+                            <td class="col-lg-5 col-md-5 col-sm-5 text-center"><strong class="header">{{::'LUCY_PERSON' | translate}}</strong></td>
+                            <td class="col-lg-7 col-md-7 col-sm-7 text-center middleBrownText infoText">{{receiver.name}}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5 col-md-5 col-sm-5 text-center"><strong class="header">{{::'DELIVERY_DATE' | translate}}</strong></td>
+                            <td class="col-lg-7 col-md-7 col-sm-7 text-center middleBrownText infoText">{{getReceiverDate()}} {{getReceiverTime()}}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-lg-5 col-md-5 col-sm-5 text-center"><strong class="header">{{::'DELIVERY_ADDRESS' | translate}}</strong></td>
+                            <td class="col-lg-7 col-md-7 col-sm-7 text-center middleBrownText infoText">{{receiver.address}}</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section class="userNote infoSection" ng-show="isInfoShowable(3)">
+                    <table class="table">
+                        <tr>
+                            <td class="col-lg-5 col-md-5 col-sm-5 text-center"><strong class="header">{{::'YOUR_NOTE' | translate}}</strong></td>
+                            <td class="col-lg-7 col-md-7 col-sm-7 text-center middleBrownText infoText" ng-if="note.card_message">{{note.card_message}}</td>
+                            <td class="col-lg-7 col-md-7 col-sm-7 text-center middleBrownText infoText" ng-if="!note.card_message">{{receiver.card_message}}</td>
+                        </tr>
+                    </table>
+                </section>
+            </aside>
+
+        </form>
+
+
+    </section>
+</main>
+
+<bf-footer class="hidden-xs"></bf-footer>
+<!-- <script type="text/javascript">
+    $( document ).ready(function() {
+        setTimeout(
+                function()
+                {
+                    (function(){
+                        var s   = document.createElement('script');
+                        var x   = document.getElementsByTagName('script')[0];
+                        s.type  = 'text/javascript';
+                        s.async = true;
+                        s.src   = ('https:'==document.location.protocol?'https://':'http://')
+                        + 'eu-sonar.sociomantic.com/js/2010-07-01/adpan/bloomandfresh-tr';
+                        x.parentNode.insertBefore( s, x );
+                    })();
+                }, 1000);
+    });
+</script>
+<script type="text/javascript">
+    $( document ).ready(function() {
+        setTimeout(
+                function()
+                {
+                    $tempAmount = $('#flowerPriceJs').text().split(" ")[0];
+                    if($tempAmount){
+                        $tempAmount.replace(",", ".");
+                        $tempId = $('#product_id').val();
+                        //var basket = {
+                        //    products: [
+                        //        { identifier: $tempId, amount: $tempAmount, currency: 'TRY', quantity: 1 }
+                        //    ]
+                        //};
+                        sociomantic.sonar.adv['bloomandfresh-tr'].clear();
+
+                        window.basket = {
+                            products: [{ identifier: $tempId, amount: $tempAmount, currency: 'TRY', quantity: 1 }]
+                        };
+                        sociomantic.sonar.adv['bloomandfresh-tr'].track();
+                    }
+                }, 2000);
+    });
+</script> -->

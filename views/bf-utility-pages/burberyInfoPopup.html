@@ -1,0 +1,22 @@
+<div style="background-color: black;" class="modal-header">
+    <h3 style="color: #000000" class="modal-title redText"><img style="margin-left: 66px;width: 134px;" src="https://d1z5skrvc8vebc.cloudfront.net/bloomandfresh.com/images/logos/bloomandfresh_logo_brown.svg"></h3>
+</div>
+<div style="background-color: black;" class="modal-body">
+    <b style="color: #816a4a;">Bu tasarım Bvlgari müşterileri için hazırlanmış özel bir tasarımdır ve yalnızca Sevil Parfümeri'lerden Bvlgari parfüm alışverişi neticesinde elde edilen özel kod ile sipariş verilebilmektedir. <br>Size özel Bvlgari kodunuz varsa girişini yaparak siparişinize devam edebilirsiniz.</b>
+    <div style="border-top: 1px solid #e5e5e5;margin-top: 25px;padding-top: 10px;">
+        <span class="input input--akira input--filled" ng-class='{"input--filled" : campaign.id !== undefined }'>
+	    	<input class="lightBrownText input__field input__field--akira" type="text" ng-model="campaign.id" id="campaignId" maxlength="15"
+                   ng-model-options="{ updateOn: 'change' }" required/>
+	    	<label style="padding-left: 70px;" class="input__label input__label--akira">
+	    		<span class="input__label-content input__label-content--akira" ng-class="">
+	    			<span class="error hidden" id="CouponError">Kod Girmelisin</span>
+	    			<span id="CouponText" class="lightBrownText not-error">{{::'DISCOUNT_COUPON' | translate}}</span>
+	    		</span>
+            </label>
+	    </span>
+    </div>
+</div>
+<div style="background-color: black;" class="modal-footer">
+    <button style="background-color: #816a4a;margin-left: 10px;border-color: #816a4a;" class="btn btn-primary col-lg-6" ng-click="sendModel()">Gönder</button>
+    <button style="background-color: red;border-color: red;" class="btn btn-primary col-lg-5" ng-click="closeModel()">Vazgeç</button>
+</div>
