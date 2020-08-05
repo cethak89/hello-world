@@ -34,14 +34,10 @@ landingModule.controller("LandingCtrl", function ( $interval, $document, $http, 
         $scope.cities = [
             {
                 "value": "ist",
-                "name": "İstanbul-Avrupa"
+                "name": "İstanbul"
             },
             {
-                "value": "ist-2",
-                "name": "İstanbul-Asya"
-            },
-            {
-                "value": "ank",
+                "value": "Ankara",
                 "name": "Ankara"
             },
             {
@@ -369,14 +365,10 @@ landingModule.controller("LandingCtrl", function ( $interval, $document, $http, 
         $scope.citiesRibbon = [
             {
                 "value": "ist",
-                "name": "İstanbul-Avrupa"
+                "name": "İstanbul"
             },
             {
-                "value": "ist-2",
-                "name": "İstanbul-Asya"
-            },
-            {
-                "value": "ank",
+                "value": "Ankara",
                 "name": "Ankara"
             },
             {
@@ -735,30 +727,20 @@ landingModule.controller("LandingCtrl", function ( $interval, $document, $http, 
             if(tempSelectedCity.value == 'ist'){
                 tempSelectedCity = {
                     'value': 'ist',
-                    'name': 'İstanbul-Avrupa'
+                    'name': 'İstanbul'
                 };
                 $cookies.putObject('selectCity', {
                     'value': 'ist',
-                    'name': 'İstanbul-Avrupa'
-                });
-            }
-            else if(tempSelectedCity.value == 'ist-2'){
-                tempSelectedCity = {
-                    'value': 'ist-2',
-                    'name': 'İstanbul-Asya'
-                };
-                $cookies.putObject('selectCity', {
-                    'value': 'ist-2',
-                    'name': 'İstanbul-Asya'
+                    'name': 'İstanbul'
                 });
             }
             else if(tempSelectedCity.value == 'ank'){
                 tempSelectedCity = {
-                    'value': 'ank',
+                    'value': 'Ankara',
                     'name': 'Ankara'
                 };
                 $cookies.putObject('selectCity', {
-                    'value': 'ank',
+                    'value': 'Ankara',
                     'name': 'Ankara'
                 });
             }
@@ -826,9 +808,6 @@ landingModule.controller("LandingCtrl", function ( $interval, $document, $http, 
             var tempDistrictId = "1";
             if( $rootScope.mainCitySelected.value == 'ank' ){
                 tempDistrictId = "2";
-            }
-            else if( $rootScope.mainCitySelected.value == 'ist-2' ){
-                tempDistrictId = "341";
             }
 
             analyticsHelper.sendCriteoLanding(tempMail, tempDistrictId);

@@ -41,14 +41,10 @@ flowersModule.controller("FlowersController", function ($timeout,$cookies, flowe
     $scope.cities = [
         {
             "value": "ist",
-            "name": "İstanbul-Avrupa"
+            "name": "İstanbul"
         },
         {
-            "value": "ist-2",
-            "name": "İstanbul-Asya"
-        },
-        {
-            "value": "ank",
+            "value": "Ankara",
             "name": "Ankara"
         },
         {
@@ -381,42 +377,32 @@ flowersModule.controller("FlowersController", function ($timeout,$cookies, flowe
 
         $cookies.putObject('selectCity', {
             'value': 'ist',
-            'name': 'İstanbul-Avrupa'
+            'name': 'İstanbul'
         });
         tempSelectedCity = {
             'value': 'ist',
-            'name': 'İstanbul-Avrupa'
+            'name': 'İstanbul'
         };
     }
     else{
         if(tempSelectedCity.value == 'ist'){
             tempSelectedCity = {
                 'value': 'ist',
-                'name': 'İstanbul-Avrupa'
+                'name': 'İstanbul'
             };
             $cookies.putObject('selectCity', {
                 'value': 'ist',
-                'name': 'İstanbul-Avrupa'
+                'name': 'İstanbul'
             });
         }
         else if(tempSelectedCity.value == 'ank'){
             tempSelectedCity = {
-                'value': 'ank',
+                'value': 'Ankara',
                 'name': 'Ankara'
             };
             $cookies.putObject('selectCity', {
-                'value': 'ank',
+                'value': 'Ankara',
                 'name': 'Ankara'
-            });
-        }
-        else if(tempSelectedCity.value == 'ist-2'){
-            tempSelectedCity = {
-                'value': 'ist-2',
-                'name': 'İstanbul-Asya'
-            };
-            $cookies.putObject('selectCity', {
-                'value': 'ist-2',
-                'name': 'İstanbul-Asya'
             });
         }
 
@@ -441,14 +427,8 @@ flowersModule.controller("FlowersController", function ($timeout,$cookies, flowe
     $rootScope.mainCitySelected = tempSelectedCity;
 
     var tempNameCity;
-    if( $rootScope.mainCitySelected.value == 'ank' ){
-        tempNameCity = 'ANKARA';
-    }
-    else if( $rootScope.mainCitySelected.value == 'ist' ){
-        tempNameCity = 'İSTANBUL-Avrupa';
-    }
-    else if( $rootScope.mainCitySelected.value == 'ist-2' ){
-        tempNameCity = 'İSTANBUL-Asya';
+    if( $rootScope.mainCitySelected.value == 'ist' ){
+        tempNameCity = 'İSTANBUL';
     }
     else{
         tempNameCity = $rootScope.mainCitySelected.value.toUpperCase();
@@ -474,19 +454,16 @@ flowersModule.controller("FlowersController", function ($timeout,$cookies, flowe
         }
 
         var tempDistrictId = "1";
-        if( tempSelectedCity.value == 'ank' ){
-            tempDistrictId = "2";
-        }
-        else if( tempSelectedCity.value == 'ist-2' ){
-            tempDistrictId = "341";
-        }
+       // if( tempSelectedCity.value == 'ank' ){
+       //     tempDistrictId = "2";
+       // }
 
         analyticsHelper.sendCriteoFlowerList(tempMail, tempDistrictId);
     }, 2000);
     $scope.districts = districtFactory.getDistincts();
 
     $scope.districts = $scope.districts.filter(function (el) {
-        return ( ( el.city.toUpperCase() == tempNameCity && ( el.city_id == 2 || el.city_id == 3 ) ) || ( el.city_id == 1 && $rootScope.mainCitySelected.value == 'ist'  ) || ( el.city_id == 341 && $rootScope.mainCitySelected.value == 'ist-2'  ) );
+        return ( ( el.city.toUpperCase() == tempNameCity && ( el.city_id == 2 || el.city_id == 3 ) ) || ( el.city_id == 1 && $rootScope.mainCitySelected.value == 'ist'  ) );
     });
 
     $scope.upsDeliveryTime = 3;
@@ -758,7 +735,7 @@ flowersModule.controller("FlowersController", function ($timeout,$cookies, flowe
         districtFactory.getDistinctsCallBack(function(data){
             $scope.districts = data;
             $scope.districts = $scope.districts.filter(function (el) {
-                return ( ( el.city.toUpperCase() == tempNameCity && ( el.city_id == 2 || el.city_id == 3 ) ) || ( el.city_id == 1 && $rootScope.mainCitySelected.value == 'ist'  ) || ( el.city_id == 341 && $rootScope.mainCitySelected.value == 'ist-2'  ) );
+                return ( ( el.city.toUpperCase() == tempNameCity && ( el.city_id == 2 || el.city_id == 3 ) ) || ( el.city_id == 1 && $rootScope.mainCitySelected.value == 'ist'  ) );
             });
         });
 
@@ -774,24 +751,17 @@ flowersModule.controller("FlowersController", function ($timeout,$cookies, flowe
         if( city.city_id == 1 ){
             var tempCity = {
                 'value': 'ist',
-                'name': 'İstanbul-Avrupa'
+                'name': 'İstanbul'
             };
             tempNameCity = 'İSTANBUL';
         }
-        else if( city.city_id == 2 ) {
+        /*else if( city.city_id == 2 ) {
             var tempCity = {
                 'value': 'ank',
                 'name': 'Ankara'
             };
             tempNameCity = 'ANKARA';
-        }
-        else if( city.city_id == 341 ){
-            var tempCity = {
-                'value': 'ist-2',
-                'name': 'İstanbul-Asya'
-            };
-            tempNameCity = 'İSTANBUL';
-        }
+        }*/
         else{
             var tempCity = {
                 'value': city.city,
@@ -812,7 +782,7 @@ flowersModule.controller("FlowersController", function ($timeout,$cookies, flowe
 
         $scope.districts = districtFactory.getDistincts();
         $scope.districts = $scope.districts.filter(function (el) {
-            return ( ( el.city.toUpperCase() == tempNameCity && ( el.city_id == 2 || el.city_id == 3 ) ) || ( el.city_id == 1 && $rootScope.mainCitySelected.value == 'ist'  ) || ( el.city_id == 341 && $rootScope.mainCitySelected.value == 'ist-2'  ) );
+            return ( ( el.city.toUpperCase() == tempNameCity && ( el.city_id == 2 || el.city_id == 3 ) ) || ( el.city_id == 1 && $rootScope.mainCitySelected.value == 'ist'  ) );
         });
 
     };
@@ -820,10 +790,13 @@ flowersModule.controller("FlowersController", function ($timeout,$cookies, flowe
     $scope.calculatePriceWithKDV = function($tempFlower){
 
         if( $tempFlower.product_type == 2 ){
-            return (parseFloat(replaceString($tempFlower.price, ',', '.'))*1.08).toFixed(2);
+            return (parseFloat(replaceString($tempFlower.price, ',', '.'))*1.01).toFixed(2);
+        }
+        else if( $tempFlower.product_type == 3 ){
+            return (parseFloat(replaceString($tempFlower.price, ',', '.'))*1.18).toFixed(2);
         }
         else{
-            return (parseFloat(replaceString($tempFlower.price, ',', '.'))*1.18).toFixed(2);
+            return (parseFloat(replaceString($tempFlower.price, ',', '.'))*1.08).toFixed(2);
         }
 
     };

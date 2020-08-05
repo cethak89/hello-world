@@ -212,7 +212,7 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                             $rootScope.couponForCrossSell = 0;
                         }*/
 
-                        if (parseFloat($scope.flower.price) / 100 * 118 + parseFloat($rootScope.chosenCrossProduct.price) / 100 * 108 < $rootScope.chosenCampaign.value) {
+                        if (parseFloat($scope.flower.price) / 100 * 108 + parseFloat($rootScope.chosenCrossProduct.price) / 100 * 108 < $rootScope.chosenCampaign.value) {
                             return true;
                         }
                         else {
@@ -240,8 +240,16 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                             return false;
                         }
                     }
-                    else {
+                    else if ($scope.flower.product_type == 3) {
                         if (parseFloat($scope.flower.price) / 100 * 118 < $rootScope.chosenCampaign.value) {
+                            return true;
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                    else {
+                        if (parseFloat($scope.flower.price) / 100 * 108 < $rootScope.chosenCampaign.value) {
                             return true;
                         }
                         else {
@@ -352,8 +360,11 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
         if ($scope.flower.product_type == 2) {
             $scope.flower.newPrice = parseFloat(price / 100 * 108);
         }
-        else {
+        else if ($scope.flower.product_type == 3) {
             $scope.flower.newPrice = parseFloat(price / 100 * 118);
+        }
+        else {
+            $scope.flower.newPrice = parseFloat(price / 100 * 108);
         }
 
         //$scope.flower.newPrice = parseFloat(price / 100 * 118);
@@ -394,10 +405,16 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                         price = fixPrice(parseFloat($scope.flower.price / 100 * 108)) - parseInt(couponValue);
 
                     }
+                    else if ($scope.flower.product_type == 3) {
+                        //$scope.flower.price = parseFloat($scope.flower.price / 100 * 108);
+
+                        price = fixPrice(parseFloat($scope.flower.price / 100 * 118)) - parseInt(couponValue);
+
+                    }
                     else {
                         //$scope.flower.price = parseFloat($scope.flower.price / 100 * 118);
 
-                        price = fixPrice(parseFloat($scope.flower.price / 100 * 118)) - parseInt(couponValue);
+                        price = fixPrice(parseFloat($scope.flower.price / 100 * 108)) - parseInt(couponValue);
                     }
 
                 }
@@ -490,11 +507,22 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                         }
 
                     }
-                    else {
-                        //$scope.flower.price = parseFloat($scope.flower.price / 100 * 118);
+                    else if ($scope.flower.product_type == 3) {
+                        //$scope.flower.price = parseFloat($scope.flower.price / 100 * 108);
 
                         if ($rootScope.chosenCampaign.value - parseFloat($scope.flower.price / 100 * 118) > 0) {
                             $rootScope.couponForCrossSell = $rootScope.chosenCampaign.value - parseFloat($scope.flower.price / 100 * 118);
+                        }
+                        else {
+                            $rootScope.couponForCrossSell = 0;
+                        }
+
+                    }
+                    else {
+                        //$scope.flower.price = parseFloat($scope.flower.price / 100 * 118);
+
+                        if ($rootScope.chosenCampaign.value - parseFloat($scope.flower.price / 100 * 108) > 0) {
+                            $rootScope.couponForCrossSell = $rootScope.chosenCampaign.value - parseFloat($scope.flower.price / 100 * 108);
                         }
                         else {
                             $rootScope.couponForCrossSell = 0;
@@ -615,7 +643,7 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
             var momentObj = moment(sendingTime, 'DD-MM-YYYY HH:mm');
             momentObj.minute(parseInt($rootScope.receiver.date.extra_minutes));
 
-            if (moment().isBefore(momentObj)) {
+            //if (moment().isBefore(momentObj)) {
                 $scope.serverError = "";
                 $scope.incrementSectionProgress();
                 $scope.isChecked = false;
@@ -644,13 +672,13 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                         $state.go('purchaseProcess', {'purchaseStep': paymentUrl});
                     });
                 }
-            } else {
-                $scope.isChecked = true;
-                errorMessages.getErrorMessageFromName("PASSED_DATE_SALE", function (errorMessage) {
-                    $scope.serverError = errorMessage;
-                    otherExceptions.sendException("receiver-purchase", "Gönderim Aralığı Geçilmiş");
-                });
-            }
+            //} else {
+            //    $scope.isChecked = true;
+            //    errorMessages.getErrorMessageFromName("PASSED_DATE_SALE", function (errorMessage) {
+            //        $scope.serverError = errorMessage;
+            //        otherExceptions.sendException("receiver-purchase", "Gönderim Aralığı Geçilmiş");
+            //    });
+            //}
         } else {
             errorMessages.getErrorMessageFromName("MISSING_INFO", function (errorMessage) {
                 $scope.isChecked = true;
@@ -952,8 +980,11 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                             if ($scope.flower.product_type == 2) {
                                 $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                             }
-                            else {
+                            else if ($scope.flower.product_type == 3) {
                                 $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 118);
+                            }
+                            else {
+                                $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                             }
                         }
                     }
@@ -965,8 +996,11 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                         if ($scope.flower.product_type == 2) {
                             $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                         }
-                        else {
+                        else if ($scope.flower.product_type == 3) {
                             $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 118);
+                        }
+                        else {
+                            $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                         }
                     }
 
@@ -977,8 +1011,11 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                     if ($scope.flower.product_type == 2) {
                         $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                     }
-                    else {
+                    else if ($scope.flower.product_type == 3) {
                         $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 118);
+                    }
+                    else {
+                        $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                     }
                 }
                 else{
@@ -986,8 +1023,11 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                     if ($scope.flower.product_type == 2) {
                         $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                     }
-                    else {
+                    else if ($scope.flower.product_type == 3) {
                         $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 118);
+                    }
+                    else {
+                        $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                     }
                 }
 
@@ -1033,13 +1073,17 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                             $rootScope.userCampaigns = [];
                             $rootScope.chosenCampaign = [];
                             $scope.flower.priceWithDiscount = fixPrice($scope.flower.price);
+                            console.log($scope.flower.priceWithDiscount);
                             //$scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 118);
 
                             if ($scope.flower.product_type == 2) {
                                 $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                             }
-                            else {
+                            else if ($scope.flower.product_type == 3) {
                                 $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 118);
+                            }
+                            else {
+                                $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                             }
                         }
                     }
@@ -1052,8 +1096,11 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                         if ($scope.flower.product_type == 2) {
                             $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                         }
-                        else {
+                        else if ($scope.flower.product_type == 3) {
                             $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 118);
+                        }
+                        else {
+                            $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                         }
                     }
 
@@ -1095,8 +1142,11 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                             if ($scope.flower.product_type == 2) {
                                 $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                             }
-                            else {
+                            else if ($scope.flower.product_type == 3) {
                                 $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 118);
+                            }
+                            else {
+                                $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                             }
                         }
                     }
@@ -1109,8 +1159,11 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                         if ($scope.flower.product_type == 2) {
                             $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                         }
-                        else {
+                        else if ($scope.flower.product_type == 3) {
                             $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 118);
+                        }
+                        else {
+                            $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                         }
                     }
                 }
@@ -1270,8 +1323,11 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                 if ($scope.flower.product_type == 2) {
                     $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                 }
-                else {
+                else if ($scope.flower.product_type == 3) {
                     $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 118);
+                }
+                else {
+                    $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                 }
             }
 
@@ -1359,8 +1415,11 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                 if ($scope.flower.product_type == 2) {
                     $scope.flower.newPrice = parseFloat($scope.flower.price / 100 * 108);
                 }
-                else {
+                else if ($scope.flower.product_type == 3) {
                     $scope.flower.newPrice = parseFloat($scope.flower.price / 100 * 118);
+                }
+                else {
+                    $scope.flower.newPrice = parseFloat($scope.flower.price / 100 * 108);
                 }
             }
         }
@@ -1373,8 +1432,11 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
             if ($scope.flower.product_type == 2) {
                 $scope.flower.newPrice = parseFloat($scope.flower.price / 100 * 108);
             }
-            else {
+            if ($scope.flower.product_type == 3) {
                 $scope.flower.newPrice = parseFloat($scope.flower.price / 100 * 118);
+            }
+            else {
+                $scope.flower.newPrice = parseFloat($scope.flower.price / 100 * 108);
             }
         }
     }
@@ -1407,11 +1469,22 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                             }
 
                         }
-                        else {
-                            //$scope.flower.price = parseFloat($scope.flower.price / 100 * 118);
+                        else if ($scope.flower.product_type == 3) {
+                            //$scope.flower.price = parseFloat($scope.flower.price / 100 * 108);
 
                             if ($rootScope.chosenCampaign.value - parseFloat($scope.flower.price / 100 * 118) > 0) {
                                 $rootScope.couponForCrossSell = $rootScope.chosenCampaign.value - parseFloat($scope.flower.price / 100 * 118);
+                            }
+                            else {
+                                $rootScope.couponForCrossSell = 0;
+                            }
+
+                        }
+                        else {
+                            //$scope.flower.price = parseFloat($scope.flower.price / 100 * 118);
+
+                            if ($rootScope.chosenCampaign.value - parseFloat($scope.flower.price / 100 * 108) > 0) {
+                                $rootScope.couponForCrossSell = $rootScope.chosenCampaign.value - parseFloat($scope.flower.price / 100 * 108);
                             }
                             else {
                                 $rootScope.couponForCrossSell = 0;
@@ -1473,8 +1546,11 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                             if ($scope.flower.product_type == 2) {
                                 $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                             }
-                            else {
+                            else if ($scope.flower.product_type == 3) {
                                 $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 118);
+                            }
+                            else {
+                                $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                             }
                         }
                     }
@@ -1488,8 +1564,11 @@ purchaseModule.controller('purchaseController', function ($location, $scope, dev
                         if ($scope.flower.product_type == 2) {
                             $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                         }
-                        else {
+                        else if ($scope.flower.product_type == 3) {
                             $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 118);
+                        }
+                        else {
+                            $scope.flower.newPrice = parseFloat($scope.flower.priceWithDiscount / 100 * 108);
                         }
                     }
 
@@ -2033,10 +2112,10 @@ function purchaseCheck() {
     var paymentPath = urlPath[2];
 
     if ($('#3Dcheck').find($('div')).hasClass('checked')) {
-        $('#payment').attr('action', 'http://188.166.86.116:3000/submit-sale');  ////////https://everybloom.com/submit-sale
+        $('#payment').attr('action', 'https://everybloom.com/submit-sale');  ////////http://188.166.86.116:3000/submit-sale
     }
     else {
-        $('#payment').attr('action', 'http://188.166.86.116:3000/sales-without-secure'); /////https://everybloom.com/sales-without-secure
+        $('#payment').attr('action', 'https://everybloom.com/sales-without-secure'); /////http://188.166.86.116:3000/sales-without-secure
     }
 
     if ($('section.contracts').find('div.icheckbox_square-red').hasClass('checked')) {

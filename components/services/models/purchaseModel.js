@@ -67,10 +67,16 @@ angular.module('app')
                             price = fixPrice(parseFloat(flower.price / 100 * 108)) - parseInt(couponValue);
 
                         }
+                        else if( flower.product_type == 3 ){
+                            //$scope.flower.price = parseFloat($scope.flower.price / 100 * 108);
+
+                            price = fixPrice(parseFloat(flower.price / 100 * 118)) - parseInt(couponValue);
+
+                        }
                         else{
                             //$scope.flower.price = parseFloat($scope.flower.price / 100 * 118);
 
-                            price = fixPrice(parseFloat(flower.price / 100 * 118)) - parseInt(couponValue);
+                            price = fixPrice(parseFloat(flower.price / 100 * 108)) - parseInt(couponValue);
                         }
 
                     }

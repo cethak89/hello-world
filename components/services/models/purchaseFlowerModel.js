@@ -18,10 +18,13 @@ angular.module('app')
             //flower.newPrice = flower.price / 100 * 118;
 
             if( flower.product_type == 2 ){
-                flower.newPrice = flower.price / 100 * 108;
+                flower.newPrice = flower.price / 100 * 101;
+            }
+            else if( flower.product_type == 3 ){
+                flower.newPrice = flower.price / 100 * 118;
             }
             else{
-                flower.newPrice = flower.price / 100 * 118;
+                flower.newPrice = flower.price / 100 * 108;
             }
 
             $cookies.putObject('sendingFlower', {
@@ -54,10 +57,13 @@ angular.module('app')
             flower.newPrice = flower.priceWithDiscount / 100 * 118;
 
             if( flower.product_type == 2 ){
-                flower.newPrice = flower.priceWithDiscount / 100 * 108;
+                flower.newPrice = flower.priceWithDiscount / 100 * 101;
+            }
+            else if( flower.product_type == 3 ){
+                flower.newPrice = flower.priceWithDiscount / 100 * 118;
             }
             else{
-                flower.newPrice = flower.priceWithDiscount / 100 * 118;
+                flower.newPrice = flower.priceWithDiscount / 100 * 108;
             }
 
             $cookies.putObject('sendingFlower', {

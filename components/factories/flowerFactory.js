@@ -193,7 +193,7 @@ angular.module('app')
                 if (flowers.length > 0) {
                     var flower = {};
 
-                    if( districtId == 3 ){
+                    if( districtId == 3 || districtId == 2 ){
 
                         flowers.forEach(function (element) {
                             if ((flowerId.id == element.id) ) {

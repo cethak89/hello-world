@@ -144,7 +144,7 @@ menu.directive('megaDropDown', function () {
 
                                 var tempSelectedCity = $cookies.getObject('selectCity');
 
-                                if( tempSelectedCity.value != 'ist' && tempSelectedCity.value != 'ank'  && tempSelectedCity.value != 'ist-2' ){
+                                if( tempSelectedCity.value != 'ist' && tempSelectedCity.value != 'ank' ){
 
                                     if( !tempSelectedCity.delivery_days ) {
 
@@ -206,11 +206,11 @@ menu.directive('megaDropDown', function () {
 
                 $cookies.putObject('selectCity', {
                     'value': 'ist',
-                    'name': 'İstanbul-Avrupa'
+                    'name': 'İstanbul'
                 });
                 tempSelectedCity = {
                     'value': 'ist',
-                    'name': 'İstanbul-Avrupa'
+                    'name': 'İstanbul'
                 };
             }
 
@@ -277,10 +277,7 @@ menu.directive('megaDropDown', function () {
                     tempNameCity = 'ANKARA';
                 }
                 else if( $rootScope.mainCitySelected.value == 'ist' ){
-                    tempNameCity = 'İSTANBUL-Avrupa';
-                }
-                else if( $rootScope.mainCitySelected.value == 'ist-2' ){
-                    tempNameCity = 'İSTANBUL-Asya';
+                    tempNameCity = 'İSTANBUL';
                 }
                 else{
                     tempNameCity = $rootScope.mainCitySelected.value.toUpperCase();
@@ -290,7 +287,7 @@ menu.directive('megaDropDown', function () {
                     $scope.districts = data;
                     $scope.districts = $scope.districts.filter(function (el) {
 
-                        return ( ( el.city.toUpperCase() == tempNameCity && ( el.city_id == 2 || el.city_id == 3 ) ) || ( el.city_id == 1 && $rootScope.mainCitySelected.value == 'ist'  ) || ( el.city_id == 341 && $rootScope.mainCitySelected.value == 'ist-2'  ) );
+                        return ( ( el.city.toUpperCase() == tempNameCity && ( el.city_id == 2 || el.city_id == 3 ) ) || ( el.city_id == 1 && $rootScope.mainCitySelected.value == 'ist'  )  );
                     });
                 });
 

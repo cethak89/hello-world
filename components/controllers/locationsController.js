@@ -18,7 +18,7 @@ locationsModule.controller('locationsCtrl',function($scope,$state,$timeout,$http
     if( $state.current.name == 'locationPageAnk' ){
         $rootScope.canonical = 'https://bloomandfresh.com/ankara-cicek-siparisi';
 
-        $http.get(webServer + '/location-list-ank')
+        $http.get(webServer + '/location-list-ups/Ankara')
             .success(function (data) {
                 $scope.locationsAnk = data.locations;
             })

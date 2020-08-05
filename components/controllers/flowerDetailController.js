@@ -32,14 +32,10 @@ flowerModule.controller("FlowerDetailController", function ($interval, $http ,fl
     $scope.cities = [
         {
             "value": "ist",
-            "name": "İstanbul-Avrupa"
+            "name": "İstanbul"
         },
         {
-            "value": "ist-2",
-            "name": "İstanbul-Asya"
-        },
-        {
-            "value": "ank",
+            "value": "Ankara",
             "name": "Ankara"
         },
         {
@@ -393,33 +389,22 @@ flowerModule.controller("FlowerDetailController", function ($interval, $http ,fl
         if($rootScope.mainCitySelected.value == 'ist'){
             $rootScope.mainCitySelected = {
                 'value': 'ist',
-                'name': 'İstanbul-Avrupa'
+                'name': 'İstanbul'
             };
             $cookies.putObject('selectCity', {
                 'value': 'ist',
-                'name': 'İstanbul-Avrupa'
+                'name': 'İstanbul'
             });
             $scope.cityName = $rootScope.mainCitySelected.name;
         }
         else if($rootScope.mainCitySelected.value == 'ank'){
             $rootScope.mainCitySelected = {
-                'value': 'ank',
+                'value': 'Ankara',
                 'name': 'Ankara'
             };
             $cookies.putObject('selectCity', {
-                'value': 'ank',
+                'value': 'Ankara',
                 'name': 'Ankara'
-            });
-            $scope.cityName = $rootScope.mainCitySelected.name;
-        }
-        else if($rootScope.mainCitySelected.value == 'ist-2'){
-            $rootScope.mainCitySelected = {
-                'value': 'ist-2',
-                'name': 'İstanbul-Asya'
-            };
-            $cookies.putObject('selectCity', {
-                'value': 'ist-2',
-                'name': 'İstanbul-Asya'
             });
             $scope.cityName = $rootScope.mainCitySelected.name;
         }
@@ -434,15 +419,13 @@ flowerModule.controller("FlowerDetailController", function ($interval, $http ,fl
 
     var tempDistrictId = "1";
     var tempNameCity = "1";
-    if( $rootScope.mainCitySelected.value == 'ank' ){
+    /*if( $rootScope.mainCitySelected.value == 'ank' ){
         tempDistrictId = "2";
         tempNameCity = 'ANKARA';
-    }
-    else if( $rootScope.mainCitySelected.value == 'ist' ){
-        tempNameCity = 'İSTANBUL-Avrupa';
-    }
-    else if( $rootScope.mainCitySelected.value == 'ist-2' ){
-        tempNameCity = 'İSTANBUL-Asya';
+    }*/
+
+    if( $rootScope.mainCitySelected.value == 'ist' ){
+        tempNameCity = 'İSTANBUL';
     }
     else{
         tempNameCity = $rootScope.mainCitySelected.value.toUpperCase();
@@ -477,7 +460,7 @@ flowerModule.controller("FlowerDetailController", function ($interval, $http ,fl
         console.log($scope.districts);
         $scope.districts = $scope.districts.filter(function (el) {
 
-            return ( ( el.city.toUpperCase() == tempNameCity && ( el.city_id == 2 || el.city_id == 3 ) ) || ( el.city_id == 1 && $rootScope.mainCitySelected.value == 'ist'  ) || ( el.city_id == 341 && $rootScope.mainCitySelected.value == 'ist-2'  ) );
+            return ( ( el.city.toUpperCase() == tempNameCity && ( el.city_id == 2 || el.city_id == 3 ) ) || ( el.city_id == 1 && $rootScope.mainCitySelected.value == 'ist'  ) );
         });
     });
     if($scope.flower.id === undefined) {  // if someone come to the flower Page directly, fetch flower info from server.
@@ -494,10 +477,13 @@ flowerModule.controller("FlowerDetailController", function ($interval, $http ,fl
                 if( $scope.flower ){
 
                     if( $scope.flower.product_type == 2 ){
-                        $scope.flower.priceWithKDV =  (parseFloat(replaceString($scope.flower.price, ',', '.'))*1.08).toFixed(2);
+                        $scope.flower.priceWithKDV =  (parseFloat(replaceString($scope.flower.price, ',', '.'))*1.01).toFixed(2);
+                    }
+                    else if( $scope.flower.product_type == 3 ){
+                        $scope.flower.priceWithKDV =  (parseFloat(replaceString($scope.flower.price, ',', '.'))*1.18).toFixed(2);
                     }
                     else{
-                        $scope.flower.priceWithKDV = (parseFloat(replaceString($scope.flower.price, ',', '.'))*1.18).toFixed(2);
+                        $scope.flower.priceWithKDV = (parseFloat(replaceString($scope.flower.price, ',', '.'))*1.08).toFixed(2);
                     }
                 }
 
@@ -532,7 +518,7 @@ flowerModule.controller("FlowerDetailController", function ($interval, $http ,fl
     flowerFactory.getProductSoonTimeWithLocation($stateParams.id, tempDistrictId, function(data){
         $scope.productSoonTime = data;
 
-        if( $rootScope.mainCitySelected.value == 'ank' || $rootScope.mainCitySelected.value == 'ist' || $rootScope.mainCitySelected.value == 'ist-2' ){
+        if( $rootScope.mainCitySelected.value == 'ist' ){
 
             if($scope.flower.today){
                 $scope.soonTime = 'En erken: Bugün'
@@ -576,7 +562,7 @@ flowerModule.controller("FlowerDetailController", function ($interval, $http ,fl
 
     $scope.$watch('$root.mainCitySelected.value', function() {
 
-        if( $rootScope.mainCitySelected.value == 'ank' || $rootScope.mainCitySelected.value == 'ist' || $rootScope.mainCitySelected.value == 'ist-2' ){
+        if( $rootScope.mainCitySelected.value == 'ist' ){
 
             if($scope.flower.today){
                 $scope.soonTime = 'En erken: Bugün'
@@ -638,10 +624,13 @@ flowerModule.controller("FlowerDetailController", function ($interval, $http ,fl
     if( $scope.flower ){
 
         if( $scope.flower.product_type == 2 ){
-            $scope.flower.priceWithKDV =  (parseFloat(replaceString($scope.flower.price, ',', '.'))*1.08).toFixed(2);
+            $scope.flower.priceWithKDV =  (parseFloat(replaceString($scope.flower.price, ',', '.'))*1.01).toFixed(2);
+        }
+        else if( $scope.flower.product_type == 3 ){
+            $scope.flower.priceWithKDV =  (parseFloat(replaceString($scope.flower.price, ',', '.'))*1.18).toFixed(2);
         }
         else{
-            $scope.flower.priceWithKDV = (parseFloat(replaceString($scope.flower.price, ',', '.'))*1.18).toFixed(2);
+            $scope.flower.priceWithKDV = (parseFloat(replaceString($scope.flower.price, ',', '.'))*1.08).toFixed(2);
         }
     }
 
@@ -674,21 +663,15 @@ flowerModule.controller("FlowerDetailController", function ($interval, $http ,fl
         if( $scope.flower.sendingDistrict.city_id == 1 ){
             var tempCity = {
                 'value': 'ist',
-                'name': 'İstanbul-Avrupa'
+                'name': 'İstanbul'
             };
         }
-        else if( $scope.flower.sendingDistrict.city_id == 2 ) {
+        /*else if( $scope.flower.sendingDistrict.city_id == 2 ) {
             var tempCity = {
-                'value': 'ank',
+                'value': 'Ankara',
                 'name': 'Ankara'
             };
-        }
-        else if( $scope.flower.sendingDistrict.city_id == 341 ) {
-            var tempCity = {
-                'value': 'ist-2',
-                'name': 'İstanbul-Asya'
-            };
-        }
+        }*/
         else{
             var tempCity = {
                 'value': $scope.flower.sendingDistrict.city,
@@ -766,7 +749,7 @@ flowerModule.controller("FlowerDetailController", function ($interval, $http ,fl
 
         if($scope.flower){
 
-            if( tempDistrictId == 3 ){
+            if( tempDistrictId == 3 || tempDistrictId == 2  ){
                 if( $scope.flower.cargo_sendable == 0  ){
                     $scope.flower.sendingDistrict = undefined;
                     $scope.isActive = false;
@@ -775,7 +758,7 @@ flowerModule.controller("FlowerDetailController", function ($interval, $http ,fl
 
             if( $scope.flower.sendingDistrict){
 
-                if( tempDistrictId == 3 ){
+                if( tempDistrictId == 3  || tempDistrictId == 2 ){
                     if( $scope.flower.cargo_sendable == 0  ){
                         $scope.flower.sendingDistrict = undefined;
                         $scope.isActive = false;
@@ -886,19 +869,16 @@ flowerModule.controller("FlowerDetailController", function ($interval, $http ,fl
             $scope.districts = data;
             $scope.districts = $scope.districts.filter(function (el) {
 
-                return ( ( el.city.toUpperCase() == tempNameCity && ( el.city_id == 2 || el.city_id == 3 ) ) || ( el.city_id == 1 && $rootScope.mainCitySelected.value == 'ist'  ) || ( el.city_id == 341 && $rootScope.mainCitySelected.value == 'ist-2'  ) );
+                return ( ( el.city.toUpperCase() == tempNameCity && ( el.city_id == 2 || el.city_id == 3 ) ) || ( el.city_id == 1 && $rootScope.mainCitySelected.value == 'ist'  ) );
             });
         });
 
         $scope.cityName = $rootScope.mainCitySelected.name;
 
         var tempDistrictId = "1";
-        if( $scope.selectedCity.value == 'ank' ){
-            tempDistrictId = "2";
-        }
-        else if( $scope.selectedCity.value == 'ist-2' ){
-            tempDistrictId = "341";
-        }
+        //if( $scope.selectedCity.value == 'ank' ){
+        //    tempDistrictId = "2";
+        //}
 
         //$scope.flower = flowerFactory.getFlowerWithCity($stateParams, tempDistrictId );
 
@@ -1181,7 +1161,7 @@ flowerModule.controller("FlowerDetailController", function ($interval, $http ,fl
 
     $scope.isCityUps = function (currentCity){
 
-        if( currentCity != 'ist' && currentCity != 'ank' && currentCity != 'ist-2' ){
+        if( currentCity != 'ist'){
 
             return 'upsHeight';
 
