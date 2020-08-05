@@ -507,10 +507,13 @@
                         <strong class="totalPayment">
                             {{flower.price | number :2}} TL
                             <span ng-if="flower.product_type == 2">
-                                + {{::'KDV_8' | translate}}
+                                + KDV(%8)
                             </span>
-                            <span ng-if="flower.product_type == 1 || flower.product_type == 3">
-                                + {{::'KDV_18' | translate}}
+                            <span ng-if="flower.product_type == 3">
+                                + KDV(%18)
+                            </span>
+                            <span ng-if="flower.product_type == 1">
+                                + KDV(%8)
                             </span>
                         </strong>
                     </div>
@@ -521,13 +524,19 @@
                         <strong class="totalPayment">
                             {{flower.priceWithDiscount | number :2}} TL
                             <span ng-if="flower.product_type == 2 && chosenCampaign.special_type == 0 ">
-                                + {{::'KDV_8' | translate}}
+                                + KDV(%8)
+                            </span>
+                            <span ng-if="flower.product_type == 3 && chosenCampaign.special_type == 0 ">
+                                + KDV(%18)
+                            </span>
+                            <span ng-if="flower.product_type == 1 && chosenCampaign.special_type == 0 ">
+                                + KDV(%8)
                             </span>
                             <span ng-if="flower.product_type == 2 && chosenCampaign.special_type == 1 ">
                                 (KDV Dahil)
                             </span>
-                            <span ng-if="(flower.product_type == 1  || flower.product_type == 3)  && chosenCampaign.special_type == 0 ">
-                                + {{::'KDV_18' | translate}}
+                            <span ng-if="flower.product_type == 3 && chosenCampaign.special_type == 0 ">
+                                + KDV(%18)
                             </span>
                             <span ng-if="(flower.product_type == 1  || flower.product_type == 3)  && chosenCampaign.special_type == 1 ">
                                 (KDV Dahil)
@@ -541,7 +550,7 @@
                         <strong class="totalPayment">
                             {{chosenCrossProduct.price | number :2}} TL
                             <span>
-                                + {{::'KDV_8' | translate}}
+                                + KDV(%8)
                             </span>
                         </strong>
                     </div>
@@ -552,7 +561,7 @@
                         <strong class="totalPayment">
                             {{chosenCrossProduct.crossSellPriceWithCoupon | number :2}} TL
                             <span ng-if="chosenCampaign.special_type == 0">
-                                + {{::'KDV_8' | translate}}
+                                + KDV(%8)
                             </span>
                             <span ng-if="chosenCampaign.special_type == 1">
                                 (KDV Dahil)

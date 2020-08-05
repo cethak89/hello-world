@@ -67,15 +67,23 @@
         <li ng-if="flower.extra_info_3">{{flower.extra_info_3}}</li>
     </ul>
 
-    <div ng-if="selectedCity.value != 'ist' && selectedCity.value != 'ank' && selectedCity.value != 'ist-2'" class="ups-text-container hidden-lg hidden-md hidden-sm" style="">
-        <p style="font-weight: bolder;min-height: 20px;font-size: 14px;color: #3b454d;float: left;text-align: left;padding-left: 5px;margin-top: 25px;line-height: 18px;" class="col-lg-offset-0 col-lg-12 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-12 flowerDescription text-center brownText upsWarningTextDescription">
-            Önemli Kargo Bilgileri
+    <div ng-if="selectedCity.value != 'ist'" class="ups-text-container hidden-lg hidden-md hidden-sm" style="">
+        <p style="line-height: 19px !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;min-height: 20px;color: #3b454d;float: left;text-align: left;padding-left: 5px;margin-top: 25px;" class="col-lg-offset-0 col-lg-12 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-12 flowerDescription text-center brownText upsWarningTextDescription">
+            <span style="font-weight: 600 !important;font-size: 17px !important;">Önemli Kargo Bilgileri</span>
+            <br/>
+            - Pandemi ve sonrası süreçte kargo operasyonlarında yaşanan yoğunluk öngörülen
+            teslim sürelerinde geciklemelere yol açabilmektedir.
             <br/>
             - Siparişiniz UPS Kargo ile ücretsiz olarak kargolanacaktır.
             <br/>
+            - Sipariş takibinizi size e-posta ile iletilecek olan kargo takip numarası ile UPS kargo web sitesi üzerinden yapabilirsiniz.
+            <br/>
             - UPS Kargo tarafından belirlenen il bazında genel teslimat sürelerini anasayfamızda yer alan "Kargo Teslimat Bilgileri" bölümünden görebilirsiniz.
             <br/>
-            - Sipariş takibinizi size e-posta ile iletilecek olan kargo takip numarası ile UPS kargo web sitesi üzerinden yapabilirsiniz.
+            - Gönderimlerde UPS kargo tarafından belirlene Merkez İlçe / Uydu İlçe farkına göre
+            “Uydu İlçe” kategorisindeki ilçeler için teslimat süresi uzayabilmektedir.
             <br/>
             - Lütfen UPS kargonun Cumartesi - Pazar ve Resmi Tatil dağıtım/teslimat yapmadığını dikkate alınız. Hediyeleriniz hafta sonu ve resmi tatil günlerinde teslim edilmemektedir.
             <br/>
@@ -86,7 +94,7 @@
             <br/>
             - Kargoya verilme tarihi: {{soonTime.split(":")[1]}}
             <br/>
-            - Tahmini teslimat süresi: {{upsDeliveryTime }} İş günü
+            - Tahmini teslimat süresi: +{{upsDeliveryTime }} İş günü
         </p>
     </div>
 
@@ -191,7 +199,7 @@
         <p style="display: inline;color: #AB9A84;font-family: 'Gotham Light';margin-left: 6px;
             font-size: 13px;font-weight: 700;margin-right: 5px;">Ücretsiz Teslimat</p>
     </div>
-    <div ng-if="soonTime == 'En erken: Bugün' && selectedCity.value != 'ist' && selectedCity.value != 'ank' && selectedCity.value != 'ist-2'" style="display: inline-table;">
+    <div ng-if="soonTime == 'En erken: Bugün' && selectedCity.value != 'ist'" style="display: inline-table;">
         <img style="vertical-align: text-bottom;" src="https://s3.eu-central-1.amazonaws.com/bloomandfresh/bloomandfresh.com/hizli-cargo_bnf.png">
         <p style="display: inline;color: #AB9A84;font-family: 'Gotham Light';margin-left: 6px;
             font-size: 13px;font-weight: 700;margin-right: 5px;">Aynı Gün Kargo</p>
@@ -201,7 +209,7 @@
 <!-- Only small and xsmall !-->
 
 <p style="font-family: 'Gotham Light';font-size: 13px;height: 19px;width: 100%;text-align: center;color: #3b454d;
-                        font-weight: 600;position: absolute;bottom: 165px;" ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && isActive && ( selectedCity.value == 'ist' || selectedCity.value == 'ank' || selectedCity.value == 'ist-2' ) " class="soonTimePositionBnf ng-binding ng-scope hidden-lg hidden-md">{{soonTime}}</p>
+                        font-weight: 600;position: absolute;bottom: 165px;" ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && isActive && ( selectedCity.value == 'ist' ) " class="soonTimePositionBnf ng-binding ng-scope hidden-lg hidden-md">{{soonTime}}</p>
 <form style="position: absolute;bottom: 155px;" class="activeProductPositionFirst hidden-lg hidden-md col-sm-12 col-xs-12 text-center" ng-if="isActive">
     <label class="brownText not-error hidden"
            ng-hide="isChecked && (flower.sendingDistrict === undefined || flower.sendingDistrict === null)">{{cityName}}</label>
@@ -223,6 +231,9 @@
 
 
 <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12 districtSmall" style="border-top: 1px solid #e7e7e7;border-right: 1px solid #e7e7e7;padding: 0px;position: absolute;bottom: 0px;height: 80px;background-color: white;">
+    <p class="flower-detail-location-unselected" style="color: #ef6261;font-weight: 100;font-size: 16px;font-family: 'Bodoni Italic';width: 270px;position: absolute;top: -22px;left: 10px;" ng-if="isChecked && (flower.sendingDistrict === undefined || flower.sendingDistrict === null)">
+        Aşağıdan gönderim bölgesi seçmelisin!
+    </p>
     <ui-select ng-change="locationChanged()" class="newCitySelect" ng-model="flower.sendingDistrict" theme="select2">
         <ui-select-match placeholder="{{::'SENDING_DISTRICT_DROPDOWN_PLACEHOLDER_TEXT' | translate}}">
             {{flower.sendingDistrict.district}}
@@ -317,7 +328,7 @@
 </article>
 <article style="flex: 1;" class="col-lg-4 col-md-4 hidden-sm hidden-xs" ng-style="">
 
-    <div ng-if="selectedCity.value == 'ist' || selectedCity.value == 'ank' || selectedCity.value == 'ist-2'" class="col-lg-12" style="position: absolute;top: 83px;">
+    <div ng-if="selectedCity.value == 'ist'" class="col-lg-12" style="position: absolute;top: 83px;">
         <ul style="width: 100%;margin-bottom: 0px;" class="flowerTags flexContainer center-block hidden-xs">
             <li style="height: 45px;width: 100%;display: block;text-align: left;" class="flexableItem" ng-repeat="tag in flower.tags" >
                 <img style="opacity: 0.8;width: 35px;height: 35px;" class="tags" ng-src="{{tag.inactive_image_url}}" ng-show="!tag.isHovered"
@@ -332,15 +343,23 @@
         </ul>
     </div>
 
-    <div ng-if="selectedCity.value != 'ist' && selectedCity.value != 'ank' && selectedCity.value != 'ist-2'" class="col-lg-12" style="position: absolute;top: 0px;">
-        <p style="font-weight: bolder;min-height: 20px;font-size: 14px;color: #3b454d;float: left;text-align: left;padding-left: 5px;margin-top: 25px;line-height: 18px;" class="col-lg-offset-0 col-lg-12 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-12 flowerDescription text-center brownText upsWarningTextDescription">
-            Önemli Kargo Bilgileri
+    <div ng-if="selectedCity.value != 'ist'" class="col-lg-12" style="position: absolute;top: 0px;">
+        <p style="line-height: 19px !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;min-height: 20px;color: #3b454d;float: left;text-align: left;padding-left: 5px;margin-top: 25px;" class="col-lg-offset-0 col-lg-12 col-md-offset-0 col-md-12 col-sm-offset-0 col-sm-12 col-xs-offset-0 col-xs-12 flowerDescription text-center brownText upsWarningTextDescription">
+            <span style="font-weight: 600 !important;font-size: 17px !important;">Önemli Kargo Bilgileri</span>
+            <br/>
+            - Pandemi ve sonrası süreçte kargo operasyonlarında yaşanan yoğunluk öngörülen
+            teslim sürelerinde geciklemelere yol açabilmektedir.
             <br/>
             - Siparişiniz UPS Kargo ile ücretsiz olarak kargolanacaktır.
             <br/>
+            - Sipariş takibinizi size e-posta ile iletilecek olan kargo takip numarası ile UPS kargo web sitesi üzerinden yapabilirsiniz.
+            <br/>
             - UPS Kargo tarafından belirlenen il bazında genel teslimat sürelerini anasayfamızda yer alan "Kargo Teslimat Bilgileri" bölümünden görebilirsiniz.
             <br/>
-            - Sipariş takibinizi size e-posta ile iletilecek olan kargo takip numarası ile UPS kargo web sitesi üzerinden yapabilirsiniz.
+            - Gönderimlerde UPS kargo tarafından belirlene Merkez İlçe / Uydu İlçe farkına göre
+            “Uydu İlçe” kategorisindeki ilçeler için teslimat süresi uzayabilmektedir.
             <br/>
             - Lütfen UPS kargonun Cumartesi - Pazar ve Resmi Tatil dağıtım/teslimat yapmadığını dikkate alınız. Hediyeleriniz hafta sonu ve resmi tatil günlerinde teslim edilmemektedir.
             <br/>
@@ -351,12 +370,12 @@
             <br/>
             - Kargoya verilme tarihi: {{soonTime.split(":")[1]}}
             <br/>
-            - Tahmini teslimat süresi: {{upsDeliveryTime }} İş günü
+            - Tahmini teslimat süresi: +{{upsDeliveryTime }} İş günü
         </p>
     </div>
 
     <p style="font-family: 'Gotham Light';font-size: 13px;height: 19px;width: 100%;text-align: center;color: #3b454d;
-                        font-weight: 600;position: absolute;bottom: 93px;" ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && isActive && ( selectedCity.value == 'ist' || selectedCity.value == 'ank' || selectedCity.value == 'ist-2' ) " class="ng-binding ng-scope">{{soonTime}}</p>
+                        font-weight: 600;position: absolute;bottom: 93px;" ng-if="flower.limit_statu === '0' && flower.coming_soon === '0' && isActive && ( selectedCity.value == 'ist' ) " class="ng-binding ng-scope">{{soonTime}}</p>
     <form style="position: absolute;bottom: 84px;" class="col-lg-12 col-md-12 col-sm-11 col-xs-12 text-center" ng-if="isActive">
         <label class="brownText not-error hidden"
                ng-hide="isChecked && (flower.sendingDistrict === undefined || flower.sendingDistrict === null)">{{cityName}}</label>

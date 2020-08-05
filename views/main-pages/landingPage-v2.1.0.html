@@ -128,7 +128,7 @@
    itemscope itemtype="http://schema.org/Product" ng-mouseleave="productAnimationStop(landingPromo.flower.id)" ng-mouseenter="productAnimation(landingPromo.flower.id)"
    ui-sref="flowerDescription({flowerCategory: landingPromo.flower.tag_main,flowerName: landingPromo.flower.url_parametre, id: landingPromo.flower.id })"
    title="Bloom And Fresh {{landingPromo.flower.name}}" hreflang="{{::'HREFLANG'| translate }}"
-   ng-if="landingPromo.type == 1 && (checkCompanyUser() == landingPromo.flower.company_product && landingPromo.flower.company_product > 0 && companyOrElse) || (landingPromo.flower.company_product == 0 && companyOrElse == false && ( ( selectedCity.value == 'ist-2' && landingPromo.flower.city_id == 341  ) || ( selectedCity.value == 'ist' && landingPromo.flower.city_id == 1  ) || ( selectedCity.value == 'ank' && landingPromo.flower.city_id == 2  ) || ( ( selectedCity.value != 'ank' && selectedCity.value != 'ist'  && selectedCity.value != 'ist-2'  ) && landingPromo.flower.cargo_sendable == 1  && landingPromo.flower.city_id == 1  ) ) )  ">
+   ng-if="landingPromo.type == 1 && (checkCompanyUser() == landingPromo.flower.company_product && landingPromo.flower.company_product > 0 && companyOrElse) || (landingPromo.flower.company_product == 0 && companyOrElse == false && ( ( selectedCity.value == 'ist' && landingPromo.flower.city_id == 1  ) || ( ( selectedCity.value != 'ist' ) && landingPromo.flower.cargo_sendable == 1  && landingPromo.flower.city_id == 1  ) ) )  ">
     <!-- ng-style="{'background-color': flower.background_color}"      > -->
     <h4 style="position: absolute;z-index: 2;" class="flowerName col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center darkBlueText">
         <span class="textElement" itemprop="name">{{landingPromo.flower.name}}</span>
@@ -185,25 +185,25 @@
 
         <p class="getSmallSoon ups-extra-text"
            style="font-family: 'Gotham Light';font-size: 13px;height: 19px;margin-bottom: 0px;position: absolute;bottom: 2px;width: 100%;text-align: center;color: #3b454d;font-weight: 600;margin-bottom: 3px;"
-           ng-if="( selectedCity.value != 'ank' && selectedCity.value != 'ist' && selectedCity.value != 'ist-2'  ) && landingPromo.flower.limit_statu === '0' && landingPromo.flower.coming_soon === '0' && landingPromo.flower.today_ups == '1'">Aynı Gün Kargo | Teslimat Süresi: +{{ selectedCity.delivery_days }} İş günü</p>
+           ng-if="( selectedCity.value != 'ist' ) && landingPromo.flower.limit_statu === '0' && landingPromo.flower.coming_soon === '0' && landingPromo.flower.today_ups == '1'">Aynı Gün Kargo | Teslimat Süresi: +{{ selectedCity.delivery_days }} İş günü</p>
         <p class="getSmallSoon" style="font-family: 'Gotham Light';font-size: 13px;height: 19px;margin-bottom: 0px;position: absolute;bottom: 2px;width: 100%;
                     text-align: center;color: #3b454d;font-weight: 600;margin-bottom: 3px;"
-           ng-if="( selectedCity.value == 'ank' || selectedCity.value == 'ist' || selectedCity.value == 'ist-2' ) && landingPromo.flower.limit_statu === '0' && landingPromo.flower.coming_soon === '0' && landingPromo.flower.today == '1'">En Erken: Bugün</p>
+           ng-if="( selectedCity.value == 'ist' ) && landingPromo.flower.limit_statu === '0' && landingPromo.flower.coming_soon === '0' && landingPromo.flower.today == '1'">En Erken: Bugün</p>
         <p class=" ups-extra-text getSmallSoon" style="font-family: 'Gotham Light';font-size: 13px;height: 19px;margin-bottom: 0px;position: absolute;bottom: 2px;width: 100%;
                     text-align: center;color: #3b454d;font-weight: 600;margin-bottom: 3px;"
-           ng-if="( selectedCity.value != 'ank' && selectedCity.value != 'ist' && selectedCity.value != 'ist-2' ) && landingPromo.flower.limit_statu === '0' && landingPromo.flower.coming_soon === '0' && landingPromo.flower.tomorrow_ups == '1'">Yarın Kargolanır | Teslimat Süresi: +{{ selectedCity.delivery_days }} İş günü</p>
+           ng-if="( selectedCity.value != 'ist' ) && landingPromo.flower.limit_statu === '0' && landingPromo.flower.coming_soon === '0' && landingPromo.flower.tomorrow_ups == '1'">Yarın Kargolanır | Teslimat Süresi: +{{ selectedCity.delivery_days }} İş günü</p>
         <p class="getSmallSoon" style="font-family: 'Gotham Light';font-size: 13px;height: 19px;margin-bottom: 0px;position: absolute;bottom: 2px;width: 100%;
                     text-align: center;color: #3b454d;font-weight: 600;margin-bottom: 3px;"
-           ng-if="( selectedCity.value == 'ank' || selectedCity.value == 'ist' || selectedCity.value == 'ist-2' ) && landingPromo.flower.limit_statu === '0' && landingPromo.flower.coming_soon === '0' && landingPromo.flower.tomorrow == '1'">En Erken: Yarın</p>
+           ng-if="( selectedCity.value == 'ist' ) && landingPromo.flower.limit_statu === '0' && landingPromo.flower.coming_soon === '0' && landingPromo.flower.tomorrow == '1'">En Erken: Yarın</p>
         <p class="getSmallSoon ups-extra-text" style="font-family: 'Gotham Light';font-size: 13px;height: 19px;margin-bottom: 0px;position: absolute;bottom: 2px;width: 100%;
                     text-align: center;color: #3b454d;font-weight: 600;margin-bottom: 3px;"
-           ng-if="( selectedCity.value != 'ank' && selectedCity.value != 'ist' && selectedCity.value != 'ist-2' ) && landingPromo.flower.limit_statu === '0' && landingPromo.flower.coming_soon === '0' && landingPromo.flower.tomorrow_ups == '0' && landingPromo.flower.today_ups == '0'">Kargo Tarihi: {{landingPromo.flower.theDayAfter}} | Teslimat Süresi: +{{ selectedCity.delivery_days }} İş günü</p>
+           ng-if="( selectedCity.value != 'ist' ) && landingPromo.flower.limit_statu === '0' && landingPromo.flower.coming_soon === '0' && landingPromo.flower.tomorrow_ups == '0' && landingPromo.flower.today_ups == '0'">Kargo Tarihi: {{landingPromo.flower.theDayAfter}} | Teslimat Süresi: +{{ selectedCity.delivery_days }} İş günü</p>
         <p class="getSmallSoon" style="font-family: 'Gotham Light';font-size: 13px;height: 19px;margin-bottom: 0px;position: absolute;bottom: 2px;width: 100%;
                     text-align: center;color: #3b454d;font-weight: 600;margin-bottom: 3px;"
-           ng-if="( selectedCity.value == 'ank' || selectedCity.value == 'ist' || selectedCity.value == 'ist-2' ) && landingPromo.flower.limit_statu === '0' && landingPromo.flower.coming_soon === '0' && landingPromo.flower.tomorrow == '0' && landingPromo.flower.today == '0'">En Erken: {{landingPromo.flower.theDayAfter}}</p>
+           ng-if="( selectedCity.value == 'ist' ) && landingPromo.flower.limit_statu === '0' && landingPromo.flower.coming_soon === '0' && landingPromo.flower.tomorrow == '0' && landingPromo.flower.today == '0'">En Erken: {{landingPromo.flower.theDayAfter}}</p>
     </figure>
 </a>
-<a href="{{landingPromo.promoObject.link}}" ng-if="landingPromo.type == 2 && landingPromo.promoObject.type == 2 && ( ( selectedCity.value == 'ist' && landingPromo.city_id == 1  ) || ( selectedCity.value == 'ank' && landingPromo.city_id == 2  ) || ( selectedCity.value == 'ist-2' && landingPromo.city_id == 341  ) ) " style="padding-left: 0px;padding-right: 0px;z-index: 4;" class="flowerContainer col-lg-6 hidden-xs hidden-md hidden-sm">
+<a href="{{landingPromo.promoObject.link}}" ng-if="landingPromo.type == 2 && landingPromo.promoObject.type == 2 && ( ( selectedCity.value == 'ist' && landingPromo.city_id == 1  ) ) " style="padding-left: 0px;padding-right: 0px;z-index: 4;" class="flowerContainer col-lg-6 hidden-xs hidden-md hidden-sm">
     <figure style="min-width: 200px;min-height: 300px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 flowerImage">
         <!--ng-style="{'background-color': flower.second_background_color}">-->
         <div>
@@ -275,7 +275,7 @@
              src="{{landingPromo.promoObject.background_image}}" class="flowerImg center-block">
     </figure>
 </a>
-<a href="{{landingPromo.promoObject.link}}" ng-if="landingPromo.type == 2 && landingPromo.promoObject.type == 1 && ( ( selectedCity.value == 'ist' && landingPromo.city_id == 1  ) || ( selectedCity.value == 'ank' && landingPromo.city_id == 2  ) || ( selectedCity.value == 'ist-2' && landingPromo.city_id == 341  ) )" style="padding-left: 0px;padding-right: 0px;z-index: 4;" class="flowerContainer col-lg-6 hidden-xs hidden-md hidden-sm">
+<a href="{{landingPromo.promoObject.link}}" ng-if="landingPromo.type == 2 && landingPromo.promoObject.type == 1 && ( ( selectedCity.value == 'ist' && landingPromo.city_id == 1  ) )" style="padding-left: 0px;padding-right: 0px;z-index: 4;" class="flowerContainer col-lg-6 hidden-xs hidden-md hidden-sm">
     <figure style="min-width: 200px;min-height: 300px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 flowerImage">
         <!--ng-style="{'background-color': flower.second_background_color}">-->
         <div>
@@ -349,7 +349,7 @@
              src="{{landingPromo.promoObject.background_image}}" class="flowerImg center-block">
     </figure>
 </a>
-<a href="{{landingPromo.promoObject.link}}" ng-if="landingPromo.type == 2 && landingPromo.promoObject.type == 3 && ( ( selectedCity.value == 'ist' && landingPromo.city_id == 1  ) || ( selectedCity.value == 'ank' && landingPromo.city_id == 2  ) || ( selectedCity.value == 'ist-2' && landingPromo.city_id == 341  ) )" style="padding-left: 0px;padding-right: 0px;z-index: 4;" class="flowerContainer col-lg-3 col-sm-6 hidden-md col-xs-12">
+<a href="{{landingPromo.promoObject.link}}" ng-if="landingPromo.type == 2 && landingPromo.promoObject.type == 3 && ( ( selectedCity.value == 'ist' && landingPromo.city_id == 1  ) )" style="padding-left: 0px;padding-right: 0px;z-index: 4;" class="flowerContainer col-lg-3 col-sm-6 hidden-md col-xs-12">
     <figure style="min-width: 200px;min-height: 300px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 flowerImage">
         <!--ng-style="{'background-color': flower.second_background_color}">-->
         <img itemprop="image"
@@ -660,10 +660,10 @@
     </aside>-->
     <article style="margin-top: 0px;padding-right: 0px;" class="ourDistricts col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <section style="margin-left: 0px;padding-right: 0px;padding-left: 0px;" class="info col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <h4 style="text-align: center;font-size: 30px;line-height: 30px;" class="col-lg-12 col-md-12 col-sm-12 darkBlueText text-uppercase text-left">İstanbul ve Ankara Online Çiçek Gönderim Bölgelerimiz!</h4>
+            <h4 style="text-align: center;font-size: 30px;line-height: 30px;" class="col-lg-12 col-md-12 col-sm-12 darkBlueText text-uppercase text-left">İstanbul Online Çiçek Gönderim Bölgelerimiz!</h4>
 
-            <p style="padding-left: 0px;font-size: 17px;text-align: center;float: none" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 lightBrownText">İstanbul veya Ankara’ya online çiçek göndermek istiyorsan en doğru adrestesin! Bloom and Fresh’in birbirinden güzel ve farklı çiçeklerini online olarak sipariş verebileceğin bölgeler aşağıda. Çiçek siparişini verirken çiçeğinin teslim edilmesini istediğin bölge için uygun gönderim saatleri de karşına çıkıyor olacak!</p>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <p style="padding-left: 0px;font-size: 17px;text-align: center;float: none" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 lightBrownText">İstanbul'a online çiçek göndermek istiyorsan en doğru adrestesin! Bloom and Fresh’in birbirinden güzel ve farklı çiçeklerini online olarak sipariş verebileceğin bölgeler aşağıda. Çiçek siparişini verirken çiçeğinin teslim edilmesini istediğin bölge için uygun gönderim saatleri de karşına çıkıyor olacak!</p>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <p style="padding-left: 0px;font-size: 17px;text-align: center;float: none" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 lightBrownText">İSTANBUL ONLİNE ÇİÇEK GÖNDERİM BÖLGELERİ</p>
                 <div class="district-names col-lg-4 col-md-4 col-sm-6 col-xs-12">
                     <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">ATAŞEHİR</h5>
@@ -720,7 +720,7 @@
 
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+            <div style="display: none !important;" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <p style="padding-left: 0px;font-size: 17px;text-align: center;float: none" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 lightBrownText">ANKARA ONLİNE ÇİÇEK GÖNDERİM BÖLGELERİ</p>
                 <div class="district-names col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h5 class="darkBlueText" title="Bloom And Fresh ataşehir">ALTINDAĞ*</h5>
