@@ -1,0 +1,242 @@
+<products>
+    <product id="2">
+        <name>Sunshine</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Sunshine-2</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/10.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/10.jpg</bigimage>
+        <description>Çaprazlama tekniğiyle ve burlap ile açık bağlanmış Ayçiçeği, Rose Confidential Turuncu Güller, Solidago, Sarı Krizantem, Ruskos. Sunshine, bulunduğu ortama sevinç, coşku katar.</description>
+        <price>99.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>DVDs</categoryid1>
+        <categoryid2>SciFi</categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="60">
+        <name>Cordelia</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Cordelia-60</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/60.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/60.jpg</bigimage>
+        <description>Çaprazlama tekniği ve burlap ile açık bağlanmış Paolina güller, Bouvardia, Pittosporum ve Ruskos.</description>
+        <price>139.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Home and Garden</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="29">
+        <name>Pinkberry</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Pinkberry-29</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/29.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/29.jpg</bigimage>
+        <description>Burlapa sarılmış Topaz güller, büyük kafa Brunia'lar ve Honey Flair Hypericum. Özel duyguları zarafet ve samimiyet eşliğinde iletmek için.</description>
+        <price>99.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2>Trousers</categoryid2>
+        <categoryid3>Jeans</categoryid3>
+    </product>
+    <product id="33">
+        <name>Vela</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Vela-33</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/33.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/33.jpg</bigimage>
+        <description>Çaprazlama tekniğiyle ve burlap ile açık bağlanmış turuncu güller, turuncu-sarı Alstroemeria, Green Trick, kırmızı Hypericum ve okaliptus. Enerjisi yüksek bir buket isteyenler için.</description>
+        <price>119.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="61">
+        <name>Blanc</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Blanc-61</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/61.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/61.jpg</bigimage>
+        <description>Burlapa sarılmış Mondial beyaz güller, Veronica Lysimahia, Bouvardia, Ruskos ve başak dalları.</description>
+        <price>129.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="62">
+        <name>Sora</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Sora-62</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/62.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/62.jpg</bigimage>
+        <description>El yapımı kübik mermer vazoda Phalaenopsis Wild Orkide.</description>
+        <price>199.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="37">
+        <name>Nolita</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Nolita-37</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/37.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/37.jpg</bigimage>
+        <description>El yapımı ahşap kutu içinde yeşil-lila güller, Cymbidium Orkide, Echeveria, Brunia, Hypericum ve Wax flower. Bir kutu dolusu zarafet göndermek isteyenler için.</description>
+        <price>199.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="49">
+        <name>Nadia</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Nadia-49</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/49.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/49.jpg</bigimage>
+        <description>El yapımı ahşap kutuda Freedom kırmızı güller, Echeveria, kırmızı Hypericum, Brunia ve Wax Flower.</description>
+        <price>169.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="31">
+        <name>Bianca</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Bianca-31</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/31.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/31.jpg</bigimage>
+        <description>Cam vazoda beyaz laleler, veronica, pittosporum, okaliptus ve wax flower.</description>
+        <price>159.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="35">
+        <name>Jardino</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Jardino-35</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/35.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/35.jpg</bigimage>
+        <description>El yapımı kasa içinde fuşya gül, Echeveria, Astilbe, sarı-bordo Asltromeria, Skimmia, Ilex ve yosun. Sıkıcı hediyelere güzel bir alternatif arayanlar için.</description>
+        <price>129.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="65">
+        <name>Violetta</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Violetta-65</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/65.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/65.jpg</bigimage>
+        <description>Seramik vazoda mor laleler, Cymbidium Orkide, Bouvardia, Japonica Skimmia, ruskos ve Wax Flower.</description>
+        <price>159.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="25">
+        <name>Kalahari</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Kalahari-25</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/25.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/25.jpg</bigimage>
+        <description>Cam vazoda Haworthia Zebra sukulent, lava taşı, beyaz taşlar ve yosun. Doğadan, yeryüzünden bir kesiti yanıbaşında isteyenler için.</description>
+        <price>99.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="64">
+        <name>Lino</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Lino-64</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/64.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/64.jpg</bigimage>
+        <description>Cam vazoda Echeveria Agovoides.</description>
+        <price>89.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="39">
+        <name>Rita</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Rita-39</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/39.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/39.jpg</bigimage>
+        <description>El yapımı ahşap kutu içinde Sanseveria, Red Sedum, Peperomia Red Spark, Crassula Springtime, Echeveria Pico, Echeveria Pellucida, Crassula Portulacaria.</description>
+        <price>159.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="9">
+        <name>Valhalla</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Valhalla-9</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/9.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/9.jpg</bigimage>
+        <description>İşlenmemiş meşe odununda düzenlenmiş haworthia spider white, crassula hobbit ve crassula rupestris sukulentler. Uzun ömrü, bereketi ve bolluğu simgeler.</description>
+        <price>109.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+    <product id="30">
+        <name>Obaku</name>
+        <producturl>https://bloomandfresh.com/cicek-detay/Obaku-30</producturl>
+        <smallimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/300-300/30.jpg</smallimage>
+        <bigimage>https://s3.eu-central-1.amazonaws.com/bloomandfresh/400-400/30.jpg</bigimage>
+        <description>Siyah seramik vazoda Ficus Ginseng Bonsai. "O"na uzun süre boyunca eşlik edecek ve hem modern hem geleneksel ortamlara uyacak bir bitki arayanlara.</description>
+        <price>189.90</price>
+        <retailprice></retailprice>
+        <discount></discount>
+        <recommendable>1</recommendable>
+        <instock>1</instock>
+        <categoryid1>Fashion</categoryid1>
+        <categoryid2></categoryid2>
+        <categoryid3></categoryid3>
+    </product>
+</products>
