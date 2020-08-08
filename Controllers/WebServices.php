@@ -206,7 +206,9 @@ class WebServices extends Controller
 
     public function getUPSCities (){
         try {
-            $tempVar = DB::table('ups_cities')->where('active', 1)->select('value', 'name', 'delivery_days')->orderBy('landing_order')->get();
+
+            $tempVar = DB::table('ups_cities')->where('active', 1)->select('value', 'name', 'delivery_days')->get();
+
             return response()->json($tempVar);
         } catch (\Exception $e) {
             logEventController::logErrorToDB('getCityList', $e->getCode(), $e->getMessage(), 'WS', '');
@@ -955,11 +957,6 @@ class WebServices extends Controller
             $tomorrow = Carbon::now();
             $theDayAfter = Carbon::now();
             $nowAnk = Carbon::now();
-
-            $nowAsya = Carbon::now();
-            $tomorrowAsya = Carbon::now();
-            $theDayAfterAsya = Carbon::now();
-
             $tomorrowAnk = Carbon::now();
             $theDayAfterAnk = Carbon::now();
             $TomorrowTag = false;
@@ -968,10 +965,6 @@ class WebServices extends Controller
             $TomorrowTagAnk = false;
             $theDayAfterTagAnk = false;
             $tomorrowDayAnk = ($tomorrow->dayOfWeek + 1) % 8;
-
-            $TomorrowTagAsya = false;
-            $theDayAfterTagAsya = false;
-            $tomorrowDayAsya = ($tomorrow->dayOfWeek + 1) % 8;
 
             $nowUps = Carbon::now();
             $tomorrowUps = Carbon::now();
@@ -1088,22 +1081,6 @@ class WebServices extends Controller
                 ->orderBy('dayHours.start_hour', 'DESC')
                 ->get();
 
-            $tempNowTagAsya = DB::table('delivery_hours')
-                ->join('dayHours', 'delivery_hours.id', '=', 'dayHours.day_number')
-                ->where('delivery_hours.day_number', $now->dayOfWeek)
-                ->where('dayHours.active', 1)
-                ->where('delivery_hours.city_id', 2)
-                ->select('dayHours.start_hour')
-                ->orderBy('dayHours.start_hour', 'DESC')
-                ->get();
-            $tempTomorrowTagAsya = DB::table('delivery_hours')
-                ->join('dayHours', 'delivery_hours.id', '=', 'dayHours.day_number')
-                ->where('delivery_hours.day_number', $tomorrowDay)
-                ->where('dayHours.active', 1)
-                ->where('delivery_hours.city_id', 2)
-                ->select('dayHours.start_hour')
-                ->orderBy('dayHours.start_hour', 'DESC')
-                ->get();
 
             //Ankara
 
@@ -1162,66 +1139,6 @@ class WebServices extends Controller
                     $theDayAfterTagAnk = true;
                 }
             }
-
-            // Asya
-
-            $NowTagAsya = false;
-            if (count($tempNowTagAsya) == 0) {
-                $NowTagAsya = false;
-            } else {
-                $NowTagAsya = true;
-                $nowAsya->hour(explode(":", $tempNowTagAsya[0]->start_hour)[0]);
-                if( explode(":", $tempNowTagAsya[0]->start_hour)[0] != "18"){
-                    $nowAsya->addHours(1);
-                }
-                else{
-                    $nowAsya->addHours(-1);
-                }
-                $nowAsya->minute(0);
-            }
-            if (count($tempTomorrowTagAsya) > 0) {
-                $TomorrowTagAsya = true;
-                $tomorrowAsya->addDays(1)->hour(explode(":", $tempTomorrowTagAsya[0]->start_hour)[0]);
-                $tomorrowAsya->minute(0);
-            }
-            //if ($TomorrowTag == false && $NowTag == false) {
-            $tempDayAfterTagAsya = DB::table('delivery_hours')
-                ->join('dayHours', 'delivery_hours.id', '=', 'dayHours.day_number')
-                ->where('delivery_hours.day_number', '>', $tomorrowDayAsya)
-                ->where('dayHours.active', 1)
-                ->where('delivery_hours.city_id', 341)
-                ->select('dayHours.start_hour', 'delivery_hours.day_number')
-                ->orderBy('delivery_hours.day_number')
-                ->orderBy('dayHours.start_hour', 'DESC')
-                ->get();
-            //dd($tempDayAfterTag);
-
-            if (count($tempDayAfterTagAsya) > 0) {
-                $theDayAfterAsya->hour(explode(":", $tempDayAfterTagAsya[0]->start_hour)[0]);
-                $theDayAfterAsya->minute(0);
-                $theDayAfterAsya->addDays($tempDayAfterTagAsya[0]->day_number - $theDayAfterAsya->dayOfWeek);
-                $theDayAfterTagAsya = true;
-            }
-            else {
-                $tempDayAfterTagAsya = DB::table('delivery_hours')
-                    ->join('dayHours', 'delivery_hours.id', '=', 'dayHours.day_number')
-                    ->where('delivery_hours.day_number', '<', $nowAsya->dayOfWeek)
-                    ->where('dayHours.active', 1)
-                    ->where('delivery_hours.city_id', 341)
-                    ->select('dayHours.start_hour', 'delivery_hours.day_number')
-                    ->orderBy('delivery_hours.day_number')
-                    ->orderBy('dayHours.start_hour', 'DESC')
-                    ->get();
-
-                if (count($tempDayAfterTagAsya) > 0) {
-                    $theDayAfterAsya->hour(explode(":", $tempDayAfterTagAsya[0]->start_hour)[0]);
-                    $theDayAfterAsya->minute(0);
-                    $theDayAfterAsya->addDays(7 + $tempDayAfterTagAsya[0]->day_number - $theDayAfterAsya->dayOfWeek);
-                    $theDayAfterTagAsya = true;
-                }
-            }
-
-            // Istanbul
 
             $NowTag = false;
             if (count($tempNowTag) == 0) {
@@ -1399,99 +1316,6 @@ class WebServices extends Controller
                     }
 
                     if ($tempFlowerNowTagAnk) {
-                        array_push($tagList, (object)[
-                            'id' => '999',
-                            'tag_header' => 'Aynı Gün Teslim Online Çiçek Gönder - Bloom and Fresh',
-                            'tag_ceo' => 'ayni-gun-teslim-cicekler',
-                            'tags_name' => 'Hızlı Çiçekler',
-                            'description' => 'Online çiçek siparişini şimdi verirsen bugün teslim edebileceğimiz hızlı çiçekler',
-                            'active_image_url' => 'https://s3.eu-central-1.amazonaws.com/bloomandfresh/tags/aynigunteslim-selected.svg',
-                            'inactive_image_url' => 'https://s3.eu-central-1.amazonaws.com/bloomandfresh/tags/aynigunteslim-unselected.svg',
-                            'big_image' => 'https://s3.eu-central-1.amazonaws.com/bloomandfresh/tags/40X40/aynigunteslim-gold.svg',
-                            'banner_image' => 'Online çiçek siparişini şimdi verirsen bugün teslim edebileceğimiz hızlı çiçekler'
-                        ]);
-                    }
-
-                    $flowerList[$x]->tags = $tagList;
-                }
-                else if( $flowerList[$x]->city_id == 341 ){
-
-                    $tempFlowerNowTagAsya = $NowTagAsya;
-                    $tempFlowerTomorrowTagAsya = $TomorrowTagAsya;
-                    if ($flowerList[$x]->avalibility_time > $nowAsya) {
-                        $tempFlowerNowTagAsya = false;
-                    }
-                    $nowTemp2 = Carbon::now();
-                    if($nowTemp2 > $nowAsya){
-                        $tempFlowerNowTagAsya = false;
-                    }
-                    if ($flowerList[$x]->limit_statu) {
-                        $tempFlowerNowTagAsya = false;
-                        $tempFlowerTomorrowTagAsya = false;
-                    }
-                    if ($flowerList[$x]->coming_soon) {
-                        $tempFlowerNowTagAsya = false;
-                        $tempFlowerTomorrowTagAsya = false;
-                    }
-                    if (!$tempFlowerNowTagAsya && $flowerList[$x]->avalibility_time > $tomorrowAsya) {
-                        $tempFlowerTomorrowTagAsya = false;
-                        //dd($flowerList[$x]);
-                    }
-                    if ($theDayAfterTagAsya || (!$tempFlowerTomorrowTagAsya && !$tempFlowerNowTagAsya)) {
-                        setlocale(LC_TIME, "");
-                        setlocale(LC_ALL, 'tr_TR.utf8');
-                        if ($flowerList[$x]->avalibility_time > $theDayAfterAsya) {
-                            $flowerList[$x]->theDayAfter = new Carbon($flowerList[$x]->avalibility_time);
-                            $flowerList[$x]->theDayAfter = $flowerList[$x]->theDayAfter->formatLocalized('%d %B');
-                        } else {
-                            $flowerList[$x]->theDayAfter = $theDayAfterAsya->formatLocalized('%d %B');
-                        }
-                    }
-                    $flowerList[$x]->tomorrow = $tempFlowerTomorrowTagAsya && !$tempFlowerNowTagAsya;
-                    $flowerList[$x]->today = $tempFlowerNowTagAsya;
-                    $tagList = DB::table('products_tags')
-                        ->join('tags', 'products_tags.tags_id', '=', 'tags.id')
-                        ->where('products_tags.products_id', '=', $flowerList[$x]->id)
-                        ->where('tags.lang_id', '=', 'tr')
-                        ->select('tags.id', 'tags.tags_name', 'tags.description', 'tags.active_image_url', 'tags.inactive_image_url', 'tags.tag_header')
-                        ->get();
-
-                    $pageList = DB::table('flowers_page')
-                        ->join('page_flower_production', 'flowers_page.id', '=', 'page_flower_production.page_id')
-                        ->where('page_flower_production.product_id', '=', $flowerList[$x]->id)
-                        ->where('flowers_page.active', '=', 1)
-                        ->select('flowers_page.*')
-                        ->get();
-
-                    $flowerList[$x]->bestSellerOrder = 100;
-
-                    if( DB::table('best_seller_products')->where('product_id', $flowerList[$x]->id )->where('city_id', 341)->count() > 0 ){
-                        $flowerList[$x]->bestSellerOrder = DB::table('best_seller_products')->where('product_id', $flowerList[$x]->id )->where('city_id', 341)->get()[0]->orderId;
-                        array_push($pageList, (object)[
-                            'id' => '21',
-                            'head' => 'Çok Satanlar',
-                            'ist_on' => '1',
-                            'ank_on' => '1',
-                            'desc' => 'Çok Satanlar',
-                            'image' => 'https://s3.eu-central-1.amazonaws.com/bloomandfresh/tags/aynigunteslim-selected.svg',
-                            'meta_tittle' => 'Çok Satanlar',
-                            'meta_desc' => 'Çok Satanlar',
-                            'url_name' => 'cok-satanlar',
-                            'active' => '1',
-                            'created_at' => '2018-04-12 14:53:20'
-                        ]);
-                    }
-
-                    $flowerList[$x]->pageList = $pageList;
-
-                    $primaryTag = DB::table('tags')->where('id', $flowerList[$x]->tag_id)->where('lang_id', 'tr')->get();
-                    if (count($primaryTag) > 0) {
-                        $flowerList[$x]->tag_main = $primaryTag[0]->tag_ceo;
-                    } else {
-                        $flowerList[$x]->tag_main = 'cicek';
-                    }
-
-                    if ($tempFlowerNowTagAsya) {
                         array_push($tagList, (object)[
                             'id' => '999',
                             'tag_header' => 'Aynı Gün Teslim Online Çiçek Gönder - Bloom and Fresh',
@@ -2087,11 +1911,7 @@ class WebServices extends Controller
 
             if ($cityId == 'ist') {
                 $city_id = '1';
-            }
-            else if ($cityId == 'ist-2') {
-                $city_id = '341';
-            }
-            else {
+            } else {
                 $city_id = '2';
             }
 
@@ -2216,7 +2036,11 @@ class WebServices extends Controller
                 } else {
                     $NowTag = true;
                     $now->hour(explode(":", $tempNowTag[0]->start_hour)[0]);
-                    if ($now->hour != "18") {
+                    
+                    if( $now->hour == "11" && ( $continent->continent_id == 'Asya' || $continent->continent_id == 'Asya-2' ) ){
+                        $now->addHours(3);
+                    }
+                    else if ($now->hour != "18") {
                         $now->addHours(1);
                     } else if ($now->hour == "18") {
                         $now->subHours(1);
@@ -3541,7 +3365,7 @@ class WebServices extends Controller
 
 
     public function getHourListWithProductIdCityIdWithNow($productId, $cityId){
-        //try {
+        try {
             $dayList = DB::table('delivery_hours')->orderBy('continent_id')->get();
             $i = -1;
 
@@ -3572,9 +3396,8 @@ class WebServices extends Controller
                         $hourTemp = -1;
                     }
 
-                    if( ( $hour->continent_id == 'Asya' || $hour->continent_id == 'Asya-2' ) && $tempHour == '15' ){
+                    if( ( $hour->continent_id == 'Asya' || $hour->continent_id == 'Asya-2' ) && $tempHour == '11' ){
                         $hourTemp = 3;
-                        //dd('Enter here');
                     }
 
                     $tempNow = Carbon::now();
@@ -3685,10 +3508,10 @@ class WebServices extends Controller
             ];
 
             return response()->json(["status" => 1, "data" => $dayList, 'now' => $tempNow], 200);
-        /*} catch (\Exception $e) {
+        } catch (\Exception $e) {
             logEventController::logErrorToDB('getHourList', $e->getCode(), $e->getMessage(), 'WS', '');
             return response()->json(["status" => -1, "description" => 400], 400);
-        }*/
+        }
     }
 
     public function testProduct($prod)
